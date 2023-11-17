@@ -8,6 +8,7 @@ import {
   Input,
   Text,
   useToast,
+  Center
 } from "@chakra-ui/react";
 import { registerUser } from "../fetching/user";
 import { useNavigate } from "react-router-dom";
@@ -17,24 +18,27 @@ const hexaColor = {
 }
 
 const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [role, setRole] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     if (password !== confirmPassword) {
       return;
     }
     try {
       await registerUser(
-        e.target.name.value,
-        e.target.email.value,
-        e.target.username.value,
-        e.target.role.value,
-        password
+        name,
+        email,
+        username,
+        password,
+        role
       );
       toast({
         title: "Registered",
@@ -59,10 +63,11 @@ const Register = () => {
 
   return (
     <div className="container" style={{justifyContent: 'center'}}>
+      <Center>
       <Box w="full" py={9} px={'200'} mx="150" mt={2}>
         <Box borderWidth="1px" borderRadius="lg" p={10}>
           <img src="../Stock Wise.png" width={250} height={250} alt="center"  style={{marginLeft: 150}}/>
-          <form onSubmit={handleSubmit}>
+          <form>
             {error && (
               <Box color="red.500" mb={8}>
                 {error}
@@ -70,10 +75,10 @@ const Register = () => {
             )}
 
             <FormControl isRequired mt={8}>
-              <Input type="name" name="name" placeholder="Name" />
+              <Input type="name" name="name" placeholder="Name" onChange={(e) => setName(e.target.value)}/>
             </FormControl>
 
-            <FormControl isRequired mt={4}>
+            <FormControl isRequired mt={4} onChange={(e) => setEmail(e.target.value)}>
               <Input
                 type="email"
                 name="email"
@@ -82,7 +87,7 @@ const Register = () => {
             </FormControl>
 
             <FormControl isRequired mt={4} >
-              <Input type="name" name="username" placeholder="Username" />
+              <Input type="name" name="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)}/>
             </FormControl>
 
             <FormControl isRequired mt={4}>
@@ -109,15 +114,17 @@ const Register = () => {
             </FormControl>
 
             <FormControl isRequired>
-              <Input type="text" name="role" placeholder="Role" mt={4} />
+              <Input type="text" name="role" placeholder="Role" mt={4} onChange={(e) => setRole(e.target.value)}/>
             </FormControl>
 
-            <Button mt={8} ml={20} color={hexaColor.colorSubmit} type="submit" >
+            <Button mt={8} color={hexaColor.colorSubmit} type="button" onClick={handleSubmit}>
               Register
             </Button>
           </form>
         </Box>
       </Box>
+      </Center>
+      
     </div>
   );
 };
