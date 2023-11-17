@@ -14,6 +14,7 @@ export async function registerUser(name, email, username, password, role) {
 
 export async function login(params) {
     try {
+        console.log(params, "<<<< ");
         const { emailOrUsername, password } = params
         const response = await instance({
             url: '/users/login',

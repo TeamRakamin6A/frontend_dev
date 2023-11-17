@@ -16,17 +16,52 @@ const hexaColor = {
   colorSubmit: '#44AADA'
 }
 
+// const Login = () => {
+//   useEffect(() => {
+//     try {
+//       const fetchLogin = async () => {
+//         await login(
+//           e.target.emailOrUsername.value,
+//           e.target.password.value
+//         );
+//       }
+//       toast({
+//         title: "Login Success",
+//         description: "Welcome",
+//         status: "success",
+//         duration: 3000,
+//         isClosable: true,
+//       });
+//       navigate("/");
+//     } catch (e) {
+//       const error = new Error(e);
+//       toast({
+//         title: "An error occurred.",
+//         description: error?.message || "An error occurred. Please try again.",
+//         status: "error",
+//         duration: 3000,
+//         isClosable: true,
+//       });
+//     }
+
+//     fetchLogin();
+//   }, []);
+
+  
 const Login = () => {
-  const password = useState("");
+
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const toast = useToast();
 
   const handleSubmit = async (e) => {
     try {
-      await login(
-        e.target.emailOrUsername.value,
-        e.target.password.value
+      e.preventDefault();
+      console.log(e.target.emailOrUsername.value, "<<<<");
+      await login({
+        emailOrUsername: emailOrUsername.value,
+        password: password.value
+      }
       );
       toast({
         title: "Login Success",
@@ -35,7 +70,7 @@ const Login = () => {
         duration: 3000,
         isClosable: true,
       });
-      navigate("/");
+      // navigate("/");
     } catch (e) {
       const error = new Error(e);
       toast({
