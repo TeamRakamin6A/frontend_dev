@@ -6,8 +6,8 @@ import {
   Heading,
   Text,
   Button,
+  IconButton,
   Input,
-  Select,
   Table,
   Thead,
   Tbody,
@@ -31,8 +31,17 @@ import {
   useToast,
   Spinner,
 } from '@chakra-ui/react';
+import {
+  FaCaretDown,
+  FaChevronLeft,
+  FaChevronRight,
+  FaRegEdit,
+} from "react-icons/fa";
+import { FiPlusCircle } from "react-icons/fi";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import { getAllCustomers, updateCustomer, deleteCustomer } from '../../fetching/customer';
+import { MultiSelect } from "react-multi-select-component";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -40,8 +49,8 @@ const CustomerList = () => {
   const [limit, setLimit] = useState();
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filter, setFilter] = useState('');
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const { isOpen: isUpdateModalOpen, onOpen: onOpenUpdateModal, onClose: onCloseUpdateModal } =
     useDisclosure();
@@ -62,14 +71,6 @@ const CustomerList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const debounce = (func, delay) => {
-    let timeoutId;
-    return function (...args) {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => func.apply(this, args), delay);
-    };
-  };
-
   const sortCustomersById = (customers) => {
     return customers.sort((a, b) => a.id - b.id);
   };
@@ -79,7 +80,7 @@ const CustomerList = () => {
       setLoading(true);
 
       try {
-        const result = await getAllCustomers(currentPage, limit, searchTerm, filter);
+        const result = await getAllCustomers(currentPage, limit, searchTerm);
         const sortedCustomers = sortCustomersById(result.items);
         setCustomers(sortedCustomers);
         setTotalPages(result.totalPages);
@@ -93,18 +94,8 @@ const CustomerList = () => {
 
     };
 
-    const debouncedFetchCustomers = debounce(fetchCustomers, 1000, true);
-
-    if (searchTerm.trim() !== "") {
-      debouncedFetchCustomers();
-    } else {
-      fetchCustomers();
-    }
-
-    return () => {
-      clearTimeout(debouncedFetchCustomers.timeoutId);
-    };
-  }, [currentPage, limit, searchTerm, filter]);
+    fetchCustomers();
+  }, [currentPage, limit, searchTerm]);
 
 
   const handleNextPage = () => {
@@ -123,7 +114,7 @@ const CustomerList = () => {
   const handleDeleteSubmit = async () => {
     try {
       await deleteCustomer(selectedCustomerId);
-      const result = await getAllCustomers(currentPage, limit, searchTerm, filter);
+      const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
       onCloseDeleteModal();
       toast({
@@ -172,7 +163,7 @@ const CustomerList = () => {
         updateFormData.phone_number,
         updateFormData.email
       );
-      const result = await getAllCustomers(currentPage, limit, searchTerm, filter);
+      const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
       console.log(">>>>", result.items)
       onCloseUpdateModal();
@@ -208,7 +199,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'teal' : 'gray'}
+            colorScheme={currentPage === i ? 'blue' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -248,6 +239,11 @@ const CustomerList = () => {
     setCurrentPage(1);
   };
 
+  const handleSearchChange = (selected) => {
+    setSelectedOptions(selected);
+    setSearchTerm(selected.map((option) => option.value).join(','));
+  };
+
 
   return (
     <Box bg="gray.200" minH="100vh" pb="5">
@@ -267,29 +263,35 @@ const CustomerList = () => {
               Customer List
             </Text>
             <Flex mb="5">
-              <Link to="/add-customer">
-                <Button backgroundColor="#2C6AE5" color="#FFFFFF">
+              <Link to="/addcustomers">
+                <Button
+                  colorScheme="blue"
+                  leftIcon={<FiPlusCircle />}
+                >
                   Add Customer
                 </Button>
               </Link>
             </Flex>
             <Flex>
-              <Input
-                type="text"
-                placeholder="Search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                mr="4"
-              />
-              <Select
-                placeholder="Filter"
-                value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                w="150px"
-              >
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-              </Select>
+              <Box w="600px">
+                <Text mb="2" fontWeight="bold">
+                  Search Customer
+                </Text>
+                <MultiSelect
+                  options={customers.map((customer) => ({
+                    label: customer.name,
+                    value: customer.name,
+                  }))}
+                  value={selectedOptions}
+                  onChange={handleSearchChange}
+                  labelledBy="Select"
+                  hasSelectAll={false}
+                  overrideStrings={{
+                    selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
+                    allItemsAreSelected: selectedOptions.length === customers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
+                  }}
+                />
+              </Box>
             </Flex>
           </Flex>
         </Flex>
@@ -327,7 +329,9 @@ const CustomerList = () => {
                     <Td width="50px">
                       <Checkbox />
                     </Td>
-                    <Td width="150px">{customer.name}</Td>
+                    <Td width="150px">
+                      <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
+                    </Td>
                     <Td width="150px">{customer.email}</Td>
                     <Td width="150px">{customer.phone_number}</Td>
                     <Td width="150px">{customer.address}</Td>
@@ -338,12 +342,13 @@ const CustomerList = () => {
                           size="md"
                           colorScheme="blue"
                           variant="outline"
+                          rightIcon={<FaCaretDown />}
                         >
                           Action
                         </MenuButton>
                         <MenuList>
-                          <MenuItem onClick={() => handleUpdateCustomer(customer.id)}>Update</MenuItem>
-                          <MenuItem onClick={() => handleDeleteCustomer(customer.id)}>Delete</MenuItem>
+                          <MenuItem onClick={() => handleUpdateCustomer(customer.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                          <MenuItem onClick={() => handleDeleteCustomer(customer.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
                         </MenuList>
                       </Menu>
                     </Td>
@@ -360,9 +365,10 @@ const CustomerList = () => {
             {[10, 20, 30].map((option) => (
               <Button
                 key={option}
-                colorScheme={selectedLimit === option ? 'teal' : 'gray'}
+                colorScheme={selectedLimit === option ? 'blue' : 'gray'}
                 onClick={() => handleLimitChange(option)}
-                mr="2"
+                mr="1"
+                size="sm"
               >
                 {option}
               </Button>
@@ -370,20 +376,26 @@ const CustomerList = () => {
           </Flex>
 
           <Flex>
-            <Button
+            <IconButton
               onClick={handlePrevPage}
               disabled={currentPage === 1}
               isDisabled={currentPage === 1}
-
-              colorScheme="teal"
+              backgroundColor="white"
+              color="black"
+              size="sm"
+              icon={<FaChevronLeft />}
             />
 
             {renderPagination()}
-            <Button
+
+            <IconButton
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
               isDisabled={currentPage === totalPages}
-              colorScheme="teal"
+              backgroundColor="white"
+              color="black"
+              size="sm"
+              icon={<FaChevronRight />}
             />
           </Flex>
         </Flex>
@@ -426,10 +438,10 @@ const CustomerList = () => {
             />
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="teal" mr={3} onClick={handleUpdateFormSubmit}>
+            <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
               Update
             </Button>
-            <Button onClick={onCloseUpdateModal}>Cancel</Button>
+            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

@@ -10,6 +10,7 @@ import Orders from "./pages/Orders/Orders";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import Customers from "./pages/Customers/Customers";
 import CustomerDetail from "./pages/Customers/CustomerDetail";
+import AddCustomer from "./pages/Customers/AddCustomer";
 import Suppliers from "./pages/Suppliers/Suppliers";
 import SupplierDetail from "./pages/Suppliers/SupplierDetail";
 import Supply_Orders from "./pages/Supply_Orders/Supply_Orders";
@@ -34,6 +35,7 @@ function App() {
           <Route path="/orders/:id" element={<OrderDetail />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<CustomerDetail />} />
+          <Route path="/addcustomers" element={<AddCustomer />} />
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/suppliers/:id" element={<SupplierDetail />} />
           <Route path="/supplier-orders" element={<Supply_Orders />} />
