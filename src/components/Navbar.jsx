@@ -25,6 +25,7 @@ const Navbar = () => {
       padding={"12px"}
       bg={"#F9F9F9"}
       color={"black"}
+      borderBottom={'2px solid #D9D9D9'}
     >
       <Box display={'flex'} alignItems={'center'}>
         <Button mr={"20px"} onClick={onOpen}>
