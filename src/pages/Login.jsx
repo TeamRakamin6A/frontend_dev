@@ -1,12 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
   FormControl,
-  FormErrorMessage,
-  FormLabel,
   Input,
-  Text,
   useToast,
   Center
 } from "@chakra-ui/react";
@@ -27,7 +24,7 @@ const Login = () => {
   const [emailOrUsername, setEmailorUsername] = useState("")
   const [password, setPassword] = useState("")
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async () => {
     try {
       await login({
         emailOrUsername,
@@ -51,7 +48,7 @@ const Login = () => {
         duration: 3000,
         isClosable: true,
       });
-    };
+    }
     setError(error?.message || console.error());
   };
 

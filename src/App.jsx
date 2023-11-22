@@ -42,7 +42,7 @@ function App() {
           <Route path="/warehouses/:id" element={<WarehouseDetail />} />
         </Routes>
       </Router>
-    </ChakraProvider>
+    </ChakraProvider >
   );
 }
 
