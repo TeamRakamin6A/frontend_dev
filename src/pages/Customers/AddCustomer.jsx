@@ -15,7 +15,7 @@ import { addCustomer } from '../../fetching/customer';
 import { useNavigate } from 'react-router-dom';
 
 const AddCustomer = () => {
-    const [formData, setFormData] = useState({
+    const [customer, setCustomer] = useState({
         name: '',
         address: '',
         phone_number: '',
@@ -26,30 +26,30 @@ const AddCustomer = () => {
     const navigate = useNavigate();
 
     const handleFormChange = (e) => {
-        setFormData({
-            ...formData,
+        setCustomer({
+            ...customer,
             [e.target.name]: e.target.value,
         });
     };
 
     const handleFormSubmit = async () => {
-        
-        if (!formData.name || !formData.email || !formData.phone_number || !formData.address) {
-            toast({
-                title: 'All fields are required.',
-                status: 'error',
-                duration: 3000,
-                isClosable: true,
-            });
-            return;
-        }
-
         try {
+            if (!customer.name || !customer.email || !customer.phone_number || !customer.address) {
+                toast({
+                    title: 'All fields are required.',
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+
+            // Call the API function with customer details
             await addCustomer(
-                formData.name,
-                formData.address,
-                formData.phone_number,
-                formData.email
+                customer.name,
+                customer.address,
+                customer.phone_number,
+                customer.email
             );
 
             toast({
@@ -89,7 +89,7 @@ const AddCustomer = () => {
                         <Input
                             name="name"
                             placeholder="Name"
-                            value={formData.name}
+                            value={customer.name}
                             onChange={handleFormChange}
                         />
                     </FormControl>
@@ -99,7 +99,7 @@ const AddCustomer = () => {
                         <Input
                             name="email"
                             placeholder="Email"
-                            value={formData.email}
+                            value={customer.email}
                             onChange={handleFormChange}
                         />
                     </FormControl>
@@ -109,7 +109,7 @@ const AddCustomer = () => {
                         <Input
                             name="phone_number"
                             placeholder="Phone Number"
-                            value={formData.phone_number}
+                            value={customer.phone_number}
                             onChange={handleFormChange}
                         />
                     </FormControl>
@@ -119,14 +119,16 @@ const AddCustomer = () => {
                         <Input
                             name="address"
                             placeholder="Address"
-                            value={formData.address}
+                            value={customer.address}
                             onChange={handleFormChange}
                         />
                     </FormControl>
 
-                    <Button colorScheme="blue" onClick={handleFormSubmit}>
-                        Add Customer
-                    </Button>
+                    <Flex justifyContent="center" alignItems="center">
+                        <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                            Add Customer
+                        </Button>
+                    </Flex>
                 </Flex>
             </Container>
         </Box>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Center,
   Container,
   Heading,
   Text,
@@ -29,7 +28,6 @@ import {
   ModalFooter,
   useDisclosure,
   useToast,
-  Spinner,
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -45,7 +43,6 @@ import { MultiSelect } from "react-multi-select-component";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [limit, setLimit] = useState();
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
@@ -60,7 +57,7 @@ const CustomerList = () => {
 
   const toast = useToast();
 
-  const [updateFormData, setUpdateFormData] = useState({
+  const [updatedCustomer, setUpdatedCustomer] = useState({
     id: null,
     name: '',
     address: '',
@@ -77,21 +74,15 @@ const CustomerList = () => {
 
   useEffect(() => {
     const fetchCustomers = async () => {
-      setLoading(true);
 
       try {
         const result = await getAllCustomers(currentPage, limit, searchTerm);
         const sortedCustomers = sortCustomersById(result.items);
         setCustomers(sortedCustomers);
         setTotalPages(result.totalPages);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching customers:', error.message);
-        setLoading(false);
       }
-
-      setLoading(false);
-
     };
 
     fetchCustomers();
@@ -136,7 +127,7 @@ const CustomerList = () => {
 
   const handleUpdateCustomer = (customerId) => {
     const selectedCustomer = customers.find((customer) => customer.id === customerId);
-    setUpdateFormData({
+    setUpdatedCustomer({
       id: selectedCustomer.id,
       name: selectedCustomer.name,
       address: selectedCustomer.address,
@@ -148,8 +139,8 @@ const CustomerList = () => {
   };
 
   const handleUpdateFormChange = (e) => {
-    setUpdateFormData({
-      ...updateFormData,
+    setUpdatedCustomer({
+      ...updatedCustomer,
       [e.target.name]: e.target.value,
     });
   };
@@ -157,11 +148,11 @@ const CustomerList = () => {
   const handleUpdateFormSubmit = async () => {
     try {
       await updateCustomer(
-        updateFormData.id,
-        updateFormData.name,
-        updateFormData.address,
-        updateFormData.phone_number,
-        updateFormData.email
+        updatedCustomer.id,
+        updatedCustomer.name,
+        updatedCustomer.address,
+        updatedCustomer.phone_number,
+        updatedCustomer.email
       );
       const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
@@ -199,7 +190,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'blue' : 'gray'}
+            colorScheme={currentPage === i ? 'messenger' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -217,7 +208,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'teal' : 'gray'}
+            colorScheme={currentPage === i ? 'messenger' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -265,7 +256,7 @@ const CustomerList = () => {
             <Flex mb="5">
               <Link to="/addcustomers">
                 <Button
-                  colorScheme="blue"
+                  colorScheme="messenger"
                   leftIcon={<FiPlusCircle />}
                 >
                   Add Customer
@@ -297,24 +288,10 @@ const CustomerList = () => {
         </Flex>
 
         <Table variant="simple">
-          <Center>
-            {loading && (
-              <Spinner
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
-              />
-            )}
-          </Center>
-
-          {!loading && (
-            <>
               <Thead>
                 <Tr>
                   <Th width="50px">
-                    <Checkbox />
+                    <Checkbox isDisabled />
                   </Th>
                   <Th width="150px">Name</Th>
                   <Th width="150px">Email</Th>
@@ -327,7 +304,7 @@ const CustomerList = () => {
                 {customers.map((customer) => (
                   <Tr key={customer.id}>
                     <Td width="50px">
-                      <Checkbox />
+                      <Checkbox isDisabled />
                     </Td>
                     <Td width="150px">
                       <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
@@ -340,7 +317,7 @@ const CustomerList = () => {
                         <MenuButton
                           as={Button}
                           size="md"
-                          colorScheme="blue"
+                          colorScheme="messenger"
                           variant="outline"
                           rightIcon={<FaCaretDown />}
                         >
@@ -355,8 +332,6 @@ const CustomerList = () => {
                   </Tr>
                 ))}
               </Tbody>
-            </>
-          )}
         </Table>
 
         {/* Pagination */}
@@ -365,7 +340,7 @@ const CustomerList = () => {
             {[10, 20, 30].map((option) => (
               <Button
                 key={option}
-                colorScheme={selectedLimit === option ? 'blue' : 'gray'}
+                colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
                 onClick={() => handleLimitChange(option)}
                 mr="1"
                 size="sm"
@@ -412,28 +387,28 @@ const CustomerList = () => {
               name="name"
               placeholder="Name"
               mb="4"
-              value={updateFormData.name}
+              value={updatedCustomer.name}
               onChange={handleUpdateFormChange}
             />
             <Input
               name="email"
               placeholder="Email"
               mb="4"
-              value={updateFormData.email}
+              value={updatedCustomer.email}
               onChange={handleUpdateFormChange}
             />
             <Input
               name="phone_number"
               placeholder="Phone Number"
               mb="4"
-              value={updateFormData.phone_number}
+              value={updatedCustomer.phone_number}
               onChange={handleUpdateFormChange}
             />
             <Input
               name="address"
               placeholder="Address"
               mb="4"
-              value={updateFormData.address}
+              value={updatedCustomer.address}
               onChange={handleUpdateFormChange}
             />
           </ModalBody>

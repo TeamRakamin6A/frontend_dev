@@ -8,7 +8,6 @@ import {
   Button,
   Input,
   useToast,
-  Spinner,
   FormControl,
   FormLabel,
   Modal,
@@ -26,7 +25,6 @@ import { getCustomerById, updateCustomer, deleteCustomer } from '../../fetching/
 const CustomerDetail = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState([]);
-  const [loading, setLoading] = useState(true);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -36,7 +34,7 @@ const CustomerDetail = () => {
     onOpen: onOpenUpdateModal,
     onClose: onCloseUpdateModal,
   } = useDisclosure();
-  const [updateFormData, setUpdateFormData] = useState({
+  const [updatedCustomer, setUpdatedCustomer] = useState({
     name: '',
     email: '',
     phone_number: '',
@@ -55,10 +53,8 @@ const CustomerDetail = () => {
       try {
         const customerDetail = await getCustomerById(id);
         setCustomer(customerDetail.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching customer detail:', error.message);
-        setLoading(false);
         toast({
           title: 'Error fetching customer detail.',
           status: 'error',
@@ -77,8 +73,8 @@ const CustomerDetail = () => {
 
   // Fungsi untuk menangani perubahan pada form update
   const handleUpdateFormChange = (e) => {
-    setUpdateFormData({
-      ...updateFormData,
+    setUpdatedCustomer({
+      ...updatedCustomer,
       [e.target.name]: e.target.value,
     });
   };
@@ -88,10 +84,10 @@ const CustomerDetail = () => {
     try {
       await updateCustomer(
         id,
-        updateFormData.name,
-        updateFormData.email,
-        updateFormData.phone_number,
-        updateFormData.address
+        updatedCustomer.name,
+        updatedCustomer.email,
+        updatedCustomer.phone_number,
+        updatedCustomer.address
       );
 
       // Refresh data customer setelah update
@@ -123,7 +119,7 @@ const CustomerDetail = () => {
     try {
       await deleteCustomer(id);
 
-      // Redirect ke halaman customer list setelah berhasil delete
+    // Redirect ke halaman customer list setelah berhasil delete
       navigate('/customers');
 
       toast({
@@ -145,7 +141,7 @@ const CustomerDetail = () => {
 
   // Set data formulir update saat tombol "Update" ditekan
   const handleUpdateButtonClick = () => {
-    setUpdateFormData({
+    setUpdatedCustomer({
       name: customer.name,
       email: customer.email,
       phone_number: customer.phone_number,
@@ -166,19 +162,6 @@ const CustomerDetail = () => {
       </Container>
 
       <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-        {loading && (
-          <Flex justify="center">
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          </Flex>
-        )}
-
-        {!loading && customer && (
           <Flex direction="column" m="5">
             <FormControl mb="4" isRequired>
               <FormLabel>Name</FormLabel>
@@ -235,9 +218,7 @@ const CustomerDetail = () => {
                 </Button>
               </Flex>
             </Flex>
-
           </Flex>
-        )}
       </Container>
 
       {/* Modal Update */}
@@ -252,7 +233,7 @@ const CustomerDetail = () => {
               <Input
                 name="name"
                 placeholder="Name"
-                value={updateFormData.name}
+                value={updatedCustomer.name}
                 onChange={handleUpdateFormChange}
               />
             </FormControl>
@@ -262,7 +243,7 @@ const CustomerDetail = () => {
               <Input
                 name="email"
                 placeholder="Email"
-                value={updateFormData.email}
+                value={updatedCustomer.email}
                 onChange={handleUpdateFormChange}
               />
             </FormControl>
@@ -272,7 +253,7 @@ const CustomerDetail = () => {
               <Input
                 name="phone_number"
                 placeholder="Phone Number"
-                value={updateFormData.phone_number}
+                value={updatedCustomer.phone_number}
                 onChange={handleUpdateFormChange}
               />
             </FormControl>
@@ -282,7 +263,7 @@ const CustomerDetail = () => {
               <Input
                 name="address"
                 placeholder="Address"
-                value={updateFormData.address}
+                value={updatedCustomer.address}
                 onChange={handleUpdateFormChange}
               />
             </FormControl>
