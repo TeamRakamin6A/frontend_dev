@@ -10,6 +10,7 @@ import Orders from "./pages/Orders/Orders";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import Customers from "./pages/Customers/Customers";
 import CustomerDetail from "./pages/Customers/CustomerDetail";
+import AddOrder from "./pages/Orders/AddOrder";
 import AddCustomer from "./pages/Customers/AddCustomer";
 import Suppliers from "./pages/Suppliers/Suppliers";
 import SupplierDetail from "./pages/Suppliers/SupplierDetail";
@@ -18,6 +19,7 @@ import Supply_OrderDetail from "./pages/Supply_Orders/Supply_OrderDetail";
 import Warehouses from "./pages/Warehouses/Warehouses";
 import WarehouseDetail from "./pages/Warehouses/WarehouseDetail";
 import { ChakraProvider } from "@chakra-ui/react";
+import CreateOrder from "./pages/Orders/AddOrder";
 
 function App() {
   return (
@@ -33,6 +35,7 @@ function App() {
           <Route path="/categories/:id" element={<CategoryDetail />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/addorders" element={<CreateOrder />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<CustomerDetail />} />
           <Route path="/addcustomers" element={<AddCustomer />} />
