@@ -18,6 +18,7 @@ import Warehouses from "./pages/Warehouses/Warehouses";
 import WarehouseDetail from "./pages/Warehouses/WarehouseDetail";
 import { ChakraProvider } from "@chakra-ui/react";
 import AddItem from "./pages/Items/AddItem";
+import EditItem from "./pages/Items/EditItem";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/products" element={<Items />} />
           <Route path="/add-products" element={<AddItem />} />
+          <Route path="/edit-products/:id" element={<EditItem />} />
           <Route path="/products/:id" element={<ItemDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/categories/:id" element={<CategoryDetail />} />

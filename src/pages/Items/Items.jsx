@@ -11,15 +11,22 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  MenuItemOption,
   Image,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  useDisclosure,
+  MenuItem,
 } from '@chakra-ui/react'
 import { MultiSelect } from "react-multi-select-component";
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { FaPlusCircle } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getAllItems } from "../../fetching/item";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Paginate from "../../components/Paginate";
 
 const Items = () => {
@@ -30,8 +37,8 @@ const Items = () => {
   const [itemPerPage] = useState(10);
   const [totalPages, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
-
-
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const cancelRef = useRef()
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -61,7 +68,6 @@ const Items = () => {
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
 
   console.log(currentPage);
 
@@ -98,6 +104,17 @@ const Items = () => {
     setOptions(mergedOptions);
   }, [item]);
 
+  const prevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
 
   return <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
     <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
@@ -116,7 +133,7 @@ const Items = () => {
       <Button mt={'20px'} onClick={() => navigate('/add-products')} height='48px' width='200px' bgColor={'#2C6AE5'} color={'white'}><FaPlusCircle fontSize={'30px'} />
         <Text ml={'10px'} >Add Product</Text>
       </Button>
-      <Box maxW={'600px'} mt={'40px'}  >
+      <Box maxW={'600px'} mt={'40px'}>
         <MultiSelect
           options={options}
           h={'40px'}
@@ -164,13 +181,46 @@ const Items = () => {
                     <Td>{product.price || "null"}</Td>
                     <Td>
                       <Box>
-                        <Menu closeOnSelect={false}>
+                        <Menu>
                           <MenuButton as={Button} colorScheme='blue' variant='outline'>
                             Action
                           </MenuButton>
-                          <MenuList minWidth='240px'>
-                            <MenuItemOption value='email'>Edit Item</MenuItemOption>
-                            <MenuItemOption value='phone'>Delete Item</MenuItemOption>
+                          <MenuList>
+                            <MenuItem>
+                              <Link
+                                to={`/edit-products/${product.id}`}
+                                state={{ productData: product }}
+                              >
+                                Edit Item
+                              </Link>
+                            </MenuItem>
+                            <MenuItem onClick={onOpen}>Delete Item</MenuItem>
+                            <AlertDialog
+                              isOpen={isOpen}
+                              leastDestructiveRef={cancelRef}
+                              onClose={onClose}
+                            >
+                              <AlertDialogOverlay>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                    Delete Customer
+                                  </AlertDialogHeader>
+
+                                  <AlertDialogBody>
+                                    Are you sure? You cant undo this action afterwards.
+                                  </AlertDialogBody>
+
+                                  <AlertDialogFooter>
+                                    <Button ref={cancelRef} onClick={onClose}>
+                                      Cancel
+                                    </Button>
+                                    <Button colorScheme='red' onClick={onClose} ml={3}>
+                                      Delete
+                                    </Button>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialogOverlay>
+                            </AlertDialog>
                           </MenuList>
                         </Menu>
                       </Box>
@@ -182,8 +232,7 @@ const Items = () => {
           </Table>
         </TableContainer>
       </Box>
-      <Paginate totalPages={totalPages} itemPerPage={itemPerPage} currentPage={currentPage} paginate={paginate} />
-
+      <Paginate totalPages={totalPages} itemPerPage={itemPerPage} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
     </Box>
   </Box >;
 };
