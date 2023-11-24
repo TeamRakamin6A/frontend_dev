@@ -96,12 +96,12 @@ export async function updateItem(id, dataItems) {
 
 }
 
-export async function deleteItem(id, dataItems) {
+export async function deleteItem(id) {
     try {
+        console.log(id, "<<<<<<<<<<<<<<<<<<<<<");
         const data = await instance({
             url: `/items/${id}`,
-            method: "PUT",
-            data: dataItems,
+            method: "DELETE",
         })
 
         const response = data.data;

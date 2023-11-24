@@ -8,7 +8,7 @@ const DashboardDetail = ({ name, data, children, convert = false }) => {
                 {children}
             </Box>
             <Text color={"#AAAAAA"} fontSize={'20px'}>{name}</Text>
-            <Text fontWeight={'extrabold'} fontSize={'20px'}>{convert ? convertPrice(data) : data}</Text>
+            <Text fontWeight={'extrabold'} fontSize={'20px'}>{convert && data ? convertPrice(data) : data}</Text>
         </Box>
     )
 }

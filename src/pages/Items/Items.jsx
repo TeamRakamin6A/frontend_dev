@@ -20,6 +20,8 @@ import {
   AlertDialogOverlay,
   useDisclosure,
   MenuItem,
+  HStack,
+  Input,
 } from '@chakra-ui/react'
 import { MultiSelect } from "react-multi-select-component";
 import { ChevronRightIcon } from '@chakra-ui/icons'
@@ -38,6 +40,7 @@ const Items = () => {
   const [itemPerPage, setItemPerPage] = useState(10);
   const [totalPages, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
+  const [q, setQ] = useState('')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const cancelRef = useRef()
 
@@ -70,6 +73,12 @@ const Items = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleSearch = async () => {
+    const res = await getAllItems(currentPage, itemPerPage, q, null)
+    setItem(res.data.items)
+    setTotalPage(res.data.totalPages)
+  }
+
   console.log(currentPage);
 
   useEffect(() => {
@@ -96,9 +105,6 @@ const Items = () => {
     );
 
     const mergedOptions = [
-      ...titleOptions,
-      ...skuOptions,
-      ...keywordOptions,
       ...categoryOptions
     ];
 
@@ -117,11 +123,14 @@ const Items = () => {
     }
   };
 
-  const handleDelete = async () => {
+  const handleDelete = async (id) => {
     try {
-      const res = await deleteItem()
-
+      await deleteItem(id)
       alert("success ")
+      onClose()
+      const res = await getAllItems(currentPage, itemPerPage, q, null)
+      setItem(res.data.items)
+      setTotalPage(res.data.totalPages)
     } catch (error) {
       console.log(error);
     }
@@ -144,7 +153,12 @@ const Items = () => {
       <Button mt={'20px'} onClick={() => navigate('/add-products')} height='48px' width='200px' bgColor={'#2C6AE5'} color={'white'}><FaPlusCircle fontSize={'30px'} />
         <Text ml={'10px'} >Add Product</Text>
       </Button>
+      <HStack w={'35%'} mt={'20px'}>
+        <Input placeholder='Basic usage' onChange={(e) => setQ(e.target.value)} />
+        <Button type="button" onClick={handleSearch}>Search</Button>
+      </HStack>
       <Box maxW={'600px'} mt={'40px'}>
+        <Text>Filter By Category</Text>
         <MultiSelect
           options={options}
           h={'40px'}
@@ -170,6 +184,7 @@ const Items = () => {
                 item?.map((product) => (
                   <Tr key={product.id} borderBottom={'2px solid #D9D9D9'}>
                     <Td><Checkbox /></Td>
+                    <Td>{product.id}</Td>
                     <Td><Link to={`/products/${product.id}`}>{product.title || "null"}</Link></Td>
                     <Td>{product.sku || "null"}</Td>
                     <Td>{convertPrice(product.price) || "null"}</Td>
@@ -208,7 +223,7 @@ const Items = () => {
                                     <Button ref={cancelRef} onClick={onClose}>
                                       Cancel
                                     </Button>
-                                    <Button colorScheme='red' onClick={handleDelete} ml={3}>
+                                    <Button colorScheme='red' onClick={(e) => console.log(product.id, "<<<<<<<<<<")} ml={3}>
                                       Delete
                                     </Button>
                                   </AlertDialogFooter>
