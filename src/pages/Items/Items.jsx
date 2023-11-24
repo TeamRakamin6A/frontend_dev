@@ -25,9 +25,10 @@ import { MultiSelect } from "react-multi-select-component";
 import { ChevronRightIcon } from '@chakra-ui/icons'
 import { FaPlusCircle } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
-import { getAllItems } from "../../fetching/item";
+import { deleteItem, getAllItems } from "../../fetching/item";
 import { Link, useNavigate } from "react-router-dom";
 import Paginate from "../../components/Paginate";
+import convertPrice from "../../lib/convertPrice";
 
 const Items = () => {
   const [selected, setSelected] = useState([]);
@@ -116,6 +117,16 @@ const Items = () => {
     }
   };
 
+  const handleDelete = async () => {
+    try {
+      const res = await deleteItem()
+
+      alert("success ")
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
     <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
       <Text fontWeight={'extrabold'} fontSize={'25px'}>Product</Text>
@@ -161,7 +172,7 @@ const Items = () => {
                     <Td><Checkbox /></Td>
                     <Td><Link to={`/products/${product.id}`}>{product.title || "null"}</Link></Td>
                     <Td>{product.sku || "null"}</Td>
-                    <Td>{product.price || "null"}</Td>
+                    <Td>{convertPrice(product.price) || "null"}</Td>
                     <Td>
                       <Box>
                         <Menu>
@@ -197,7 +208,7 @@ const Items = () => {
                                     <Button ref={cancelRef} onClick={onClose}>
                                       Cancel
                                     </Button>
-                                    <Button colorScheme='red' onClick={onClose} ml={3}>
+                                    <Button colorScheme='red' onClick={handleDelete} ml={3}>
                                       Delete
                                     </Button>
                                   </AlertDialogFooter>

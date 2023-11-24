@@ -49,7 +49,7 @@ const ItemDetail = () => {
           </Box>
           <Box mt={'20px'}>
             <Text fontWeight={'bold'} fontSize={'20px'}>Category</Text>
-            <Box w={'392px'} rounded={'10px'} display={'flex'} alignItems={'center'} pl={'20px'} border={'1px solid #D9D9D9'} h={'40px'}>{item.Categories.length > 0 ? item.Categories[0].title : ""}</Box>
+            <Box w={'392px'} rounded={'10px'} display={'flex'} alignItems={'center'} pl={'20px'} border={'1px solid #D9D9D9'} h={'40px'}>{item.Categories?.map(cat => cat.title)}</Box>
           </Box>
           <Box mt={'20px'}>
             <Text fontWeight={'bold'} fontSize={'20px'}>Keywords</Text>
