@@ -3,9 +3,10 @@ import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormCont
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { createItem, uploadImage } from "../../fetching/item"
-import { useLocation, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const AddItem = () => {
+    const navigate = useNavigate();
     const [selectedImage, setSelectedImage] = useState('')
     const [dataItem, setDataItem] = useState({
         title: '',
@@ -41,6 +42,7 @@ const AddItem = () => {
             }
             setSelectedImage("")
             alert(res.message)
+            navigate("/products")
         } catch (error) {
             console.log(error);
         }

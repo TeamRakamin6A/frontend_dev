@@ -34,7 +34,7 @@ const Items = () => {
   const navigate = useNavigate();
   const [options, setOptions] = useState({})
   const [item, setItem] = useState([])
-  const [itemPerPage] = useState(10);
+  const [itemPerPage, setItemPerPage] = useState(10);
   const [totalPages, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -168,7 +168,7 @@ const Items = () => {
                         <Image src={product.image_url} />
                       </Box>
                     </Td>
-                    <Td>{product.title || "null"}</Td>
+                    <Td><Link to={`/products/${product.id}`}>{product.title || "null"}</Link></Td>
                     <Td>{product.description || "null"}</Td>
                     <Td>{product.Categories?.length > 0 ? (
                       product.Categories.map((cat) => cat.title)
@@ -232,7 +232,7 @@ const Items = () => {
           </Table>
         </TableContainer>
       </Box>
-      <Paginate totalPages={totalPages} itemPerPage={itemPerPage} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
+      <Paginate totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
     </Box>
   </Box >;
 };

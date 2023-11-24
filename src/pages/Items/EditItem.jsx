@@ -85,7 +85,7 @@ const EditItem = () => {
                         </FormControl>
                         <FormControl mt={'20px'}>
                             <FormLabel fontSize={'18px'} fontWeight={'bold'}>Category</FormLabel>
-                            <Input placeholder='Category' defaultValue={productData?.Categories[0].id} onChange={handleInputChange} name="category_ids" size='lg' />
+                            <Input placeholder='Category' defaultValue={productData.Categories[0].id} onChange={handleInputChange} name="category_ids" size='lg' />
                         </FormControl>
                     </Box>
                     <Box w={'392px'}>

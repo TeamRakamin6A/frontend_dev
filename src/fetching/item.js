@@ -2,9 +2,10 @@ import instance from "../lib/axios";
 
 export async function getAllItems(page, limit, q, categoryIds) {
     try {
-        if (q && categoryIds) {
+        if (q || categoryIds) {
             page = page - 1
         }
+
         const data = await instance({
             url: "/items",
             method: "GET",
@@ -24,6 +25,20 @@ export async function getAllItems(page, limit, q, categoryIds) {
     }
 }
 
+export async function getItemByID(id) {
+    try {
+        const data = await instance({
+            url: `/items/${id}`,
+            method: "GET",
+
+        });
+        const response = data.data;
+        return response;
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 export async function createItem(dataItems) {
     try {
