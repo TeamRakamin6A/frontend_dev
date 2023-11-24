@@ -1,6 +1,6 @@
 import { ChevronRightIcon } from "@chakra-ui/icons"
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormControl, FormLabel, Input, Text, VStack } from "@chakra-ui/react"
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { updateItem, uploadImage } from "../../fetching/item"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
@@ -67,12 +67,12 @@ const EditItem = () => {
                         <BreadcrumbLink href='/products'>Product</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href='#'>{name}</BreadcrumbLink>
+                        <BreadcrumbLink href='#'>Edit Product</BreadcrumbLink>
                     </BreadcrumbItem>
                 </Breadcrumb>
             </Box>
             <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'80px'} shadow={'lg'}>
-                <Text fontWeight={'extrabold'} fontSize={'25px'} mt={'20px'}>{name}</Text>
+                <Text fontWeight={'extrabold'} fontSize={'25px'} mt={'20px'}>Edit Product</Text>
                 <Flex gap={'50px'} justify={'center'} mt={'30px'}>
                     <Box w={'392px'}>
                         <FormControl>
