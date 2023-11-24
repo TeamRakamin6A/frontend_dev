@@ -36,9 +36,9 @@ const CustomerDetail = () => {
   } = useDisclosure();
   const [updatedCustomer, setUpdatedCustomer] = useState({
     name: '',
-    email: '',
-    phone_number: '',
     address: '',
+    phone_number: '',
+    email: '',
   });
 
   // State dan fungsi untuk delete modal
@@ -85,14 +85,14 @@ const CustomerDetail = () => {
       await updateCustomer(
         id,
         updatedCustomer.name,
-        updatedCustomer.email,
+        updatedCustomer.address,
         updatedCustomer.phone_number,
-        updatedCustomer.address
+        updatedCustomer.email,
       );
 
       // Refresh data customer setelah update
-      const updatedCustomer = await getCustomerById(id);
-      setCustomer(updatedCustomer);
+      const updatedCustomerData = await getCustomerById(id);
+      setCustomer(updatedCustomerData.data);
 
       // Tutup modal setelah berhasil update
       onCloseUpdateModal();
@@ -143,9 +143,9 @@ const CustomerDetail = () => {
   const handleUpdateButtonClick = () => {
     setUpdatedCustomer({
       name: customer.name,
-      email: customer.email,
-      phone_number: customer.phone_number,
       address: customer.address,
+      phone_number: customer.phone_number,
+      email: customer.email,
     });
     onOpenUpdateModal();
   };

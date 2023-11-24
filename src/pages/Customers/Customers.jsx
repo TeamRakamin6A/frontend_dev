@@ -156,7 +156,6 @@ const CustomerList = () => {
       );
       const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
-      console.log(">>>>", result.items)
       onCloseUpdateModal();
       toast({
         title: 'Customer updated successfully.',
