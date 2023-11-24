@@ -42,11 +42,13 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import { getAllWarehouses } from '../../fetching/warehouse';
 import { MultiSelect } from "react-multi-select-component";
+import Paginate from '../../components/Paginate';
 
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [limit, setLimit] = useState();
+  // const [limit, setLimit] = useState(10);
+  const [itemPerPage] = useState(10);
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedWarehouseId, setSelectedWarehouseId] = useState(null);
@@ -77,10 +79,10 @@ const Warehouses = () => {
       setLoading(true);
 
       try {
-        const result = await getAllWarehouses(currentPage, limit, searchTerm);
+        const result = await getAllWarehouses(currentPage, itemPerPage, searchTerm);
         const sortedWarehouses = sortWarehouseById(result.data);
         setWarehouses(sortedWarehouses);
-        setTotalPages(result.totalPages);
+        setTotalPages(result.totalPage);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching orders:', error.message);
@@ -92,16 +94,7 @@ const Warehouses = () => {
     };
 
     fetchWarehouses();
-  }, [currentPage, limit, searchTerm]);
-
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePrevPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+  }, [currentPage, itemPerPage, searchTerm]);
 
   // const handleDeleteOrder = async (orderId) => {
   //   setSelectedOrderId(orderId);
@@ -174,64 +167,25 @@ const Warehouses = () => {
   //   }
   // };
 
-  const handlePageClick = (page) => {
-    setCurrentPage(page);
-  };
-
-  const renderPagination = () => {
-    const pageButtons = [];
-    const maxVisiblePages = 3;
-
-    if (totalPages <= maxVisiblePages) {
-      for (let i = 1; i <= totalPages; i++) {
-        pageButtons.push(
-          <Button
-            key={i}
-            variant={currentPage === i ? 'solid' : 'outline'}
-            size="sm"
-            colorScheme={currentPage === i ? 'blue' : 'gray'}
-            onClick={() => handlePageClick(i)}
-          >
-            {i}
-          </Button>
-        );
-      }
-    } else {
-      if (currentPage > 2) {
-        pageButtons.push(<Button key="before-2" size="sm" variant="outline" disabled>...</Button>);
-      }
-
-      for (let i = Math.max(1, currentPage - 1); i <= Math.min(totalPages, currentPage + 1); i++) {
-        pageButtons.push(
-          <Button
-            key={i}
-            variant={currentPage === i ? 'solid' : 'outline'}
-            size="sm"
-            colorScheme={currentPage === i ? 'teal' : 'gray'}
-            onClick={() => handlePageClick(i)}
-          >
-            {i}
-          </Button>
-        );
-      }
-
-      if (currentPage < totalPages - 1) {
-        pageButtons.push(<Button key="after-2" size="sm" variant="outline" disabled>...</Button>);
-      }
-    }
-
-    return pageButtons;
-  };
-
-  const handleLimitChange = (value) => {
-    setSelectedLimit(value);
-    setLimit(value);
-    setCurrentPage(1);
-  };
-
   const handleSearchChange = (selected) => {
     setSelectedOptions(selected);
     setSearchTerm(selected.map((option) => option.value).join(','));
+  };
+
+  const prevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
@@ -286,7 +240,7 @@ const Warehouses = () => {
         </Flex>
 
         <Table variant="simple">
-          <Center>
+          {/* <Center>
             {loading && (
               <Spinner
                 thickness='4px'
@@ -296,7 +250,7 @@ const Warehouses = () => {
                 size='xl'
               />
             )}
-          </Center>
+          </Center> */}
 
           {!loading && (
             <>
@@ -347,45 +301,7 @@ const Warehouses = () => {
         </Table>
 
         {/* Pagination */}
-        <Flex justify="space-between" mt="4" mr="20" ml="10">
-          <Flex>
-            {[10, 20, 30].map((option) => (
-              <Button
-                key={option}
-                colorScheme={selectedLimit === option ? 'blue' : 'gray'}
-                onClick={() => handleLimitChange(option)}
-                mr="1"
-                size="sm"
-              >
-                {option}
-              </Button>
-            ))}
-          </Flex>
-
-          <Flex>
-            <IconButton
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              isDisabled={currentPage === 1}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronLeft />}
-            />
-
-            {renderPagination()}
-
-            <IconButton
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              isDisabled={currentPage === totalPages}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronRight />}
-            />
-          </Flex>
-        </Flex>
+        <Paginate totalPages={totalPages} itemPerPage={itemPerPage} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />                  
       </Container>
 
       {/* Update Modal */}
