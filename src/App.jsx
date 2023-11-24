@@ -26,8 +26,8 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/items" element={<Items />} />
-          <Route path="/items/:id" element={<ItemDetail />} />
+          <Route path="/products" element={<Items />} />
+          <Route path="/products/:id" element={<ItemDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/categories/:id" element={<CategoryDetail />} />
           <Route path="/orders" element={<Orders />} />
@@ -42,7 +42,7 @@ function App() {
           <Route path="/warehouses/:id" element={<WarehouseDetail />} />
         </Routes>
       </Router>
-    </ChakraProvider>
+    </ChakraProvider >
   );
 }
 
