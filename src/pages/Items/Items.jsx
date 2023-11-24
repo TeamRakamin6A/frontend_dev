@@ -20,12 +20,17 @@ import { FaPlusCircle } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { getAllItems } from "../../fetching/item";
 import { useNavigate } from "react-router-dom";
+import Paginate from "../../components/Paginate";
 
 const Items = () => {
   const [selected, setSelected] = useState([]);
   const navigate = useNavigate();
   const [options, setOptions] = useState({})
   const [item, setItem] = useState([])
+  const [itemPerPage] = useState(10);
+  const [totalPages, setTotalPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1)
+
 
 
   useEffect(() => {
@@ -42,7 +47,8 @@ const Items = () => {
           .join(',');
 
         console.log(q);
-        const res = await getAllItems(q, categoryIds)
+        const res = await getAllItems(currentPage, itemPerPage, q, categoryIds)
+        setTotalPage(res.data.totalPages)
         setItem(res.data.items)
       } catch (error) {
         console.log(error);
@@ -50,7 +56,14 @@ const Items = () => {
     }
 
     fetchItems()
-  }, [selected])
+  }, [selected, currentPage, itemPerPage])
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+
+  console.log(currentPage);
 
   useEffect(() => {
     const titleOptions = item.map((product) => ({
@@ -84,6 +97,7 @@ const Items = () => {
 
     setOptions(mergedOptions);
   }, [item]);
+
 
   return <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
     <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
@@ -168,6 +182,8 @@ const Items = () => {
           </Table>
         </TableContainer>
       </Box>
+      <Paginate totalPages={totalPages} itemPerPage={itemPerPage} currentPage={currentPage} paginate={paginate} />
+
     </Box>
   </Box >;
 };
