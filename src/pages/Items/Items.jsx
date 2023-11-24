@@ -160,7 +160,6 @@ const Items = () => {
                   <Tr key={product.id} borderBottom={'2px solid #D9D9D9'}>
                     <Td><Checkbox /></Td>
                     <Td><Link to={`/products/${product.id}`}>{product.title || "null"}</Link></Td>
-                    <Td>{product.keywords || "null"}</Td>
                     <Td>{product.sku || "null"}</Td>
                     <Td>{product.price || "null"}</Td>
                     <Td>
