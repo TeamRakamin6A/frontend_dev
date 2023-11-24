@@ -38,6 +38,7 @@ const Items = () => {
   const [options, setOptions] = useState({})
   const [item, setItem] = useState([])
   const [itemPerPage, setItemPerPage] = useState(10);
+  const [deleteId, setDeleteId] = useState(0)
   const [totalPages, setTotalPage] = useState(1)
   const [currentPage, setCurrentPage] = useState(1)
   const [q, setQ] = useState('')
@@ -123,6 +124,8 @@ const Items = () => {
     }
   };
 
+  console.log(item);
+
   const handleDelete = async (id) => {
     try {
       await deleteItem(id)
@@ -134,6 +137,11 @@ const Items = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const handleDeleteClick = async (id) => {
+    onOpen()
+    setDeleteId(id)
   }
 
   return <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
@@ -203,7 +211,7 @@ const Items = () => {
                                 Edit Item
                               </Link>
                             </MenuItem>
-                            <MenuItem onClick={onOpen}>Delete Item</MenuItem>
+                            <MenuItem onClick={() => handleDeleteClick(product.id)}>Delete Item</MenuItem>
                             <AlertDialog
                               isOpen={isOpen}
                               leastDestructiveRef={cancelRef}
@@ -216,14 +224,14 @@ const Items = () => {
                                   </AlertDialogHeader>
 
                                   <AlertDialogBody>
-                                    Are you sure? You cant undo this action afterwards.
+                                    Are you sure?  You cant undo this action afterwards. {deleteId}
                                   </AlertDialogBody>
 
                                   <AlertDialogFooter>
                                     <Button ref={cancelRef} onClick={onClose}>
                                       Cancel
                                     </Button>
-                                    <Button colorScheme='red' onClick={(e) => console.log(product.id, "<<<<<<<<<<")} ml={3}>
+                                    <Button colorScheme='red' onClick={() => handleDelete(deleteId)} ml={3}>
                                       Delete
                                     </Button>
                                   </AlertDialogFooter>

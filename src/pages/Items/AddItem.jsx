@@ -1,20 +1,38 @@
 import { ChevronRightIcon } from "@chakra-ui/icons"
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormControl, FormLabel, Input, Text, VStack } from "@chakra-ui/react"
-import { useCallback, useState } from 'react'
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormControl, FormLabel, Input, Select, Text, VStack } from "@chakra-ui/react"
+import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { createItem, uploadImage } from "../../fetching/item"
 import { useNavigate } from "react-router-dom"
+import { getAllCategories } from "../../fetching/category"
+import { MultiSelect } from "react-multi-select-component";
 
 const AddItem = () => {
     const navigate = useNavigate();
+    const [categories, setCategories] = useState([])
     const [selectedImage, setSelectedImage] = useState('')
+    const [selected, setSelected] = useState([]);
     const [dataItem, setDataItem] = useState({
         title: '',
         description: '',
-        category_ids: '',
+        category_ids: [],
         sku: '',
         price: ''
     });
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const res = await getAllCategories()
+                console.log(res);
+                setCategories(res.data)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchCategories()
+    }, [])
 
     const name = "Add Product"
 
@@ -33,6 +51,7 @@ const AddItem = () => {
 
     const handleSubmit = async () => {
         try {
+            setDataItem({ ...dataItem, category_ids: selected })
             const res = await createItem(dataItem)
             if (selectedImage) {
                 const upload = await uploadImage(res.data.id, selectedImage);
@@ -75,7 +94,19 @@ const AddItem = () => {
                         </FormControl>
                         <FormControl mt={'20px'}>
                             <FormLabel fontSize={'18px'} fontWeight={'bold'}>Category</FormLabel>
-                            <Input placeholder='Category' onChange={handleInputChange} name="category_ids" size='lg' />
+                            {/* <Input placeholder='Category' onChange={handleInputChange} name="category_ids" size='lg' /> */}
+                            {/* <Select placeholder='Select option'>
+                                {categories?.map((cat) => {
+                                    return (
+                                        <option key={cat.id} value={cat.id}>{cat.title}</option>
+                                    )
+                                })}
+                            </Select> */}
+
+                            <MultiSelect options={categories?.map((cat) => ({
+                                label: cat.title,
+                                value: cat.id
+                            }))} labelledBy="Search Product" onChange={setSelected} value={selected} />
                         </FormControl>
                     </Box>
                     <Box w={'392px'}>
