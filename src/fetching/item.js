@@ -30,9 +30,9 @@ export async function getItemByID(id) {
         const data = await instance({
             url: `/items/${id}`,
             method: "GET",
-
         });
-        const response = data.data;
+        console.log(data);
+        const response = data.data.data_item;
         return response;
     } catch (error) {
         console.log(error);
