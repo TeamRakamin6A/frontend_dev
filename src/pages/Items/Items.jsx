@@ -148,11 +148,7 @@ const Items = () => {
             <Thead>
               <Tr borderBottom={'2px solid #D9D9D9'} >
                 <Th><Checkbox /></Th>
-                <Th><Text fontSize={'15px'}>Image</Text></Th>
                 <Th><Text fontSize={'15px'}>Name</Text></Th>
-                <Th><Text fontSize={'15px'}>Description</Text></Th>
-                <Th><Text fontSize={'15px'}>Category</Text></Th>
-                <Th><Text fontSize={'15px'}>Keywords</Text></Th>
                 <Th><Text fontSize={'15px'}>SKU</Text></Th>
                 <Th><Text fontSize={'15px'}>Price</Text></Th>
                 <Th><Text fontSize={'15px'}>Action</Text></Th>
@@ -163,19 +159,7 @@ const Items = () => {
                 item?.map((product) => (
                   <Tr key={product.id} borderBottom={'2px solid #D9D9D9'}>
                     <Td><Checkbox /></Td>
-                    <Td>
-                      <Box w={'120px'}>
-                        <Image src={product.image_url} />
-                      </Box>
-                    </Td>
                     <Td><Link to={`/products/${product.id}`}>{product.title || "null"}</Link></Td>
-                    <Td>{product.description || "null"}</Td>
-                    <Td>{product.Categories?.length > 0 ? (
-                      product.Categories.map((cat) => cat.title)
-                    ) : (
-                      "null"
-                    )}
-                    </Td>
                     <Td>{product.keywords || "null"}</Td>
                     <Td>{product.sku || "null"}</Td>
                     <Td>{product.price || "null"}</Td>
