@@ -9,6 +9,7 @@ import {
   Td,
   IconButton,
   Button,
+  Heading,
   Select,
   Flex,
   Box,
@@ -83,7 +84,7 @@ const Supply_OrderDetail = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Supply Orders" subtitle="Supply Orders > Supply Orders Detail" />
+      <CustomHeader title="Supply Orders" subtitle="Supply Orders Detail" />
       <Box
         backgroundColor="white"
         margin="20px 20px"
@@ -93,81 +94,83 @@ const Supply_OrderDetail = () => {
         display="flex"
         flexDirection="column"
       >
-        <Table
-          variant="simple"
-          colorScheme="gray"
-          mx="20"
-          my="10"
-          maxWidth="fit-content"
-          borderWidth="1px"
-          borderColor="gray.200"
-        >
-          <Thead>
-            <Tr fontWeight="bold">
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Invoice</Th>
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Total Price</Th>
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Supplier</Th>
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Warehouse</Th>
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Status</Th>
-              <Th width="" fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr key={supplyOrder.id}>
-              <Td fontSize="15px" textColor={"gray.600"}>{supplyOrder.invoice}</Td>
-              <Td fontSize="15px" textColor={"gray.600"}>{supplyOrder.total_price}</Td>
-              <Td fontSize="15px" textColor={"gray.600"}>{supplier.company_name}</Td>
-              <Td fontSize="15px" textColor={"gray.600"}>{warehouse.title}</Td>
-              <Td fontSize="15px" textColor={"gray.600"}>
-                {isEditing ? (
-                  <Select
-                    value={editedStatus}
-                    onChange={(e) => setEditedStatus(e.target.value)}
-                  >
-                    {statusOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </Select>
-                ) : (
-                  supplyOrder.status
-                )}
-              </Td>
-              <Td fontSize="15px" textColor={"gray.600"}>
-                {isEditing ? (
-                  <>
+        <Box mx={"40px"} pt={"20px"}>
+          <Heading fontSize={'22px'}>Supply Orders Detail</Heading>
+          <Table
+            variant="simple"
+            colorScheme="gray"
+            my={"20px"}
+            maxWidth="fit-content"
+            borderWidth="1px"
+            borderColor="gray.200"
+          >
+            <Thead>
+              <Tr fontWeight="bold">
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Invoice</Th>
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Warehouse</Th>
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Status</Th>
+                <Th width="" fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Action</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              <Tr key={supplyOrder.id}>
+                <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.invoice}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.total_price}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{supplier.company_name}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{warehouse.title}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>
+                  {isEditing ? (
+                    <Select
+                      value={editedStatus}
+                      onChange={(e) => setEditedStatus(e.target.value)}
+                    >
+                      {statusOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </Select>
+                  ) : (
+                    supplyOrder.status
+                  )}
+                </Td>
+                <Td fontSize="14px" textColor={"gray.600"}>
+                  {isEditing ? (
+                    <>
+                      <IconButton
+                        icon={<CheckIcon />}
+                        size="xs"
+                        onClick={handleSaveEdit}
+                        colorScheme="green"
+                      />
+                      <IconButton
+                        icon={<CloseIcon />}
+                        size="xs"
+                        onClick={handleCancelEdit}
+                        colorScheme="red"
+                      />
+                    </>
+                  ) : (
                     <IconButton
-                      icon={<CheckIcon />}
-                      size="xs"
-                      onClick={handleSaveEdit}
-                      colorScheme="green"
+                      icon={<EditIcon />}
+                      size="lg"
+                      onClick={handleEditClick}
+                      colorScheme="blue"
                     />
-                    <IconButton
-                      icon={<CloseIcon />}
-                      size="xs"
-                      onClick={handleCancelEdit}
-                      colorScheme="red"
-                    />
-                  </>
-                ) : (
-                  <IconButton
-                    icon={<EditIcon />}
-                    size="lg"
-                    onClick={handleEditClick}
-                    colorScheme="blue"
-                  />
-                )}
-              </Td>
-            </Tr>
-          </Tbody>
-        </Table>
+                  )}
+                </Td>
+              </Tr>
+            </Tbody>
+          </Table>
 
-        <Flex justifyContent="flex-end" mx={20}>
-          <Button as={Link} to="/supplier-orders" variant="outline" colorScheme="blue" p={5}>
-            Back to Supply Orders
-          </Button>
-        </Flex>
+          <Flex justifyContent="flex-end" ml={16}>
+            <Button as={Link} to="/supplier-orders" variant="outline" colorScheme="blue" p={5}>
+              Back to Supply Orders
+            </Button>
+          </Flex>
+        </Box>
       </Box>
     </div>
   );

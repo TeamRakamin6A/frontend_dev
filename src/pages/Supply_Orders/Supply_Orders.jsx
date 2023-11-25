@@ -91,7 +91,7 @@ const Supply_Orders = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Supply Orders" subtitle="Supply Orders > Supply Orders List" />
+      <CustomHeader title="Supply Orders" subtitle="Supply Orders List" />
       <Box
         backgroundColor="white"
         margin="20px 20px"
@@ -102,7 +102,7 @@ const Supply_Orders = () => {
         flexDirection="column"
       >
         <Box mx={"40px"} pt={"20px"}>
-          <Heading size='md'>Supply Orders</Heading>
+          <Heading fontSize={'22px'}>Supply Orders</Heading>
           <br />
           <Button colorScheme="messenger" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
             <Link to={`/add-supplier-orders`}>
@@ -169,27 +169,27 @@ const Supply_Orders = () => {
         <Table variant="simple" maxWidth="fit-content" mx="12" borderWidth="1px" borderColor="gray.200">
           <Thead>
             <Tr>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>ID</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Invoice</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Total Price</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Supplier</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Warehouse</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Status</Th>
-              <Th fontWeight="bold" fontSize="15px" textTransform="none" textColor={"black"}>Action</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>ID</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Invoice</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Warehouse</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Status</Th>
+              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Action</Th>
             </Tr>
           </Thead>
           <Tbody>
             {supplyOrders.map((order) => (
               <Tr key={order.id}>
-                <Td fontSize="15px" textColor={"gray.600"}>{order.id}</Td>
-                <Td fontSize="15px" textColor={"gray.600"}>
+                <Td fontSize="12px" textColor={"gray.600"}>{order.id}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>
                   <Link to={`/supplier-orders/${order.id}`}>{order.invoice}</Link>
                 </Td>
-                <Td fontSize="15px" textColor={"gray.600"}>{order.total_price}</Td>
-                <Td fontSize="15px" textColor={"gray.600"}>{order.supplier_id}</Td>
-                <Td fontSize="15px" textColor={"gray.600"}>{order.warehouse_id}</Td>
-                <Td fontSize="15px" textColor={"gray.600"}>{order.status}</Td>
-                <Td fontSize="15px" textColor={"gray.600"}>
+                <Td fontSize="12px" textColor={"gray.600"}>{order.total_price}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{order.supplier_id}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{order.warehouse_id}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>{order.status}</Td>
+                <Td fontSize="12px" textColor={"gray.600"}>
                   <Box style={{ display: "flex", alignItems: "center", border: "2px solid", borderColor: "blue", borderRadius: "6px", padding: "2px" }}>
                     <Button size="lg" style={{ background: "transparent", marginRight: 2 }}>
                       <Text ml={2} textColor={"blue"}>Action</Text>

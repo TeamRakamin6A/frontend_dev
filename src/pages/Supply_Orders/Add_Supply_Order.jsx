@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Input, Select, useToast, Box, Flex, Heading } from "@chakra-ui/react";
+import { Button, Input, Select, useToast, Box, Flex, Heading, SimpleGrid } from "@chakra-ui/react";
 import Navbar from "../../components/Navbar";
 import {
     createSupplyOrder,
@@ -140,170 +140,162 @@ const AddSupplyOrders = () => {
     return (
         <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
             <Navbar />
-            <CustomHeader title="Supply Orders" subtitle="Supply Orders > Add Supply Orders" />
+            <CustomHeader title="Supply Orders" subtitle="Add Supply Orders" />
             <Box bg="white" m="40px" minHeight={"fit-content"}>
-                <Heading ml="60px" pt="40px" pb="20px" size={"md"}>
+                <Heading ml="60px" pt="40px" pb="20px" fontSize={'22px'}>
                     Add Supply Order
                 </Heading>
                 <Box display="flex">
                     <Box flex="1" mx="60px" pt="20px">
                         <form onSubmit={handleSubmit}>
-                            <label style={{ fontSize: "15px", fontWeight: "bold" }}>
-                                Invoice
-                                <Input
-                                    type="text"
-                                    mb={10}
-                                    fontSize="15px"
-                                    height="50px"
-                                    name="invoice"
-                                    value={formData.invoice}
-                                    onChange={handleChange}
-                                    required
+                            <SimpleGrid columns={2} spacing={10}>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold" }}>
+                                    Invoice
+                                    <Input
+                                        type="text"
+                                        fontSize="14px"
+                                        height="40px"
+                                        name="invoice"
+                                        value={formData.invoice}
+                                        onChange={handleChange}
+                                        required
 
-                                />
-                            </label>
-                            <br />
-                            <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                Total Price
-                                <Input
-                                    type="number"
-                                    mb={10}
-                                    fontSize="15px"
-                                    height="50px"
-                                    name="total_price"
-                                    value={formData.total_price}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </label>
-                            <br />
-                            <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                Supplier
-                                <Select
-                                    name="supplier_id"
-                                    fontSize="15px"
-                                    height="50px"
-                                    value={formData.supplier_id}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a supplier
-                                    </option>
-                                    {suppliers.map((supplier) => (
-                                        <option key={supplier.id} value={supplier.id}>
-                                            {supplier.company_name}
+                                    />
+                                </Box>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                    Total Price
+                                    <Input
+                                        type="number"
+                                        fontSize="14px"
+                                        height="40px"
+                                        name="total_price"
+                                        value={formData.total_price}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </Box>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                    Supplier
+                                    <Select
+                                        name="supplier_id"
+                                        fontSize="14px"
+                                        height="40px"
+                                        value={formData.supplier_id}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a supplier
                                         </option>
-                                    ))}
-                                </Select>
-                            </label>
-                            <br />
-                            <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                Warehouse
-                                <Select
-                                    name="warehouse_id"
-                                    fontSize="15px"
-                                    height="50px"
-                                    value={formData.warehouse_id}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="" disabled>
-                                        Select a warehouse
-                                    </option>
-                                    {warehouses.map((warehouse) => (
-                                        <option key={warehouse.id} value={warehouse.id}>
-                                            {warehouse.title}
+                                        {suppliers.map((supplier) => (
+                                            <option key={supplier.id} value={supplier.id}>
+                                                {supplier.company_name}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </Box>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                    Warehouse
+                                    <Select
+                                        name="warehouse_id"
+                                        fontSize="14px"
+                                        height="40px"
+                                        value={formData.warehouse_id}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="" disabled>
+                                            Select a warehouse
                                         </option>
-                                    ))}
-                                </Select>
-                            </label>
-                            <br />
-                            <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                Status
-                                <Select
-                                    name="status"
-                                    fontSize="15px"
-                                    height="50px"
-                                    value={formData.status}
-                                    onChange={handleChange}
-                                    required
-                                >
-                                    <option value="Pending">Pending</option>
-                                    <option value="Success">Success</option>
-                                </Select>
-                            </label>
-                            <br />
-                            <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                Items
-                                <Select
-                                    name="items"
-                                    fontSize="15px"
-                                    height="50px"
-                                    mb={10}
-                                    value={formData.items.map((item) => item.id)}
-                                    onChange={handleChange}
-                                    required
-                                    isMulti
-                                >
-                                    <option value="" disabled>
-                                        Select items
-                                    </option>
-                                    {items.map((item) => (
-                                        <option key={item.id} value={item.id}>
-                                            {item.title}
+                                        {warehouses.map((warehouse) => (
+                                            <option key={warehouse.id} value={warehouse.id}>
+                                                {warehouse.title}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </Box>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                    Status
+                                    <Select
+                                        name="status"
+                                        fontSize="14px"
+                                        height="40px"
+                                        value={formData.status}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="Pending">Pending</option>
+                                        <option value="Success">Success</option>
+                                    </Select>
+                                </Box>
+                                <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                    Items
+                                    <Select
+                                        name="items"
+                                        fontSize="14px"
+                                        height="40px"
+                                        value={formData.items.map((item) => item.id)}
+                                        onChange={handleChange}
+                                        required
+                                        isMulti
+                                    >
+                                        <option value="" disabled>
+                                            Select items
                                         </option>
-                                    ))}
-                                </Select>
-                            </label>
-                            {formData.items.map((selectedItem, index) => (
-                                <div key={selectedItem.id}>
-                                    <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                        Quantity for {selectedItem.title}
-                                        <Input
-                                            type="number"
-                                            mb={10}
-                                            fontSize="15px"
-                                            height="50px"
-                                            name="quantity"
-                                            value={selectedItem.quantity}
-                                            onChange={(e) => handleChange({ target: { name: "quantity", value: e.target.value, id: selectedItem.id } })}
-                                            required
-                                        />
-                                        <label style={{ fontSize: "15px", fontWeight: "bold", }}>
-                                            Price
+                                        {items.map((item) => (
+                                            <option key={item.id} value={item.id}>
+                                                {item.title}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                </Box>
+                                {formData.items.map((selectedItem, index) => (
+                                    <div key={selectedItem.id}>
+                                        <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                            Quantity for {selectedItem.title}
                                             <Input
                                                 type="number"
+                                                fontSize="14px"
+                                                height="40px"
                                                 mb={10}
-                                                fontSize="15px"
-                                                height="50px"
-                                                textColor={"black"}
-                                                value={selectedItem.price}
-                                                readOnly
+                                                name="quantity"
+                                                value={selectedItem.quantity}
+                                                onChange={(e) => handleChange({ target: { name: "quantity", value: e.target.value, id: selectedItem.id } })}
+                                                required
                                             />
-                                        </label>
-                                    </label>
-                                </div>
-                            ))}
-                            <br />
-                            <Flex justifyContent="flex-start" mb={10}>
-                                <Button
-                                    type="submit"
-                                    mb={10}
-                                    colorScheme="messenger"
-                                    fontSize="md"
-                                    mr={5}
-                                    p={7}
-                                >
-                                    Add Supply Orders
-                                </Button>
-                                <br />
-                                <Link to="/supplier-orders">
-                                    <Button variant="outline" colorScheme="blue" p={7}>
-                                        Back to Supply Orders
+                                            <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
+                                                Price
+                                                <Input
+                                                    type="number"
+                                                    fontSize="14px"
+                                                    height="40px"
+                                                    mb={10}
+                                                    textColor={"black"}
+                                                    value={selectedItem.price}
+                                                    readOnly
+                                                />
+                                            </Box>
+                                        </Box>
+                                    </div>
+                                ))}
+                                <Flex justifyContent="flex-start" >
+                                    <Button
+                                        type="submit"
+
+                                        colorScheme="messenger"
+                                        fontSize="md"
+                                        mr={5}
+                                        p={7}
+                                    >
+                                        Add Supply Orders
                                     </Button>
-                                </Link>
-                            </Flex>
+                                    <Link to="/supplier-orders">
+                                        <Button variant="outline" colorScheme="blue" p={7}>
+                                            Back to Supply Orders
+                                        </Button>
+                                    </Link>
+                                </Flex>
+                            </SimpleGrid>
                         </form>
                     </Box>
                 </Box>
