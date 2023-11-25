@@ -6,7 +6,7 @@ export async function getAllWarehouses(page, limit, nameFilter) {
     try {
         const response = await instance.get(`/warehouses?page=${page}&limit=${limit}&name=${nameFilter}`);
         const data = response.data;
-        return data;    
+        return data;
     } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');
     }
@@ -14,9 +14,9 @@ export async function getAllWarehouses(page, limit, nameFilter) {
 
 export async function createWarehouse(title, address) {
     try {
-       const response = await instance.post("/warehouses", { title, address});
-       const data = response.data;
-       return data;
+        const response = await instance.post("/warehouses", { title, address });
+        const data = response.data;
+        return data;
 
     } catch (error) {
         console.error();
@@ -42,8 +42,7 @@ export async function getWarehouseById(id) {
             url: `/warehouses/${id}`,
             method: "GET",
         });
-        console.log(data);
-        const response = data.Items.Item_Warehouse;
+        const response = data.data;
         return response;
 
     } catch (error) {
@@ -55,9 +54,9 @@ export async function getWarehouseById(id) {
 // Delete Order 
 export async function deleteWarehouseById(id) {
     try {
-        
+
         await instance.delete(`/warehouses/${id}`);
-        
+
     } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');
     }

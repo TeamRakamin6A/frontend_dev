@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { getWarehouseById } from "../../fetching/warehouse";
 import { useEffect, useState } from "react";
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, Image, Text, Thead } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 
 const WarehouseDetail = () => {
@@ -12,7 +12,6 @@ const WarehouseDetail = () => {
     const fetchWarehouseDetail = async () => {
       try {
         const res = await getWarehouseById(+id)
-        console.log(res);
         setWarehouse(res)
       } catch (error) {
         console.log(error);
