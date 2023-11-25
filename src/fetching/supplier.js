@@ -12,7 +12,7 @@ export async function addSupplier(company_name, address, email, zip_code) {
 
 export async function getAllSuppliers(page, limit, nameFilter) {
     try {
-        const response = await instance.get(`/suppliers?page=${page}&limit=${limit}&name=${nameFilter}`);
+        const response = await instance.get(`/suppliers?page=${page}&limit=${limit}&q=${nameFilter}`);
         const data = response.data;
         return data;
     } catch (error) {

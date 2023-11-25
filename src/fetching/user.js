@@ -2,7 +2,7 @@ import instance from "../lib/axios";
 
 export async function registerUser(name, email, username, password, role) {
     try {
-        const response = await instance.post('/users/register', {name, email, username, password, role});
+        const response = await instance.post('/users/register', { name, email, username, password, role });
         const data = response.data;
         localStorage.setItem("token", data.accessToken)
 
@@ -31,4 +31,19 @@ export async function login(params) {
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function getUserLogin() {
+    try {
+        const response = await instance({
+            url: '/users',
+            method: 'GET',
+        })
+
+        const data = response.data;
+        return data
+    } catch (error) {
+        console.log(error);
+    }
+
 }

@@ -11,31 +11,31 @@ import {
     FormControl,
     FormLabel,
 } from '@chakra-ui/react';
-import { addCustomer } from '../../fetching/customer';
+import { addSupplier } from '../../fetching/supplier';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 
-const AddCustomer = () => {
-    const [customer, setCustomer] = useState({
-        name: '',
+const AddSupplier = () => {
+    const [supplier, setSupplier] = useState({
+        company_name: '',
         address: '',
-        phone_number: '',
         email: '',
+        zip_code: '',
     });
 
     const toast = useToast();
     const navigate = useNavigate();
 
     const handleFormChange = (e) => {
-        setCustomer({
-            ...customer,
+        setSupplier({
+            ...supplier,
             [e.target.name]: e.target.value,
         });
     };
 
     const handleFormSubmit = async () => {
         try {
-            if (!customer.name || !customer.email || !customer.phone_number || !customer.address) {
+            if (!supplier.company_name || !supplier.email || !supplier.zip_code || !supplier.address) {
                 toast({
                     title: 'All fields are required.',
                     status: 'error',
@@ -45,26 +45,25 @@ const AddCustomer = () => {
                 return;
             }
 
-            // Call the API function with customer details
-            await addCustomer(
-                customer.name,
-                customer.address,
-                customer.phone_number,
-                customer.email
+            await addSupplier(
+                supplier.company_name,
+                supplier.address,
+                supplier.email,
+                supplier.zip_code,
             );
 
             toast({
-                title: 'Customer added successfully.',
+                title: 'Supplier added successfully.',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
             });
 
-            navigate('/customers');
+            navigate('/suppliers');
         } catch (error) {
-            console.error('Error adding customer:', error.message);
+            console.error('Error adding supplier:', error.message);
             toast({
-                title: 'Error adding customer.',
+                title: 'Error adding supplier.',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -78,16 +77,16 @@ const AddCustomer = () => {
             <Box bg="gray.200" pb="5">
                 <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
                     <Heading as="h1" fontSize="xl">
-                        Customer List
+                        Supplier List
                     </Heading>
                     <Flex align="center">
-                        <Link to="/customers">
+                        <Link to="/suppliers">
                             <Text fontSize="sm" color="gray.500" mr="1">
-                                Customer
+                                Supplier
                             </Text>
                         </Link>
                         <Text fontSize="sm" color="gray.500">
-                            {'>'} Add Customer
+                            {'>'} Add Supplier
                         </Text>
                     </Flex>
                 </Container>
@@ -95,11 +94,11 @@ const AddCustomer = () => {
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
                     <Flex direction="column" m="5">
                         <FormControl mb="4" isRequired>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>Company Name</FormLabel>
                             <Input
-                                name="name"
-                                placeholder="Name"
-                                value={customer.name}
+                                name="company_name"
+                                placeholder="Company Name"
+                                value={supplier.company_name}
                                 onChange={handleFormChange}
                             />
                         </FormControl>
@@ -109,17 +108,7 @@ const AddCustomer = () => {
                             <Input
                                 name="email"
                                 placeholder="Email"
-                                value={customer.email}
-                                onChange={handleFormChange}
-                            />
-                        </FormControl>
-
-                        <FormControl mb="4" isRequired>
-                            <FormLabel>Phone Number</FormLabel>
-                            <Input
-                                name="phone_number"
-                                placeholder="Phone Number"
-                                value={customer.phone_number}
+                                value={supplier.email}
                                 onChange={handleFormChange}
                             />
                         </FormControl>
@@ -129,14 +118,24 @@ const AddCustomer = () => {
                             <Input
                                 name="address"
                                 placeholder="Address"
-                                value={customer.address}
+                                value={supplier.address}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Zip Code</FormLabel>
+                            <Input
+                                name="zip_code"
+                                placeholder="Zip Code"
+                                value={supplier.zip_code}
                                 onChange={handleFormChange}
                             />
                         </FormControl>
 
                         <Flex justifyContent="center" alignItems="center">
                             <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
-                                Add Customer
+                                Add Supplier
                             </Button>
                         </Flex>
                     </Flex>
@@ -146,4 +145,4 @@ const AddCustomer = () => {
     );
 };
 
-export default AddCustomer;
+export default AddSupplier;

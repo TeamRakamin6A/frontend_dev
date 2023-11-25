@@ -10,10 +10,10 @@ import Orders from "./pages/Orders/Orders";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import Customers from "./pages/Customers/Customers";
 import CustomerDetail from "./pages/Customers/CustomerDetail";
-import AddOrder from "./pages/Orders/AddOrder";
 import AddCustomer from "./pages/Customers/AddCustomer";
 import Suppliers from "./pages/Suppliers/Suppliers";
 import SupplierDetail from "./pages/Suppliers/SupplierDetail";
+import AddSupplier from "./pages/Suppliers/AddSupplier";
 import Supply_Orders from "./pages/Supply_Orders/Supply_Orders";
 import Supply_OrderDetail from "./pages/Supply_Orders/Supply_OrderDetail";
 import Warehouses from "./pages/Warehouses/Warehouses";
@@ -21,6 +21,8 @@ import WarehouseDetail from "./pages/Warehouses/WarehouseDetail";
 import { ChakraProvider } from "@chakra-ui/react";
 import CreateOrder from "./pages/Orders/AddOrder";
 import CreateWarehouse from "./pages/Warehouses/AddWarehouse";
+import AddItem from "./pages/Items/AddItem";
+import EditItem from "./pages/Items/EditItem";
 
 function App() {
   return (
@@ -30,8 +32,10 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/items" element={<Items />} />
-          <Route path="/items/:id" element={<ItemDetail />} />
+          <Route path="/products" element={<Items />} />
+          <Route path="/add-products" element={<AddItem />} />
+          <Route path="/edit-products/:id" element={<EditItem />} />
+          <Route path="/products/:id" element={<ItemDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/categories/:id" element={<CategoryDetail />} />
           <Route path="/orders" element={<Orders />} />
@@ -42,6 +46,7 @@ function App() {
           <Route path="/addcustomers" element={<AddCustomer />} />
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/suppliers/:id" element={<SupplierDetail />} />
+          <Route path="/addsuppliers" element={<AddSupplier />} />
           <Route path="/supplier-orders" element={<Supply_Orders />} />
           <Route path="/supplier-orders/:id" element={<Supply_OrderDetail />} />
           <Route path="/warehouses" element={<Warehouses />} />
@@ -49,7 +54,7 @@ function App() {
           <Route path="/addwarehouse" element={<CreateWarehouse />}></Route>
         </Routes>
       </Router>
-    </ChakraProvider>
+    </ChakraProvider >
   );
 }
 
