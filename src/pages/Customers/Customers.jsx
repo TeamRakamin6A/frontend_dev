@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import {
   Box,
   Container,
+  FormControl,
+  FormLabel,
   Heading,
   Text,
   Button,
@@ -40,6 +42,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import { getAllCustomers, updateCustomer, deleteCustomer } from '../../fetching/customer';
 import { MultiSelect } from "react-multi-select-component";
+import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -48,6 +52,7 @@ const CustomerList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCustomerId, setSelectedCustomerId] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   const { isOpen: isUpdateModalOpen, onOpen: onOpenUpdateModal, onClose: onCloseUpdateModal } =
     useDisclosure();
@@ -73,13 +78,14 @@ const CustomerList = () => {
   };
 
   useEffect(() => {
+    setLoading(true)
     const fetchCustomers = async () => {
-
       try {
         const result = await getAllCustomers(currentPage, limit, searchTerm);
         const sortedCustomers = sortCustomersById(result.items);
         setCustomers(sortedCustomers);
         setTotalPages(result.totalPages);
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching customers:', error.message);
       }
@@ -103,10 +109,12 @@ const CustomerList = () => {
   };
 
   const handleDeleteSubmit = async () => {
+    setLoading(true)
     try {
       await deleteCustomer(selectedCustomerId);
       const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
+      setLoading(false)
       onCloseDeleteModal();
       toast({
         title: 'Customer deleted successfully.',
@@ -146,6 +154,7 @@ const CustomerList = () => {
   };
 
   const handleUpdateFormSubmit = async () => {
+    setLoading(true)
     try {
       await updateCustomer(
         updatedCustomer.id,
@@ -156,6 +165,7 @@ const CustomerList = () => {
       );
       const result = await getAllCustomers(currentPage, limit, searchTerm);
       setCustomers(result.items);
+      setLoading(false)
       onCloseUpdateModal();
       toast({
         title: 'Customer updated successfully.',
@@ -234,210 +244,230 @@ const CustomerList = () => {
     setSearchTerm(selected.map((option) => option.value).join(','));
   };
 
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
+
 
   return (
-    <Box bg="gray.200" minH="100vh" pb="5">
-      <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-        <Heading as="h1" fontSize="xl">
-          Customer List
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          Customer {'>'} Customer List
-        </Text>
-      </Container>
+    <>
+      <Navbar />
+      <Box bg="gray.200" minH="100vh" pb="5">
+        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+          <Heading as="h1" fontSize="xl">
+            Customer List
+          </Heading>
+          <Text fontSize="sm" color="gray.500">
+            Customer {'>'} Customer List
+          </Text>
+        </Container>
 
-      <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-        <Flex justify="space-between" align="center" m="5" >
-          <Flex direction="column">
-            <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
-              Customer List
-            </Text>
-            <Flex mb="5">
-              <Link to="/addcustomers">
-                <Button
-                  colorScheme="messenger"
-                  leftIcon={<FiPlusCircle />}
-                >
-                  Add Customer
-                </Button>
-              </Link>
-            </Flex>
-            <Flex>
-              <Box w="600px">
-                <Text mb="2" fontWeight="bold">
-                  Search Customer
-                </Text>
-                <MultiSelect
-                  options={customers.map((customer) => ({
-                    label: customer.name,
-                    value: customer.name,
-                  }))}
-                  value={selectedOptions}
-                  onChange={handleSearchChange}
-                  labelledBy="Select"
-                  hasSelectAll={false}
-                  overrideStrings={{
-                    selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
-                    allItemsAreSelected: selectedOptions.length === customers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
-                  }}
-                />
-              </Box>
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+          <Flex justify="space-between" align="center" m="5" >
+            <Flex direction="column">
+              <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
+                Customer List
+              </Text>
+              <Flex mb="5">
+                <Link to="/addcustomers">
+                  <Button
+                    colorScheme="messenger"
+                    leftIcon={<FiPlusCircle />}
+                  >
+                    Add Customer
+                  </Button>
+                </Link>
+              </Flex>
+              <Flex>
+                <Box w="600px">
+                  <Text mb="2" fontWeight="bold">
+                    Search Customer
+                  </Text>
+                  <MultiSelect
+                    options={customers.map((customer) => ({
+                      label: customer.name,
+                      value: customer.name,
+                    }))}
+                    value={selectedOptions}
+                    onChange={handleSearchChange}
+                    labelledBy="Select"
+                    hasSelectAll={false}
+                    overrideStrings={{
+                      selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
+                      allItemsAreSelected: selectedOptions.length === customers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
+                    }}
+                  />
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
 
-        <Table variant="simple">
-              <Thead>
-                <Tr>
-                  <Th width="50px">
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th width="50px">
+                  <Checkbox isDisabled />
+                </Th>
+                <Th width="150px">Name</Th>
+                <Th width="150px">Email</Th>
+                <Th width="150px">Phone Number</Th>
+                <Th width="150px">Address</Th>
+                <Th width="100px">Action</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {customers.map((customer) => (
+                <Tr key={customer.id}>
+                  <Td width="50px">
                     <Checkbox isDisabled />
-                  </Th>
-                  <Th width="150px">Name</Th>
-                  <Th width="150px">Email</Th>
-                  <Th width="150px">Phone Number</Th>
-                  <Th width="150px">Address</Th>
-                  <Th width="100px">Action</Th>
+                  </Td>
+                  <Td width="150px">
+                    <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
+                  </Td>
+                  <Td width="150px">{customer.email}</Td>
+                  <Td width="150px">{customer.phone_number}</Td>
+                  <Td width="150px">{customer.address}</Td>
+                  <Td width="100px">
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        size="md"
+                        colorScheme="messenger"
+                        variant="outline"
+                        rightIcon={<FaCaretDown />}
+                      >
+                        Action
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem onClick={() => handleUpdateCustomer(customer.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                        <MenuItem onClick={() => handleDeleteCustomer(customer.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Td>
                 </Tr>
-              </Thead>
-              <Tbody>
-                {customers.map((customer) => (
-                  <Tr key={customer.id}>
-                    <Td width="50px">
-                      <Checkbox isDisabled />
-                    </Td>
-                    <Td width="150px">
-                      <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
-                    </Td>
-                    <Td width="150px">{customer.email}</Td>
-                    <Td width="150px">{customer.phone_number}</Td>
-                    <Td width="150px">{customer.address}</Td>
-                    <Td width="100px">
-                      <Menu>
-                        <MenuButton
-                          as={Button}
-                          size="md"
-                          colorScheme="messenger"
-                          variant="outline"
-                          rightIcon={<FaCaretDown />}
-                        >
-                          Action
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem onClick={() => handleUpdateCustomer(customer.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                          <MenuItem onClick={() => handleDeleteCustomer(customer.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-        </Table>
+              ))}
+            </Tbody>
+          </Table>
 
-        {/* Pagination */}
-        <Flex justify="space-between" mt="4" mr="20" ml="10">
-          <Flex>
-            {[10, 20, 30].map((option) => (
-              <Button
-                key={option}
-                colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                onClick={() => handleLimitChange(option)}
-                mr="1"
+          {/* Pagination */}
+          <Flex justify="space-between" mt="4" mr="20" ml="10">
+            <Flex>
+              {[10, 20, 30].map((option) => (
+                <Button
+                  key={option}
+                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
+                  onClick={() => handleLimitChange(option)}
+                  mr="1"
+                  size="sm"
+                >
+                  {option}
+                </Button>
+              ))}
+            </Flex>
+
+            <Flex>
+              <IconButton
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                isDisabled={currentPage === 1}
+                backgroundColor="white"
+                color="black"
                 size="sm"
-              >
-                {option}
+                icon={<FaChevronLeft />}
+              />
+
+              {renderPagination()}
+
+              <IconButton
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                isDisabled={currentPage === totalPages}
+                backgroundColor="white"
+                color="black"
+                size="sm"
+                icon={<FaChevronRight />}
+              />
+            </Flex>
+          </Flex>
+        </Container>
+
+        {/* Update Modal */}
+        <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update Customer</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  name="name"
+                  placeholder="Name"
+                  value={updatedCustomer.name}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  name="email"
+                  placeholder="Email"
+                  value={updatedCustomer.email}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Phone Number</FormLabel>
+                <Input
+                  name="phone_number"
+                  placeholder="Phone Number"
+                  value={updatedCustomer.phone_number}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Address</FormLabel>
+                <Input
+                  name="address"
+                  placeholder="Address"
+                  value={updatedCustomer.address}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
+                Update
               </Button>
-            ))}
-          </Flex>
+              <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-          <Flex>
-            <IconButton
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              isDisabled={currentPage === 1}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronLeft />}
-            />
-
-            {renderPagination()}
-
-            <IconButton
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              isDisabled={currentPage === totalPages}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronRight />}
-            />
-          </Flex>
-        </Flex>
-      </Container>
-
-      {/* Update Modal */}
-      <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Update Customer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Input
-              name="name"
-              placeholder="Name"
-              mb="4"
-              value={updatedCustomer.name}
-              onChange={handleUpdateFormChange}
-            />
-            <Input
-              name="email"
-              placeholder="Email"
-              mb="4"
-              value={updatedCustomer.email}
-              onChange={handleUpdateFormChange}
-            />
-            <Input
-              name="phone_number"
-              placeholder="Phone Number"
-              mb="4"
-              value={updatedCustomer.phone_number}
-              onChange={handleUpdateFormChange}
-            />
-            <Input
-              name="address"
-              placeholder="Address"
-              mb="4"
-              value={updatedCustomer.address}
-              onChange={handleUpdateFormChange}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
-              Update
-            </Button>
-            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Delete Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete Customer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Are you sure you want to delete this customer?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
-              Delete
-            </Button>
-            <Button onClick={onCloseDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+        {/* Delete Modal */}
+        <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete Customer</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to delete this customer?
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
+                Delete
+              </Button>
+              <Button onClick={onCloseDeleteModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
   );
 };
 

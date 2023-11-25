@@ -19,14 +19,17 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCustomerById, updateCustomer, deleteCustomer } from '../../fetching/customer';
+import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const CustomerDetail = () => {
   const { id } = useParams();
   const [customer, setCustomer] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false)
 
   // State dan fungsi untuk update modal
   const {
@@ -49,10 +52,12 @@ const CustomerDetail = () => {
   } = useDisclosure();
 
   useEffect(() => {
+    setLoading(true)
     const fetchCustomerDetail = async () => {
       try {
         const customerDetail = await getCustomerById(id);
         setCustomer(customerDetail.data);
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching customer detail:', error.message);
         toast({
@@ -81,6 +86,7 @@ const CustomerDetail = () => {
 
   // Fungsi untuk menangani submit form update
   const handleUpdateFormSubmit = async () => {
+    setLoading(true)
     try {
       await updateCustomer(
         id,
@@ -93,8 +99,8 @@ const CustomerDetail = () => {
       // Refresh data customer setelah update
       const updatedCustomerData = await getCustomerById(id);
       setCustomer(updatedCustomerData.data);
-
-      // Tutup modal setelah berhasil update
+      setLoading(false)
+      
       onCloseUpdateModal();
 
       toast({
@@ -119,7 +125,7 @@ const CustomerDetail = () => {
     try {
       await deleteCustomer(id);
 
-    // Redirect ke halaman customer list setelah berhasil delete
+      // Redirect ke halaman customer list setelah berhasil delete
       navigate('/customers');
 
       toast({
@@ -150,18 +156,33 @@ const CustomerDetail = () => {
     onOpenUpdateModal();
   };
 
-  return (
-    <Box bg="gray.200" minH="100vh" pb="5">
-      <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-        <Heading as="h1" fontSize="xl">
-          Customer Detail
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          Customer {'>'} Customer Detail
-        </Text>
-      </Container>
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
 
-      <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+  return (
+    <>
+      <Navbar />
+      <Box bg="gray.200" pb="5">
+        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+          <Heading as="h1" fontSize="xl">
+            Customer Detail
+          </Heading>
+          <Flex align="center">
+                        <Link to="/customers">
+                            <Text fontSize="sm" color="gray.500" mr="1">
+                                Customer
+                            </Text>
+                        </Link>
+                        <Text fontSize="sm" color="gray.500">
+                            {'>'} Customer Detail
+                        </Text>
+                    </Flex>
+        </Container>
+
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
           <Flex direction="column" m="5">
             <FormControl mb="4" isRequired>
               <FormLabel>Name</FormLabel>
@@ -219,87 +240,88 @@ const CustomerDetail = () => {
               </Flex>
             </Flex>
           </Flex>
-      </Container>
+        </Container>
 
-      {/* Modal Update */}
-      <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Update Customer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl mb="4" isRequired>
-              <FormLabel>Name</FormLabel>
-              <Input
-                name="name"
-                placeholder="Name"
-                value={updatedCustomer.name}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
+        {/* Modal Update */}
+        <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update Customer</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Name</FormLabel>
+                <Input
+                  name="name"
+                  placeholder="Name"
+                  value={updatedCustomer.name}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
 
-            <FormControl mb="4" isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input
-                name="email"
-                placeholder="Email"
-                value={updatedCustomer.email}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  name="email"
+                  placeholder="Email"
+                  value={updatedCustomer.email}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
 
-            <FormControl mb="4" isRequired>
-              <FormLabel>Phone Number</FormLabel>
-              <Input
-                name="phone_number"
-                placeholder="Phone Number"
-                value={updatedCustomer.phone_number}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Phone Number</FormLabel>
+                <Input
+                  name="phone_number"
+                  placeholder="Phone Number"
+                  value={updatedCustomer.phone_number}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
 
-            <FormControl mb="4" isRequired>
-              <FormLabel>Address</FormLabel>
-              <Input
-                name="address"
-                placeholder="Address"
-                value={updatedCustomer.address}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            {/* Tombol "Update" di dalam modal */}
-            <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
-              Update
-            </Button>
-            {/* Tombol "Cancel" di dalam modal */}
-            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Address</FormLabel>
+                <Input
+                  name="address"
+                  placeholder="Address"
+                  value={updatedCustomer.address}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              {/* Tombol "Update" di dalam modal */}
+              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+                Update
+              </Button>
+              {/* Tombol "Cancel" di dalam modal */}
+              <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-      {/* Modal Delete */}
-      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete Customer</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {/* Konfirmasi penghapusan */}
-            Are you sure you want to delete this customer?
-          </ModalBody>
-          <ModalFooter>
-            {/* Tombol "Delete" di dalam modal */}
-            <Button colorScheme="red" mr={3} onClick={handleDeleteCustomer}>
-              Delete
-            </Button>
-            {/* Tombol "Cancel" di dalam modal */}
-            <Button onClick={onCloseDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+        {/* Modal Delete */}
+        <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete Customer</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {/* Konfirmasi penghapusan */}
+              Are you sure you want to delete this customer?
+            </ModalBody>
+            <ModalFooter>
+              {/* Tombol "Delete" di dalam modal */}
+              <Button colorScheme="red" mr={3} onClick={handleDeleteCustomer}>
+                Delete
+              </Button>
+              {/* Tombol "Cancel" di dalam modal */}
+              <Button onClick={onCloseDeleteModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
   );
 };
 

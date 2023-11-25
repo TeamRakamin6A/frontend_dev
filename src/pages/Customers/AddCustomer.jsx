@@ -12,7 +12,8 @@ import {
     FormLabel,
 } from '@chakra-ui/react';
 import { addCustomer } from '../../fetching/customer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Navbar from "../../components/Navbar";
 
 const AddCustomer = () => {
     const [customer, setCustomer] = useState({
@@ -72,66 +73,76 @@ const AddCustomer = () => {
     };
 
     return (
-        <Box bg="gray.200" minH="100vh" pb="5">
-            <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                <Heading as="h1" fontSize="xl">
-                    Customer List
-                </Heading>
-                <Text fontSize="sm" color="gray.500">
-                    Customer {'>'} Add Customer
-                </Text>
-            </Container>
-
-            <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-                <Flex direction="column" m="5">
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Name</FormLabel>
-                        <Input
-                            name="name"
-                            placeholder="Name"
-                            value={customer.name}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Email</FormLabel>
-                        <Input
-                            name="email"
-                            placeholder="Email"
-                            value={customer.email}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Phone Number</FormLabel>
-                        <Input
-                            name="phone_number"
-                            placeholder="Phone Number"
-                            value={customer.phone_number}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Address</FormLabel>
-                        <Input
-                            name="address"
-                            placeholder="Address"
-                            value={customer.address}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <Flex justifyContent="center" alignItems="center">
-                        <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
-                            Add Customer
-                        </Button>
+        <>
+            <Navbar />
+            <Box bg="gray.200" pb="5">
+                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+                    <Heading as="h1" fontSize="xl">
+                        Customer List
+                    </Heading>
+                    <Flex align="center">
+                        <Link to="/customers">
+                            <Text fontSize="sm" color="gray.500" mr="1">
+                                Customer
+                            </Text>
+                        </Link>
+                        <Text fontSize="sm" color="gray.500">
+                            {'>'} Add Customer
+                        </Text>
                     </Flex>
-                </Flex>
-            </Container>
-        </Box>
+                </Container>
+
+                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+                    <Flex direction="column" m="5">
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Name</FormLabel>
+                            <Input
+                                name="name"
+                                placeholder="Name"
+                                value={customer.name}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Email</FormLabel>
+                            <Input
+                                name="email"
+                                placeholder="Email"
+                                value={customer.email}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Phone Number</FormLabel>
+                            <Input
+                                name="phone_number"
+                                placeholder="Phone Number"
+                                value={customer.phone_number}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Address</FormLabel>
+                            <Input
+                                name="address"
+                                placeholder="Address"
+                                value={customer.address}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <Flex justifyContent="center" alignItems="center">
+                            <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                                Add Customer
+                            </Button>
+                        </Flex>
+                    </Flex>
+                </Container>
+            </Box>
+        </>
     );
 };
 
