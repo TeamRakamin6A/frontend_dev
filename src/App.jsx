@@ -15,6 +15,7 @@ import Suppliers from "./pages/Suppliers/Suppliers";
 import SupplierDetail from "./pages/Suppliers/SupplierDetail";
 import AddSupplier from "./pages/Suppliers/AddSupplier";
 import Supply_Orders from "./pages/Supply_Orders/Supply_Orders";
+import Add_Supply_Orders from "./pages/Supply_Orders/Add_Supply_Order";
 import Supply_OrderDetail from "./pages/Supply_Orders/Supply_OrderDetail";
 import Warehouses from "./pages/Warehouses/Warehouses";
 import WarehouseDetail from "./pages/Warehouses/WarehouseDetail";
@@ -48,10 +49,12 @@ function App() {
           <Route path="/suppliers/:id" element={<SupplierDetail />} />
           <Route path="/addsuppliers" element={<AddSupplier />} />
           <Route path="/supplier-orders" element={<Supply_Orders />} />
+          <Route path="/add-supplier-orders" element={<Add_Supply_Orders />} />
           <Route path="/supplier-orders/:id" element={<Supply_OrderDetail />} />
           <Route path="/warehouses" element={<Warehouses />} />
           <Route path="/warehouses/:id" element={<WarehouseDetail />} />
           <Route path="/addwarehouse" element={<CreateWarehouse />}></Route>
+          <Route path="/supply_orders" element={< Supply_Orders/>}></Route>
         </Routes>
       </Router>
     </ChakraProvider >
