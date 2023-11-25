@@ -11,7 +11,7 @@ const WarehouseDetail = () => {
   useEffect(() => {
     const fetchWarehouseDetail = async () => {
       try {
-        const res = await getWarehouseById(id)
+        const res = await getWarehouseById(+id)
         console.log(res);
         setWarehouse(res)
       } catch (error) {
@@ -21,7 +21,7 @@ const WarehouseDetail = () => {
     fetchWarehouseDetail()
   }, [])
 
-  // console.log(item.Categories)
+  console.log(warehouse)
 
 
   return <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} pb={'20px'}>

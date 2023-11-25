@@ -24,6 +24,8 @@ export async function createWarehouse(title, address) {
     }
 }
 
+
+// Get Warehouse Detail.
 export async function getWarehouseById(id) {
     try {
         const data = await instance({
@@ -31,10 +33,22 @@ export async function getWarehouseById(id) {
             method: "GET",
         });
         console.log(data);
-        const response = data.data.Item.Warehouse;
+        const response = data.Items.Item_Warehouse;
         return response;
+
     } catch (error) {
         console.log(error);
     }
+}
 
+
+// Delete Order 
+export async function deleteWarehouseById(id) {
+    try {
+        
+        await instance.delete(`/warehouses/${id}`);
+        
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Error Not Found');
+    }
 }

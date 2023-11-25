@@ -30,6 +30,7 @@ import {
   useDisclosure,
   useToast,
   Spinner,
+  HStack
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -40,14 +41,14 @@ import {
 import { FiPlusCircle } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-import { getAllWarehouses } from '../../fetching/warehouse';
+import { getAllWarehouses, deleteWarehouseById } from '../../fetching/warehouse';
 import { MultiSelect } from "react-multi-select-component";
 import Paginate from '../../components/Paginate';
 
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
-  // const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(10);
   const [itemPerPage] = useState(10);
   const [selectedLimit, setSelectedLimit] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
@@ -96,81 +97,44 @@ const Warehouses = () => {
     fetchWarehouses();
   }, [currentPage, itemPerPage, searchTerm]);
 
-  // const handleDeleteOrder = async (orderId) => {
-  //   setSelectedOrderId(orderId);
-  //   onOpenDeleteModal();
-  // };
+  const handleDeleteOrder = async (warehouseId) => {
+    setSelectedWarehouseId(warehouseId);
+    onOpenDeleteModal();
+  };
 
-  // const handleDeleteSubmit = async () => {
-  //   try {
-  //     await deleteOrder(selectedWarehouseId);
-  //     const result = await getAllOrder(currentPage, limit, searchTerm);
-  //     setOrders(result.data);
-  //     onCloseDeleteModal();
-  //     toast({
-  //       title: 'Warehouse deleted successfully.',
-  //       status: 'success',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   } catch (error) {
-  //     console.error('Error deleting Warehouse:', error.message);
-  //     toast({
-  //       title: 'Error deleting warehouse.',
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   }
+  const handleDeleteSubmit = async () => {
+    try {
+      await deleteWarehouseById(selectedWarehouseId);
+      const result = await getAllWarehouses(currentPage, limit, searchTerm);
+      setWarehouses(result.data);
+      onCloseDeleteModal();
+      toast({
+        title: 'Warehouse deleted successfully.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error('Error deleting Warehouse:', error.message);
+      toast({
+        title: 'Error deleting warehouse.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  }
+
+  // const handleSearch = async () => {
+  //   const res = await getAllWarehouses(currentPage, itemPerPage, q, null)
+  //   setWarehouses(res.data.items)
+  //   setTotalPage(res.data.totalPages)
   // }
 
-  // const handleUpdateOrder = (warehouseId) => {
-  //   const selectedWarehouse = warehouses.find((warehouse) => order.id === orderId);
-  //   setUpdateFormData({
-  //     id: selectedOrder.id,
-  //     status: selectedOrder.status,
-  //   });
-  //   setSelectedOrderId(orderId);
-  //   onOpenUpdateModal();
+  // const handleSearchChange = (selected) => {
+  //   setSelectedOptions(selected);
+  //   setSearchTerm(selected.map((option) => option.value).join(','));
   // };
-
-  // const handleUpdateFormChange = (e) => {
-  //   setUpdateFormData({
-  //     ...updateFormData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  // const handleUpdateFormSubmit = async () => {
-  //   try {
-  //     await updateOrder(
-  //       updateFormData.id,
-  //       updateFormData.status,
-  //     );
-
-  //     await getAllOrder(currentPage, limit, searchTerm);
-  //     onCloseUpdateModal();sear
-  //     toast({
-  //       title: 'Order update Status successfully.',
-  //       status: 'success',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   } catch (error) {
-  //     console.error('Error updating order:', error.message);
-  //     toast({
-  //       title: 'Error updating order.',
-  //       status: 'error',
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   }
-  // };
-
-  const handleSearchChange = (selected) => {
-    setSelectedOptions(selected);
-    setSearchTerm(selected.map((option) => option.value).join(','));
-  };
 
   const prevPage = () => {
     if (currentPage !== 1) {
@@ -272,7 +236,7 @@ const Warehouses = () => {
                       <Checkbox />
                     </Td>
                     <Td width="150px">
-                      <Link to={`/warehouses/${warehouse.title}`}>{warehouse.title}</Link>
+                      <Link to={`/warehouses/${warehouse.id}`}>{warehouse.title || "null"}</Link>
                     </Td>
                     <Td width="150px">{warehouse.address}</Td>
                     {/* <Td width="150px">{order.status}</Td> */}
@@ -288,8 +252,8 @@ const Warehouses = () => {
                           Action
                         </MenuButton>
                         <MenuList>
-                          {/* <MenuItem onClick={() => handleUpdateOrder(order.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                          <MenuItem onClick={() => handleDeleteOrder(order.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem> */}
+                          {/* <MenuItem onClick={() => handleUpdateOrder(order.id)} icon={<FaRegEdit />}>Update</MenuItem> */}
+                          <MenuItem onClick={() => handleDeleteOrder(warehouse.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
                         </MenuList>
                       </Menu>
                     </Td>
@@ -329,13 +293,13 @@ const Warehouses = () => {
       </Modal>
 
       {/* Delete Modal */}
-      {/* <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Delete Order</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            Are you sure you want to delete this Order?
+            Are you sure you want to delete this Warehouse?
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
@@ -344,7 +308,7 @@ const Warehouses = () => {
             <Button onClick={onCloseDeleteModal}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </Box>
   );
 };
