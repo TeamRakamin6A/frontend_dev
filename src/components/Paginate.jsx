@@ -2,6 +2,7 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import { FaAngleLeft, FaAngleRight } from "react-icons/fa";
 
 
+// eslint-disable-next-line react/prop-types
 const Paginate = ({ totalPages, paginate, currentPage, prevPage, nextPage }) => {
     const pageNumbers = [];
 

@@ -2,18 +2,14 @@ import instance from "../lib/axios";
 
 export async function getAllItems(page, limit, q, categoryIds) {
     try {
-        if (q || categoryIds) {
-            page = page - 1
-        }
-
         const data = await instance({
             url: "/items",
             method: "GET",
             params: {
-                page: page,
+                page: categoryIds.length > 0 ? page - 1 : page,
                 limit: limit,
                 q: q,
-                'category_ids[]': categoryIds ? categoryIds.split(',') : []
+                category_ids: categoryIds
             },
         });
 
@@ -58,16 +54,13 @@ export async function createItem(dataItems) {
 
 export async function uploadImage(id, imageFile) {
     try {
-        const file = {
-            image: imageFile
-        }
         const data = await instance({
             url: `/items/upload/${id}`,
             method: "PUT",
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
-            data: file,
+            data: imageFile,
         })
 
         const response = data.data;
@@ -98,7 +91,6 @@ export async function updateItem(id, dataItems) {
 
 export async function deleteItem(id) {
     try {
-        console.log(id, "<<<<<<<<<<<<<<<<<<<<<");
         const data = await instance({
             url: `/items/${id}`,
             method: "DELETE",

@@ -7,7 +7,6 @@ import { getDataDashboard } from "../fetching/dashboard";
 import DashboardDetail from "../components/DashboardDetail";
 import Chart from "../components/Chart";
 import Loading from "../components/Loading";
-import convertPrice from "../lib/convertPrice";
 
 
 const Dashboard = () => {
