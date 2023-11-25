@@ -8,6 +8,7 @@ import {
   Button,
   Input,
   useToast,
+  Spinner,
   FormControl,
   FormLabel,
   Modal,
@@ -100,7 +101,7 @@ const CustomerDetail = () => {
       const updatedCustomerData = await getCustomerById(id);
       setCustomer(updatedCustomerData.data);
       setLoading(false)
-      
+
       onCloseUpdateModal();
 
       toast({
@@ -171,15 +172,15 @@ const CustomerDetail = () => {
             Customer Detail
           </Heading>
           <Flex align="center">
-                        <Link to="/customers">
-                            <Text fontSize="sm" color="gray.500" mr="1">
-                                Customer
-                            </Text>
-                        </Link>
-                        <Text fontSize="sm" color="gray.500">
-                            {'>'} Customer Detail
-                        </Text>
-                    </Flex>
+            <Link to="/customers">
+              <Text fontSize="sm" color="gray.500" mr="1">
+                Customer
+              </Text>
+            </Link>
+            <Text fontSize="sm" color="gray.500">
+              {'>'} Customer Detail
+            </Text>
+          </Flex>
         </Container>
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">

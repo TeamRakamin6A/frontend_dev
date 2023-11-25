@@ -19,6 +19,8 @@ import Supply_OrderDetail from "./pages/Supply_Orders/Supply_OrderDetail";
 import Warehouses from "./pages/Warehouses/Warehouses";
 import WarehouseDetail from "./pages/Warehouses/WarehouseDetail";
 import { ChakraProvider } from "@chakra-ui/react";
+import CreateOrder from "./pages/Orders/AddOrder";
+import CreateWarehouse from "./pages/Warehouses/AddWarehouse";
 import AddItem from "./pages/Items/AddItem";
 import EditItem from "./pages/Items/EditItem";
 
@@ -38,6 +40,7 @@ function App() {
           <Route path="/categories/:id" element={<CategoryDetail />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
+          <Route path="/addorders" element={<CreateOrder />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/customers/:id" element={<CustomerDetail />} />
           <Route path="/addcustomers" element={<AddCustomer />} />
@@ -48,6 +51,7 @@ function App() {
           <Route path="/supplier-orders/:id" element={<Supply_OrderDetail />} />
           <Route path="/warehouses" element={<Warehouses />} />
           <Route path="/warehouses/:id" element={<WarehouseDetail />} />
+          <Route path="/addwarehouse" element={<CreateWarehouse />}></Route>
         </Routes>
       </Router>
     </ChakraProvider >
