@@ -88,7 +88,7 @@ const Items = () => {
 
   const handleSearch = async () => {
     setLoading(true)
-    const res = await getAllItems(currentPage - 1, itemPerPage, q, null)
+    const res = await getAllItems(currentPage - 1, itemPerPage, q, [])
     setItem(res.data.items)
     setTotalPage(res.data.totalPages)
     setLoading(false)
