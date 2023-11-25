@@ -13,6 +13,7 @@ import CustomerDetail from "./pages/Customers/CustomerDetail";
 import AddCustomer from "./pages/Customers/AddCustomer";
 import Suppliers from "./pages/Suppliers/Suppliers";
 import SupplierDetail from "./pages/Suppliers/SupplierDetail";
+import AddSupplier from "./pages/Suppliers/AddSupplier";
 import Supply_Orders from "./pages/Supply_Orders/Supply_Orders";
 import Supply_OrderDetail from "./pages/Supply_Orders/Supply_OrderDetail";
 import Warehouses from "./pages/Warehouses/Warehouses";
@@ -42,6 +43,7 @@ function App() {
           <Route path="/addcustomers" element={<AddCustomer />} />
           <Route path="/suppliers" element={<Suppliers />} />
           <Route path="/suppliers/:id" element={<SupplierDetail />} />
+          <Route path="/addsuppliers" element={<AddSupplier />} />
           <Route path="/supplier-orders" element={<Supply_Orders />} />
           <Route path="/supplier-orders/:id" element={<Supply_OrderDetail />} />
           <Route path="/warehouses" element={<Warehouses />} />
