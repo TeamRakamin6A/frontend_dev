@@ -90,9 +90,9 @@ const Navbar = () => {
                 <DrawerDetail name={'Warehouse'} nav={'warehouses'}>
                   <FaWarehouse color={'#3876BF'} fontSize={'30px'} />
                 </DrawerDetail>
-                <DrawerDetail name={'Category'} nav={'categories'}>
+                {/* <DrawerDetail name={'Category'} nav={'categories'}>
                   <BiSolidCategoryAlt color={'#3876BF'} fontSize={'30px'} />
-                </DrawerDetail>
+                </DrawerDetail> */}
                 <DrawerDetail name={'Order'} nav={'orders'}>
                   <MdPayments color={'#3876BF'} fontSize={'30px'} />
                 </DrawerDetail>
