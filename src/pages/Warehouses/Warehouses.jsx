@@ -76,25 +76,26 @@ const Warehouses = () => {
     return warehouses.sort((a, b) => a.id - b.id);
   };
 
-  useEffect(() => {
-    const fetchWarehouses = async () => {
-      setLoading(true);
+  const fetchWarehouses = async () => {
+    setLoading(true);
 
-      try {
-        const result = await getAllWarehouses(currentPage, itemPerPage, searchTerm);
-        const sortedWarehouses = sortWarehouseById(result.data);
-        setWarehouses(sortedWarehouses);
-        setTotalPages(result.totalPage);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching orders:', error.message);
-        setLoading(false);
-      }
-
+    try {
+      const result = await getAllWarehouses(currentPage, itemPerPage, searchTerm);
+      const sortedWarehouses = sortWarehouseById(result.data);
+      setWarehouses(sortedWarehouses);
+      setTotalPages(result.totalPage);
       setLoading(false);
+    } catch (error) {
+      console.error('Error fetching orders:', error.message);
+      setLoading(false);
+    }
 
-    };
+    
+  };
 
+  useEffect(() => {
+    
+    setLoading(true);
     fetchWarehouses();
   }, [currentPage, itemPerPage, searchTerm]);
 
@@ -152,7 +153,7 @@ const Warehouses = () => {
         updateFormData.address
       );
 
-      await getAllWarehouses(currentPage, limit, searchTerm);
+      fetchWarehouses();
       onCloseUpdateModal();
       toast({
         title: 'Warehouse update Status successfully.',

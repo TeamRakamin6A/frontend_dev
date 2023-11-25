@@ -45,7 +45,7 @@ export async function getWarehouseById(id) {
         
         return data;
     } catch (error) {
-        console.log(error);
+        throw new Error(error.response.data.message || 'Error Not Found');
     }
 }
 
@@ -66,6 +66,26 @@ export async function updateQuantity(params) {
         const response = await instance({
             url: `/warehouses/quantities/${id}`,
             method: "PUT",
+            data: {
+                item_id,
+                quantity
+            }
+        })
+
+        const data = response.data;
+
+        return data;
+    } catch(error) {
+        throw new Error(error.response.data.message || 'Error Not Found');
+    }
+}
+
+export async function addItemToWarehouse(params) {
+    try {
+        const {id, item_id, quantity} = params;
+        const response = await instance({
+            url: `/warehouses/addItem/${id}`,
+            method: "POST",
             data: {
                 item_id,
                 quantity
