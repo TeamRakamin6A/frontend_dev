@@ -18,21 +18,23 @@ import { EditIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 import {
   getSupplyOrderDetail,
-  getSupplierDetail,
-  getWarehouseDetail,
   updateSupplyOrder,
 } from "../../fetching/supply_order";
+import { getSupplierById } from "../../fetching/supplier";
+import { getWarehouseById } from "../../fetching/warehouse";
 import Navbar from "../../components/Navbar";
 import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
+import convertPrice from "../../lib/convertPrice";
 
 const Supply_OrderDetail = () => {
   const { id } = useParams();
-  const [supplyOrder, setSupplyOrder] = useState(null);
-  const [supplier, setSupplier] = useState(null);
-  const [warehouse, setWarehouse] = useState(null);
+  const [supplyOrder, setSupplyOrder] = useState({});
+  const [supplier, setSupplier] = useState({});
+  const [warehouse, setWarehouse] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [editedStatus, setEditedStatus] = useState("");
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const fetchSupplyOrderDetail = async () => {
@@ -40,18 +42,18 @@ const Supply_OrderDetail = () => {
         const response = await getSupplyOrderDetail(id);
         setSupplyOrder(response.data);
 
-        const supplierResponse = await getSupplierDetail(response.data.supplier_id);
+        const supplierResponse = await getSupplierById(response.data.supplier_id);
         setSupplier(supplierResponse.data);
-
-        const warehouseResponse = await getWarehouseDetail(response.data.warehouse_id);
-        setWarehouse(warehouseResponse.data);
+        const warehouseResponse = await getWarehouseById(response.data.warehouse_id);
+        setWarehouse(warehouseResponse); 
+        setLoading(false)
       } catch (error) {
         console.error("Error fetching supply order detail:", error.message);
       }
     };
-
+    setLoading(true)
     fetchSupplyOrderDetail();
-  }, [id]);
+  }, []);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -75,10 +77,9 @@ const Supply_OrderDetail = () => {
     }
   };
 
-  if (!supplyOrder || !supplier || !warehouse) {
-    return <Loading />;
+  if(loading) {
+    return <Loading/>
   }
-
   const statusOptions = ["Pending", "Success"];
 
   return (
@@ -115,7 +116,7 @@ const Supply_OrderDetail = () => {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr key={supplyOrder.id}>
+              <Tr>
                 <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.invoice}</Td>
                 <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.total_price}</Td>
                 <Td fontSize="12px" textColor={"gray.600"}>{supplier.company_name}</Td>
@@ -162,6 +163,29 @@ const Supply_OrderDetail = () => {
                   )}
                 </Td>
               </Tr>
+            </Tbody>
+          </Table>
+
+          <Table mb={30}>
+            <Thead>
+                <Tr>
+                    <Th>No</Th>
+                    <Th>Product</Th>
+                    <Th>Price</Th>
+                    <Th>Quantity</Th>
+                    <Th>Total Price</Th>
+                </Tr>
+            </Thead>
+            <Tbody>
+                {supplyOrder.Items?.map((el, idx) => (
+                    <Tr key={idx}>
+                        <Td>{idx+1}</Td>
+                        <Td>{el.title}</Td>
+                        <Td>{convertPrice(el.price)}</Td>
+                        <Td>{el.Supply_Item.quantity}</Td>
+                        <Td>{convertPrice(+el.price * +el.Supply_Item.quantity)}</Td>
+                    </Tr>
+                ))}
             </Tbody>
           </Table>
 

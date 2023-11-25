@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, ButtonGroup, Spacer, Text, Heading, Box } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { getAllSupplyOrders, deleteSupplyOrder, getAllWarehouses, getAllSuppliers } from "../../fetching/supply_order";
+import { getAllSupplyOrders, deleteSupplyOrder} from "../../fetching/supply_order";
+import {getAllSuppliers} from "../../fetching/supplier"
+import { getAllWarehouses } from "../../fetching/warehouse";
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import { FaFilter } from "react-icons/fa";
 import CustomHeader from "../../components/Boxtop";
+import convertPrice from "../../lib/convertPrice";
 
 const Supply_Orders = () => {
   const toast = useToast();
@@ -42,7 +45,6 @@ const Supply_Orders = () => {
       );
       setSupplyOrders(response.data);
       setTotalPages(response.totalPage);
-      console.log(response.totalPage, "<<<<<<<<<<<<<<<<<<<<<<<<<<")
     } catch (error) {
       console.error("Error fetching supply orders:", error.message);
     }
@@ -110,7 +112,7 @@ const Supply_Orders = () => {
               Add Supply Orders
             </Link>
           </Button>
-          <Box axWidth="full" display="flex">
+          <Box maxWidth="full" display="flex">
             <Box width={"500px"} >
               {selectedFilter === "status" && (
                 <MultiSelect
@@ -171,7 +173,6 @@ const Supply_Orders = () => {
             <Thead>
               <Tr>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>ID</Th>
-                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Invoice</Th>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Warehouse</Th>
@@ -181,36 +182,33 @@ const Supply_Orders = () => {
             </Thead>
             <Tbody>
               {supplyOrders.map((order) => (
-                <Tr key={order.id}>
-                  <Td fontSize="12px" textColor={"gray.600"}>{order.id}</Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>
-                    <Link to={`/supplier-orders/${order.id}`}>{order.invoice}</Link>
-                  </Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>{order.total_price}</Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>{order.supplier_id}</Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>{order.warehouse_id}</Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>{order.status}</Td>
-                  <Td fontSize="12px" textColor={"gray.600"}>
-                    <Box style={{ display: "flex", alignItems: "center", border: "2px solid", maxWidth: "120px", borderColor: "blue", borderRadius: "6px", padding: "2px" }}>
-                      <Button size="lg" style={{ background: "transparent", marginRight: 2 }}>
-                        <Text ml={2} textColor={"blue"}>Action</Text>
-                      </Button>
-                      <Menu>
-                        <MenuButton as={IconButton} icon={<TriangleDownIcon />} size="md" variant="outline" colorScheme="blue" style={{ background: "transparent", border: "none" }} />
-                        <MenuList>
-                          <MenuItem>
-                            <InfoIcon mr={4}></InfoIcon>
-                            <Link to={`/supplier-orders/${order.id}`}>
-                              Detail
-                            </Link>
-                          </MenuItem>
-                          <MenuItem onClick={() => handleDelete(order.id)}>
-                            <DeleteIcon mr={4} /> Delete
-                          </MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Box>
-                  </Td>
+              <Tr key={order.id} href={`/supplier-orders/${order.id}`} >
+                    <Td textColor={"gray.600"}>{order.id}</Td>
+                    <Td textColor={"gray.600"}>{convertPrice(order.total_price)}</Td>
+                    <Td textColor={"gray.600"}>{order.Supplier.company_name}</Td>
+                    <Td textColor={"gray.600"}>{order.Warehouse.title}</Td>
+                    <Td textColor={"gray.600"}>{order.status}</Td>
+                    <Td textColor={"gray.600"}>
+                      <Box style={{ display: "flex", alignItems: "center", border: "2px solid", maxWidth: "120px", borderColor: "blue", borderRadius: "6px", padding: "2px" }}>
+                        <Button size="lg" style={{ background: "transparent", marginRight: 2 }}>
+                          <Text ml={2} textColor={"blue"}>Action</Text>
+                        </Button>
+                        <Menu>
+                          <MenuButton as={IconButton} icon={<TriangleDownIcon />} size="md" variant="outline" colorScheme="blue" style={{ background: "transparent", border: "none" }} />
+                          <MenuList>
+                            <MenuItem>
+                              <InfoIcon mr={4}></InfoIcon>
+                              <Link to={`/supplier-orders/${order.id}`}>
+                                Detail
+                              </Link>
+                            </MenuItem>
+                            <MenuItem onClick={() => handleDelete(order.id)}>
+                              <DeleteIcon mr={4} /> Delete
+                            </MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </Box>
+                    </Td>
                 </Tr>
               ))}
             </Tbody>
