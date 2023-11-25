@@ -23,7 +23,7 @@ import {
   updateSupplyOrder,
 } from "../../fetching/supply_order";
 import Navbar from "../../components/Navbar";
-import CustomHeader from "../../components/BoxTop";
+import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
 
 const Supply_OrderDetail = () => {

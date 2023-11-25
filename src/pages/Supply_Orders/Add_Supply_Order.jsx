@@ -8,7 +8,7 @@ import {
     getAllSuppliers,
     getItems,
 } from "../../fetching/supply_order";
-import CustomHeader from "../../components/BoxTop";
+import CustomHeader from "../../components/Boxtop";
 
 const AddSupplyOrders = () => {
     const toast = useToast();

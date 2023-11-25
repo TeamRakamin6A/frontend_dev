@@ -54,6 +54,7 @@ function App() {
           <Route path="/warehouses" element={<Warehouses />} />
           <Route path="/warehouses/:id" element={<WarehouseDetail />} />
           <Route path="/addwarehouse" element={<CreateWarehouse />}></Route>
+          <Route path="/supply_orders" element={< Supply_Orders/>}></Route>
         </Routes>
       </Router>
     </ChakraProvider >

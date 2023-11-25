@@ -6,7 +6,7 @@ import { getAllSupplyOrders, deleteSupplyOrder, getAllWarehouses, getAllSupplier
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import { FaFilter } from "react-icons/fa";
-import CustomHeader from "../../components/BoxTop";
+import CustomHeader from "../../components/Boxtop";
 
 const Supply_Orders = () => {
   const toast = useToast();
