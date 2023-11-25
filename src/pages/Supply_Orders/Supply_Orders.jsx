@@ -41,7 +41,8 @@ const Supply_Orders = () => {
         selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
       );
       setSupplyOrders(response.data);
-      setTotalPages(response.data);
+      setTotalPages(response.totalPage);
+      console.log(response.totalPage, "<<<<<<<<<<<<<<<<<<<<<<<<<<")
     } catch (error) {
       console.error("Error fetching supply orders:", error.message);
     }
@@ -109,7 +110,7 @@ const Supply_Orders = () => {
               Add Supply Orders
             </Link>
           </Button>
-          <Box maxWidth="full" display="flex">
+          <Box axWidth="full" display="flex">
             <Box width={"500px"} >
               {selectedFilter === "status" && (
                 <MultiSelect
@@ -165,55 +166,56 @@ const Supply_Orders = () => {
             <br />
           </Box>
         </Box>
-
-        <Table variant="simple" maxWidth="fit-content" mx="12" borderWidth="1px" borderColor="gray.200">
-          <Thead>
-            <Tr>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>ID</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Invoice</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Warehouse</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Status</Th>
-              <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {supplyOrders.map((order) => (
-              <Tr key={order.id}>
-                <Td fontSize="12px" textColor={"gray.600"}>{order.id}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>
-                  <Link to={`/supplier-orders/${order.id}`}>{order.invoice}</Link>
-                </Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{order.total_price}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{order.supplier_id}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{order.warehouse_id}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{order.status}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>
-                  <Box style={{ display: "flex", alignItems: "center", border: "2px solid", borderColor: "blue", borderRadius: "6px", padding: "2px" }}>
-                    <Button size="lg" style={{ background: "transparent", marginRight: 2 }}>
-                      <Text ml={2} textColor={"blue"}>Action</Text>
-                    </Button>
-                    <Menu>
-                      <MenuButton as={IconButton} icon={<TriangleDownIcon />} size="md" variant="outline" colorScheme="blue" style={{ background: "transparent", border: "none" }} />
-                      <MenuList>
-                        <MenuItem>
-                          <InfoIcon mr={4}></InfoIcon>
-                          <Link to={`/supplier-orders/${order.id}`}>
-                            Detail
-                          </Link>
-                        </MenuItem>
-                        <MenuItem onClick={() => handleDelete(order.id)}>
-                          <DeleteIcon mr={4} /> Delete
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Box>
-                </Td>
+        <Box mx={"40px"}>
+          <Table variant="simple" maxWidth="full" borderWidth="1px" borderColor="gray.200">
+            <Thead>
+              <Tr>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>ID</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Invoice</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Warehouse</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Status</Th>
+                <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Action</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
+            </Thead>
+            <Tbody>
+              {supplyOrders.map((order) => (
+                <Tr key={order.id}>
+                  <Td fontSize="12px" textColor={"gray.600"}>{order.id}</Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>
+                    <Link to={`/supplier-orders/${order.id}`}>{order.invoice}</Link>
+                  </Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>{order.total_price}</Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>{order.supplier_id}</Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>{order.warehouse_id}</Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>{order.status}</Td>
+                  <Td fontSize="12px" textColor={"gray.600"}>
+                    <Box style={{ display: "flex", alignItems: "center", border: "2px solid", maxWidth: "120px", borderColor: "blue", borderRadius: "6px", padding: "2px" }}>
+                      <Button size="lg" style={{ background: "transparent", marginRight: 2 }}>
+                        <Text ml={2} textColor={"blue"}>Action</Text>
+                      </Button>
+                      <Menu>
+                        <MenuButton as={IconButton} icon={<TriangleDownIcon />} size="md" variant="outline" colorScheme="blue" style={{ background: "transparent", border: "none" }} />
+                        <MenuList>
+                          <MenuItem>
+                            <InfoIcon mr={4}></InfoIcon>
+                            <Link to={`/supplier-orders/${order.id}`}>
+                              Detail
+                            </Link>
+                          </MenuItem>
+                          <MenuItem onClick={() => handleDelete(order.id)}>
+                            <DeleteIcon mr={4} /> Delete
+                          </MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Box>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </Box>
 
         <div style={{ marginTop: "20px", textAlign: "right", marginRight: "40px" }}>
           <ButtonGroup isAttached>
