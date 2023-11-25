@@ -21,7 +21,6 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   useEffect(() => {
@@ -57,10 +56,10 @@ const Dashboard = () => {
               <DashboardDetail name={"Warehouse"} data={data?.total_warehouses}>
                 <FaWarehouse color={'#3876BF'} fontSize={'42px'} />
               </DashboardDetail>
-              <DashboardDetail name={"Total Expenses"} data={data?.total_expenses}>
+              <DashboardDetail name={"Total Expenses"} data={data?.total_expenses} convert={true}>
                 <FaFileInvoice color={'#3876BF'} fontSize={'42px'} />
               </DashboardDetail>
-              <DashboardDetail name={"Total Revenue"} data={data?.total_revenues}>
+              <DashboardDetail name={"Total Revenue"} data={data?.total_revenues} convert={true}>
                 <FaHandHoldingUsd color={'#3876BF'} fontSize={'42px'} />
               </DashboardDetail>
             </HStack>
