@@ -206,7 +206,7 @@ const Warehouses = () => {
               Warehouse List
             </Text>
             <Flex mb="5">
-              <Link to="/addorders">
+              <Link to="/addwarehouse">
                 <Button
                   colorScheme="blue"
                   leftIcon={<FiPlusCircle />}
@@ -216,10 +216,10 @@ const Warehouses = () => {
               </Link>
             </Flex>
             <Flex>
-              <Box w="600px">
+              {/* <Box w="600px">
                 <Text mb="2" fontWeight="bold">
                   Search Warehouse
-                </Text>
+                </Text> */}
                 {/* <MultiSelect
                   options={Warehouses.map((warehouse) => ({
                     label: warehouse.invoice,
@@ -234,7 +234,7 @@ const Warehouses = () => {
                     allItemsAreSelected: selectedOptions.length === orders.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
                   }}
                 /> */}
-              </Box>
+              {/* </Box> */}
             </Flex>
           </Flex>
         </Flex>
