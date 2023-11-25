@@ -19,12 +19,15 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getSupplierById, updateSupplier, deleteSupplier } from '../../fetching/supplier';
+import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const SupplierDetail = () => {
   const { id } = useParams();
   const [supplier, setSupplier] = useState([]);
+  const [loading, setLoading] = useState(false);
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -33,7 +36,7 @@ const SupplierDetail = () => {
     onOpen: onOpenUpdateModal,
     onClose: onCloseUpdateModal,
   } = useDisclosure();
-  
+
   const [updatedSupplier, setUpdatedSupplier] = useState({
     company_name: '',
     address: '',
@@ -48,10 +51,12 @@ const SupplierDetail = () => {
   } = useDisclosure();
 
   useEffect(() => {
+    setLoading(true);
     const fetchSupplierDetail = async () => {
       try {
         const supplierDetail = await getSupplierById(id);
         setSupplier(supplierDetail.data);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching supplier detail:', error.message);
         toast({
@@ -76,8 +81,8 @@ const SupplierDetail = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  
-  
+
+
   const handleUpdateFormSubmit = async () => {
     try {
       await updateSupplier(
@@ -143,153 +148,169 @@ const SupplierDetail = () => {
     onOpenUpdateModal();
   };
 
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
+
   return (
-    <Box bg="gray.200" minH="100vh" pb="5">
-      <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-        <Heading as="h1" fontSize="xl">
-          Supplier Detail
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          Supplier {'>'} Supplier Detail
-        </Text>
-      </Container>
-
-      <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-        <Flex direction="column" m="5">
-          <FormControl mb="4">
-            <FormLabel>Company Name</FormLabel>
-            <Input
-              readOnly
-              name="company_name"
-              placeholder="Company Name"
-              value={supplier.company_name}
-            />
-          </FormControl>
-
-          <FormControl mb="4">
-            <FormLabel>Email</FormLabel>
-            <Input
-              readOnly
-              name="email"
-              placeholder="Email"
-              value={supplier.email}
-            />
-          </FormControl>
-
-
-          <FormControl mb="4">
-            <FormLabel>Address</FormLabel>
-            <Input
-              readOnly
-              name="address"
-              placeholder="Address"
-              value={supplier.address}
-            />
-          </FormControl>
-
-          <FormControl mb="4">
-            <FormLabel>Zip Cde</FormLabel>
-            <Input
-              readOnly
-              name="zip_code"
-              placeholder="Zip Code"
-              value={supplier.zip_code}
-            />
-          </FormControl>
-
-          <Flex justify="space-between">
-            <Button colorScheme="blue" onClick={handleBack}>
-              Back To Suppliers
-            </Button>
-
-            <Flex>
-              <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
-                Update Supplier
-              </Button>
-
-              <Button colorScheme="red" onClick={onOpenDeleteModal}>
-                Delete Supplier
-              </Button>
-            </Flex>
+    <>
+      <Navbar />
+      <Box bg="gray.200" pb="5">
+        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+          <Heading as="h1" fontSize="xl">
+            Supplier Detail
+          </Heading>
+          <Flex align="center">
+            <Link to="/suppliers">
+              <Text fontSize="sm" color="gray.500" mr="1">
+                Supplier
+              </Text>
+            </Link>
+            <Text fontSize="sm" color="gray.500">
+              {'>'} Supplier Detail
+            </Text>
           </Flex>
-        </Flex>
-      </Container>
+        </Container>
 
-      {/* Modal Update */}
-      <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Update Supplier</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl mb="4" isRequired>
-              <FormLabel>Name</FormLabel>
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+          <Flex direction="column" m="5">
+            <FormControl mb="4">
+              <FormLabel>Company Name</FormLabel>
               <Input
+                readOnly
                 name="company_name"
-                placeholder="Name"
-                value={updatedSupplier.company_name}
-                onChange={handleUpdateFormChange}
+                placeholder="Company Name"
+                value={supplier.company_name}
               />
             </FormControl>
 
-            <FormControl mb="4" isRequired>
+            <FormControl mb="4">
               <FormLabel>Email</FormLabel>
               <Input
+                readOnly
                 name="email"
                 placeholder="Email"
-                value={updatedSupplier.email}
-                onChange={handleUpdateFormChange}
+                value={supplier.email}
               />
             </FormControl>
 
-            <FormControl mb="4" isRequired>
+
+            <FormControl mb="4">
               <FormLabel>Address</FormLabel>
               <Input
+                readOnly
                 name="address"
                 placeholder="Address"
-                value={updatedSupplier.address}
-                onChange={handleUpdateFormChange}
+                value={supplier.address}
               />
             </FormControl>
 
-            <FormControl mb="4" isRequired>
-              <FormLabel>Zip Code</FormLabel>
+            <FormControl mb="4">
+              <FormLabel>Zip Cde</FormLabel>
               <Input
+                readOnly
                 name="zip_code"
                 placeholder="Zip Code"
-                value={updatedSupplier.zip_code}
-                onChange={handleUpdateFormChange}
+                value={supplier.zip_code}
               />
             </FormControl>
 
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
-              Update
-            </Button>
-            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+            <Flex justify="space-between">
+              <Button colorScheme="blue" onClick={handleBack}>
+                Back To Suppliers
+              </Button>
 
-      {/* Modal Delete */}
-      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete Supplier</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Are you sure you want to delete this supplier?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteSupplier}>
-              Delete
-            </Button>
-            <Button onClick={onCloseDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+              <Flex>
+                <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
+                  Update Supplier
+                </Button>
+
+                <Button colorScheme="red" onClick={onOpenDeleteModal}>
+                  Delete Supplier
+                </Button>
+              </Flex>
+            </Flex>
+          </Flex>
+        </Container>
+
+        {/* Modal Update */}
+        <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update Supplier</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Company Name</FormLabel>
+                <Input
+                  name="company_name"
+                  placeholder="Company Name"
+                  value={updatedSupplier.company_name}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  name="email"
+                  placeholder="Email"
+                  value={updatedSupplier.email}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Address</FormLabel>
+                <Input
+                  name="address"
+                  placeholder="Address"
+                  value={updatedSupplier.address}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Zip Code</FormLabel>
+                <Input
+                  name="zip_code"
+                  placeholder="Zip Code"
+                  value={updatedSupplier.zip_code}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+                Update
+              </Button>
+              <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
+        {/* Modal Delete */}
+        <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete Supplier</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to delete this supplier?
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleDeleteSupplier}>
+                Delete
+              </Button>
+              <Button onClick={onCloseDeleteModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
   );
 };
 

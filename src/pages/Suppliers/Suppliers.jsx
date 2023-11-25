@@ -42,6 +42,8 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 import { getAllSuppliers, updateSupplier, deleteSupplier } from '../../fetching/supplier';
 import { MultiSelect } from "react-multi-select-component";
+import Navbar from "../../components/Navbar";
+import Loading from "../../components/Loading";
 
 const SupplierList = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -50,6 +52,7 @@ const SupplierList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSupplierId, setSelectedSupplierId] = useState(null);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const { isOpen: isUpdateModalOpen, onOpen: onOpenUpdateModal, onClose: onCloseUpdateModal } =
     useDisclosure();
@@ -75,12 +78,14 @@ const SupplierList = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     const fetchSuppliers = async () => {
       try {
         const result = await getAllSuppliers(currentPage, limit, searchTerm);
         const sortedSuppliers = sortSuppliersById(result.items);
         setSuppliers(sortedSuppliers);
         setTotalPages(result.totalPages);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching suppliers:', error.message);
       }
@@ -235,221 +240,237 @@ const SupplierList = () => {
     setSearchTerm(selected.map((option) => option.value).join(','));
   };
 
+  if (loading) {
+    return (
+      <Loading />
+    )
+  }
+
 
   return (
-    <Box bg="gray.200" minH="100vh" pb="5">
-      <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-        <Heading as="h1" fontSize="xl">
-          Supplier List
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          Supplier {'>'} Supplier List
-        </Text>
-      </Container>
-
-      <Container maxW="container.xl" bg="white" p="4" borderRadius="md" boxShadow="md">
-        <Flex justify="space-between" align="center" m="5" >
-          <Flex direction="column">
-            <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
-              Supplier List
+    <>
+      <Navbar />
+      <Box bg="gray.200" minH="100vh" pb="5">
+        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+          <Heading as="h1" fontSize="xl">
+            Supplier List
+          </Heading>
+          <Flex align="center">
+            <Link to="/suppliers">
+              <Text fontSize="sm" color="gray.500" mr="1">
+                Supplier
+              </Text>
+            </Link>
+            <Text fontSize="sm" color="gray.500">
+              {'>'} Supplier List
             </Text>
-            <Flex mb="5">
-              <Link to="/addsuppliers">
-                <Button
-                  colorScheme="messenger"
-                  leftIcon={<FiPlusCircle />}
-                >
-                  Add Supplier
-                </Button>
-              </Link>
-            </Flex>
-            <Flex>
-              <Box w="600px">
-                <Text mb="2" fontWeight="bold">
-                  Search Supplier
-                </Text>
-                <MultiSelect
-                  options={suppliers.map((supplier) => ({
-                    label: supplier.company_name,
-                    value: supplier.company_name,
-                  }))}
-                  value={selectedOptions}
-                  onChange={handleSearchChange}
-                  labelledBy="Select"
-                  hasSelectAll={false}
-                  overrideStrings={{
-                    selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
-                    allItemsAreSelected: selectedOptions.length === suppliers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
-                  }}
-                />
-              </Box>
+          </Flex>
+        </Container>
+
+        <Container maxW="container.xl" bg="white" p="4" borderRadius="md" boxShadow="md">
+          <Flex justify="space-between" align="center" m="5" >
+            <Flex direction="column">
+              <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
+                Supplier List
+              </Text>
+              <Flex mb="5">
+                <Link to="/addsuppliers">
+                  <Button
+                    colorScheme="messenger"
+                    leftIcon={<FiPlusCircle />}
+                  >
+                    Add Supplier
+                  </Button>
+                </Link>
+              </Flex>
+              <Flex>
+                <Box w="600px">
+                  <Text mb="2" fontWeight="bold">
+                    Search Supplier
+                  </Text>
+                  <MultiSelect
+                    options={suppliers.map((supplier) => ({
+                      label: supplier.company_name,
+                      value: supplier.company_name,
+                    }))}
+                    value={selectedOptions}
+                    onChange={handleSearchChange}
+                    labelledBy="Select"
+                    hasSelectAll={false}
+                    overrideStrings={{
+                      selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
+                      allItemsAreSelected: selectedOptions.length === suppliers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
+                    }}
+                  />
+                </Box>
+              </Flex>
             </Flex>
           </Flex>
-        </Flex>
 
-        <Table variant="simple">
-          <Thead>
-            <Tr>
-              <Th width="50px">
-                <Checkbox isDisabled />
-              </Th>
-              <Th width="150px">Company Name</Th>
-              <Th width="150px">Email</Th>
-              <Th width="150px">Zip Code</Th>
-              <Th width="150px">Address</Th>
-              <Th width="100px">Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {suppliers.map((supplier) => (
-              <Tr key={supplier.id}>
-                <Td width="50px">
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th width="50px">
                   <Checkbox isDisabled />
-                </Td>
-                <Td width="150px">
-                  <Link to={`/suppliers/${supplier.id}`}>{supplier.company_name}</Link>
-                </Td>
-                <Td width="150px">{supplier.email}</Td>
-                <Td width="150px">{supplier.zip_code}</Td>
-                <Td width="150px">{supplier.address}</Td>
-                <Td width="100px">
-                  <Menu>
-                    <MenuButton
-                      as={Button}
-                      size="md"
-                      colorScheme="messenger"
-                      variant="outline"
-                      rightIcon={<FaCaretDown />}
-                    >
-                      Action
-                    </MenuButton>
-                    <MenuList>
-                      <MenuItem onClick={() => handleUpdateSupplier(supplier.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                      <MenuItem onClick={() => handleDeleteSupplier(supplier.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                    </MenuList>
-                  </Menu>
-                </Td>
+                </Th>
+                <Th width="150px">Company Name</Th>
+                <Th width="150px">Email</Th>
+                <Th width="150px">Zip Code</Th>
+                <Th width="150px">Address</Th>
+                <Th width="100px">Action</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
+            </Thead>
+            <Tbody>
+              {suppliers.map((supplier) => (
+                <Tr key={supplier.id}>
+                  <Td width="50px">
+                    <Checkbox isDisabled />
+                  </Td>
+                  <Td width="150px">
+                    <Link to={`/suppliers/${supplier.id}`}>{supplier.company_name}</Link>
+                  </Td>
+                  <Td width="150px">{supplier.email}</Td>
+                  <Td width="150px">{supplier.zip_code}</Td>
+                  <Td width="150px">{supplier.address}</Td>
+                  <Td width="100px">
+                    <Menu>
+                      <MenuButton
+                        as={Button}
+                        size="md"
+                        colorScheme="messenger"
+                        variant="outline"
+                        rightIcon={<FaCaretDown />}
+                      >
+                        Action
+                      </MenuButton>
+                      <MenuList>
+                        <MenuItem onClick={() => handleUpdateSupplier(supplier.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                        <MenuItem onClick={() => handleDeleteSupplier(supplier.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
 
-        {/* Pagination */}
-        <Flex justify="space-between" mt="4" mr="20" ml="10">
-          <Flex>
-            {[10, 20, 30].map((option) => (
-              <Button
-                key={option}
-                colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                onClick={() => handleLimitChange(option)}
-                mr="1"
+          {/* Pagination */}
+          <Flex justify="space-between" mt="4" mr="20" ml="10">
+            <Flex>
+              {[10, 20, 30].map((option) => (
+                <Button
+                  key={option}
+                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
+                  onClick={() => handleLimitChange(option)}
+                  mr="1"
+                  size="sm"
+                >
+                  {option}
+                </Button>
+              ))}
+            </Flex>
+
+            <Flex>
+              <IconButton
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                isDisabled={currentPage === 1}
+                backgroundColor="white"
+                color="black"
                 size="sm"
-              >
-                {option}
+                icon={<FaChevronLeft />}
+              />
+
+              {renderPagination()}
+
+              <IconButton
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                isDisabled={currentPage === totalPages}
+                backgroundColor="white"
+                color="black"
+                size="sm"
+                icon={<FaChevronRight />}
+              />
+            </Flex>
+          </Flex>
+        </Container>
+
+        {/* Update Modal */}
+        <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update Supplier</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <FormControl mb="4" isRequired>
+                <FormLabel>Company Name</FormLabel>
+                <Input
+                  name="company_name"
+                  placeholder="Company Name"
+                  value={updatedSupplier.company_name}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Email</FormLabel>
+                <Input
+                  name="email"
+                  placeholder="Email"
+                  value={updatedSupplier.email}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Address</FormLabel>
+                <Input
+                  name="address"
+                  placeholder="Address"
+                  value={updatedSupplier.address}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+
+              <FormControl mb="4" isRequired>
+                <FormLabel>Zip Code</FormLabel>
+                <Input
+                  name="zip_code"
+                  placeholder="Zip Code"
+                  value={updatedSupplier.zip_code}
+                  onChange={handleUpdateFormChange}
+                />
+              </FormControl>
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
+                Update
               </Button>
-            ))}
-          </Flex>
+              <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-          <Flex>
-            <IconButton
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              isDisabled={currentPage === 1}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronLeft />}
-            />
-
-            {renderPagination()}
-
-            <IconButton
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              isDisabled={currentPage === totalPages}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronRight />}
-            />
-          </Flex>
-        </Flex>
-      </Container>
-
-      {/* Update Modal */}
-      <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Update Supplier</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <FormControl mb="4" isRequired>
-              <FormLabel>Name</FormLabel>
-              <Input
-                name="company_name"
-                placeholder="Name"
-                value={updatedSupplier.company_name}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
-
-            <FormControl mb="4" isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input
-                name="email"
-                placeholder="Email"
-                value={updatedSupplier.email}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
-
-            <FormControl mb="4" isRequired>
-              <FormLabel>Address</FormLabel>
-              <Input
-                name="address"
-                placeholder="Address"
-                value={updatedSupplier.address}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
-
-            <FormControl mb="4" isRequired>
-              <FormLabel>Zip Code</FormLabel>
-              <Input
-                name="zip_code"
-                placeholder="Zip Code"
-                value={updatedSupplier.zip_code}
-                onChange={handleUpdateFormChange}
-              />
-            </FormControl>
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
-              Update
-            </Button>
-            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Delete Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete Supplier</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Are you sure you want to delete this supplier?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
-              Delete
-            </Button>
-            <Button onClick={onCloseDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
+        {/* Delete Modal */}
+        <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete Supplier</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to delete this supplier?
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
+                Delete
+              </Button>
+              <Button onClick={onCloseDeleteModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
   );
 };
 

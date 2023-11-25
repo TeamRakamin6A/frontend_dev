@@ -12,7 +12,8 @@ import {
     FormLabel,
 } from '@chakra-ui/react';
 import { addSupplier } from '../../fetching/supplier';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Navbar from "../../components/Navbar";
 
 const AddSupplier = () => {
     const [supplier, setSupplier] = useState({
@@ -71,66 +72,76 @@ const AddSupplier = () => {
     };
 
     return (
-        <Box bg="gray.200" minH="100vh" pb="5">
-            <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                <Heading as="h1" fontSize="xl">
-                    Supplier List
-                </Heading>
-                <Text fontSize="sm" color="gray.500">
-                Supplier {'>'} Add Supplier
-                </Text>
-            </Container>
-
-            <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-                <Flex direction="column" m="5">
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Name</FormLabel>
-                        <Input
-                            name="company_name"
-                            placeholder="Name"
-                            value={supplier.company_name}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Email</FormLabel>
-                        <Input
-                            name="email"
-                            placeholder="Email"
-                            value={supplier.email}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Address</FormLabel>
-                        <Input
-                            name="address"
-                            placeholder="Address"
-                            value={supplier.address}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Zip Code</FormLabel>
-                        <Input
-                            name="zip_code"
-                            placeholder="Zip Code"
-                            value={supplier.zip_code}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-
-                    <Flex justifyContent="center" alignItems="center">
-                        <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
-                            Add Supplier
-                        </Button>
+        <>
+            <Navbar />
+            <Box bg="gray.200" pb="5">
+                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+                    <Heading as="h1" fontSize="xl">
+                        Supplier List
+                    </Heading>
+                    <Flex align="center">
+                        <Link to="/suppliers">
+                            <Text fontSize="sm" color="gray.500" mr="1">
+                                Supplier
+                            </Text>
+                        </Link>
+                        <Text fontSize="sm" color="gray.500">
+                            {'>'} Add Supplier
+                        </Text>
                     </Flex>
-                </Flex>
-            </Container>
-        </Box>
+                </Container>
+
+                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+                    <Flex direction="column" m="5">
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Company Name</FormLabel>
+                            <Input
+                                name="company_name"
+                                placeholder="Company Name"
+                                value={supplier.company_name}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Email</FormLabel>
+                            <Input
+                                name="email"
+                                placeholder="Email"
+                                value={supplier.email}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Address</FormLabel>
+                            <Input
+                                name="address"
+                                placeholder="Address"
+                                value={supplier.address}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Zip Code</FormLabel>
+                            <Input
+                                name="zip_code"
+                                placeholder="Zip Code"
+                                value={supplier.zip_code}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+
+                        <Flex justifyContent="center" alignItems="center">
+                            <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                                Add Supplier
+                            </Button>
+                        </Flex>
+                    </Flex>
+                </Container>
+            </Box>
+        </>
     );
 };
 
