@@ -24,6 +24,16 @@ export async function createWarehouse(title, address) {
     }
 }
 
+// Update Warehouse
+export async function updateWarehouse(id, title, address) {
+    try {
+        await instance.put(`/warehouses/${id}`, { title, address });
+    } catch (error) {
+        throw new Error(error.response.data.message || 'Error Not Found');
+    }
+}
+
+
 
 // Get Warehouse Detail.
 export async function getWarehouseById(id) {

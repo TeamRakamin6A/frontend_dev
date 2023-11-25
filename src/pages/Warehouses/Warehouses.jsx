@@ -41,7 +41,7 @@ import {
 import { FiPlusCircle } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-import { getAllWarehouses, deleteWarehouseById } from '../../fetching/warehouse';
+import { getAllWarehouses, deleteWarehouseById, updateWarehouse } from '../../fetching/warehouse';
 import { MultiSelect } from "react-multi-select-component";
 import Paginate from '../../components/Paginate';
 
@@ -97,7 +97,7 @@ const Warehouses = () => {
     fetchWarehouses();
   }, [currentPage, itemPerPage, searchTerm]);
 
-  const handleDeleteOrder = async (warehouseId) => {
+  const handleDeleteWarehouse = async (warehouseId) => {
     setSelectedWarehouseId(warehouseId);
     onOpenDeleteModal();
   };
@@ -124,6 +124,51 @@ const Warehouses = () => {
       });
     }
   }
+
+  const handleUpdateWarehouse = (warehouseId) => {
+    const selectedWarehouse = warehouses.find((warehouse) => warehouse.id === warehouseId);
+    setUpdateFormData({
+      id: selectedWarehouse.id,
+      title: selectedWarehouse.title,
+      address: selectedWarehouse.address
+    });
+    setSelectedWarehouseId(warehouseId);
+    onOpenUpdateModal();
+  };
+
+  const handleUpdateFormChange = (e) => {
+    setUpdateFormData({
+      ...updateFormData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleUpdateFormSubmit = async () => {
+    try {
+      await updateWarehouse(
+        updateFormData.id,
+        updateFormData.title,
+        updateFormData.address
+      );
+
+      await getAllWarehouses(currentPage, limit, searchTerm);
+      onCloseUpdateModal();
+      toast({
+        title: 'Warehouse update Status successfully.',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error('Error updating warehouse:', error.message);
+      toast({
+        title: 'Error updating warehouse.',
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
 
   // const handleSearch = async () => {
   //   const res = await getAllWarehouses(currentPage, itemPerPage, q, null)
@@ -225,7 +270,6 @@ const Warehouses = () => {
                   </Th>
                   <Th width="150px">Title</Th>
                   <Th width="150px">Address</Th>
-                  {/* <Th width="150px">Status</Th> */}
                   <Th width="100px">Action</Th>
                 </Tr>
               </Thead>
@@ -252,8 +296,8 @@ const Warehouses = () => {
                           Action
                         </MenuButton>
                         <MenuList>
-                          {/* <MenuItem onClick={() => handleUpdateOrder(order.id)} icon={<FaRegEdit />}>Update</MenuItem> */}
-                          <MenuItem onClick={() => handleDeleteOrder(warehouse.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                          <MenuItem onClick={() => handleUpdateWarehouse(warehouse.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                          <MenuItem onClick={() => handleDeleteWarehouse(warehouse.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
                         </MenuList>
                       </Menu>
                     </Td>
@@ -274,19 +318,26 @@ const Warehouses = () => {
         <ModalContent>
           <ModalHeader>Update Data Warehose</ModalHeader>
           <ModalCloseButton />
-          {/* <ModalBody>
+          <ModalBody>
             <Input
-              name="status"
-              placeholder="Update Status"
+              name="title"
+              placeholder="Title"
               mb="4"
-              value={updateFormData.status}
+              value={updateFormData.title}
               onChange={handleUpdateFormChange}
             />
-          </ModalBody> */}
+            <Input
+              name="address"
+              placeholder="Address"
+              mb="4"
+              value={updateFormData.address}
+              onChange={handleUpdateFormChange}
+            />
+          </ModalBody>
           <ModalFooter>
-            {/* <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
+            <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
               Update
-            </Button> */}
+            </Button>
             <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
