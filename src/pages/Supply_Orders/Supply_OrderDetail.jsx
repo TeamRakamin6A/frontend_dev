@@ -100,7 +100,7 @@ const Supply_OrderDetail = () => {
             variant="simple"
             colorScheme="gray"
             my={"20px"}
-            maxWidth="fit-content"
+            maxWidth="full"
             borderWidth="1px"
             borderColor="gray.200"
           >
