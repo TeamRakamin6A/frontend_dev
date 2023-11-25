@@ -15,7 +15,7 @@ import { ChevronDownIcon } from '@chakra-ui/icons'
 import logo from "../assets/Rectangle3.png";
 import profile from "../assets/profile.png"
 import { TfiWorld } from "react-icons/tfi";
-import { FaAlignJustify, FaMoneyCheckAlt, FaWarehouse, FaRegPlusSquare, FaUserFriends, FaRegBell, FaRegEnvelope, FaBox, FaUser } from "react-icons/fa";
+import { FaAlignJustify, FaMoneyCheckAlt, FaWarehouse, FaRegPlusSquare, FaUserFriends, FaRegBell, FaRegEnvelope, FaBox, FaUser, FaHome } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
@@ -48,8 +48,6 @@ const Navbar = () => {
     navigate('/login')
   }
 
-  console.log(data);
-
   return (
     <Flex
       w={"full"}
@@ -77,6 +75,9 @@ const Navbar = () => {
             </DrawerHeader>
             <DrawerBody>
               <Flex justify={'center'} direction={'column'} gap={'30px'} mt={'20px'}>
+                <DrawerDetail name={'Home'}>
+                  <FaHome color={'#3876BF'} fontSize={'30px'} />
+                </DrawerDetail>
                 <DrawerDetail name={'Product'} nav={'products'}>
                   <FaBox color={'#3876BF'} fontSize={'30px'} />
                 </DrawerDetail>
@@ -102,11 +103,13 @@ const Navbar = () => {
             </DrawerBody>
           </DrawerContent>
         </Drawer>
-        <Image src={logo} w={'50px'} mr={'8px'} />
-        <Text fontWeight={"extrabold"}><Box display={'inline'} as="span" color={"blue"}>STOCK</Box> WISE</Text>
+        <Box onClick={() => navigate('/')} display={'flex'} alignItems={'center'}>
+          <Image src={logo} w={'50px'} mr={'8px'} />
+          <Text fontWeight={"extrabold"}><Box display={'inline'} as="span" color={"blue"}>STOCK</Box> WISE</Text>
+        </Box>
       </Box>
       <Box display={'flex'} alignItems={"center"}>
-        <Box fontSize={"30px"} mr={"20px"} pr={"20px"} borderRight={'3px solid #D9D9D9'}>
+        <Box fontSize={"30px"} mr={"20px"} pr={"20px"} onClick={() => navigate('/add-products')} borderRight={'3px solid #D9D9D9'}>
           <FaRegPlusSquare />
         </Box>
         <Box fontSize={"30px"} display={'flex'} gap={'10px'} pr={"20px"} borderRight={'3px solid #D9D9D9'}>
