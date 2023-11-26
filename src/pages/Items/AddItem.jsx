@@ -25,8 +25,7 @@ const AddItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await getAllCategories()
-                console.log(res);
+                const res = await getAllCategories(1,100,'')
                 setCategories(res.data)
             } catch (error) {
                 console.log(error);

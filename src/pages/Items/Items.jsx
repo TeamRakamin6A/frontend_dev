@@ -62,7 +62,7 @@ const Items = () => {
         setTotalPage(res.data.totalPages)
         setItem(res.data.items)
 
-        const categoryResponse = await getAllCategories();
+        const categoryResponse = await getAllCategories(1,100,'');
         const categoryOptions = categoryResponse.data.map((cat) => ({
           label: cat.title,
           value: cat.id
