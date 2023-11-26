@@ -126,8 +126,22 @@ const AddSupplyOrders = () => {
                 item: foundItem,
                 quantity: +newItemQuantityRef.current.value,
             }
-
-            setItemList([...itemList, itemObject])
+            const updatedItems = [...itemList]
+            // find existing item
+            if(itemList.length !== 0) {
+                let existingId = itemList.findIndex((e) => e.item.id === foundItem.id)
+                if(existingId !== -1) {
+                    // update item
+                    updatedItems[existingId] = {...updatedItems[existingId], quantity: +newItemQuantityRef.current.value}
+                    setItemList(updatedItems)
+                } else {
+                    // add new item
+                    setItemList([...itemList, itemObject])
+                }
+            } else {
+                // Create new item
+                setItemList([...itemList, itemObject])
+            }
             setTotalPrice(getTotalPrice())
             onClose();
         } catch (err) {
