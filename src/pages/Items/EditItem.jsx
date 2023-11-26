@@ -29,7 +29,7 @@ const EditItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await getAllCategories()
+                const res = await getAllCategories(1,100,'')
                 console.log(res);
                 setCategories(res.data)
             } catch (error) {
