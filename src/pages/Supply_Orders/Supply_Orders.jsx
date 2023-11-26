@@ -10,6 +10,7 @@ import Navbar from "../../components/Navbar";
 import { FaFilter } from "react-icons/fa";
 import CustomHeader from "../../components/Boxtop";
 import convertPrice from "../../lib/convertPrice";
+import Paginate from "../../components/Paginate";
 
 const Supply_Orders = () => {
   const toast = useToast();
@@ -29,8 +30,8 @@ const Supply_Orders = () => {
     fetchSuppliers();
   }, [currentPage, selectedWarehouses, selectedSuppliers, selectedStatus]);
 
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   const fetchSupplyOrders = async () => {
@@ -44,6 +45,7 @@ const Supply_Orders = () => {
         selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
       );
       setSupplyOrders(response.data);
+      console.log(response.data, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Repsonse")
       setTotalPages(response.totalPage);
     } catch (error) {
       console.error("Error fetching supply orders:", error.message);
@@ -61,7 +63,7 @@ const Supply_Orders = () => {
 
   const fetchSuppliers = async () => {
     try {
-      const response = await getAllSuppliers();
+      const response = await getAllSuppliers(1, 100, "");
       setSuppliers(response.items.map(supplier => ({ label: supplier.company_name, value: supplier.id })));
     } catch (error) {
       console.error("Error fetching Suppliers:", error.message);
@@ -88,6 +90,18 @@ const Supply_Orders = () => {
     setSelectedFilter(filterType);
     if (filterType === "status") {
       setSelectedStatus([]);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPage = () => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(currentPage + 1);
     }
   };
 
@@ -219,29 +233,9 @@ const Supply_Orders = () => {
           </Table>
         </Box>
 
-        <div style={{ marginTop: "20px", textAlign: "right", marginRight: "40px" }}>
-          <ButtonGroup isAttached>
-            <IconButton
-              icon={<ChevronLeftIcon />}
-              onClick={() => handlePageChange(currentPage - 1)}
-              isDisabled={currentPage === 1}
-            />
-            <Button onClick={() => handlePageChange(currentPage - 1)} isDisabled={currentPage === 1}>
-              {currentPage - 1}
-            </Button>
-            <Button colorScheme="blue" onClick={() => handlePageChange(currentPage)}>
-              {currentPage}
-            </Button>
-            <Button onClick={() => handlePageChange(currentPage + 1)} isDisabled={currentPage === totalPages}>
-              {currentPage + 1}
-            </Button>
-            <IconButton
-              icon={<ChevronRightIcon />}
-              onClick={() => handlePageChange(currentPage + 1)}
-              isDisabled={currentPage === totalPages}
-            />
-          </ButtonGroup>
-        </div>
+        <Box mr={"40px"}>
+          <Paginate totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
+        </Box>
       </Box >
     </div >
   );
