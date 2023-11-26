@@ -241,10 +241,10 @@ const Categories = () => {
       <Box bg="gray.200" minH="88vh" pb="5">
         <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
           <Heading as="h1" fontSize="xl">
-            Categorie List
+            Category List
           </Heading>
           <Text fontSize="sm" color="gray.500">
-            Categorie {'>'} Categorie List
+            Category {'>'} Category List
           </Text>
         </Container>
 
@@ -252,7 +252,7 @@ const Categories = () => {
           <Flex justify="space-between" align="center" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
-                Categorie List
+                Category List
               </Text>
               <Flex mb="5">
                 <Link to="/addcategories">
@@ -260,14 +260,14 @@ const Categories = () => {
                     colorScheme="messenger"
                     leftIcon={<FiPlusCircle />}
                   >
-                    Add Categorie
+                    Add Category
                   </Button>
                 </Link>
               </Flex>
               <Flex>
                 <Box w="600px">
                   <Text mb="2" fontWeight="bold">
-                    Search Categorie
+                    Search Category
                   </Text>
                   <MultiSelect
                     options={categories.map((categorie) => ({
@@ -375,7 +375,7 @@ const Categories = () => {
         <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Update Categorie</ModalHeader>
+            <ModalHeader>Update Category</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <FormControl mb="4" isRequired>
@@ -401,10 +401,10 @@ const Categories = () => {
         <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Delete Categorie</ModalHeader>
+            <ModalHeader>Delete Category</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              Are you sure you want to delete this categorie?
+              Are you sure you want to delete this category?
             </ModalBody>
             <ModalFooter>
               <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
