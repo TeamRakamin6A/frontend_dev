@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react';
 import { createWarehouse } from '../../fetching/warehouse';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../../components/Navbar';
 
 const CreateWarehouse = () => {
     const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const CreateWarehouse = () => {
     };
 
     const handleFormSubmit = async () => {
-        
+
         if (!formData.title || !formData.address) {
             toast({
                 title: 'All fields are required.',
@@ -68,43 +69,47 @@ const CreateWarehouse = () => {
     };
 
     return (
-        <Box bg="gray.200" minH="100vh" pb="5">
-            <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                <Heading as="h1" fontSize="xl">
-                    Warehouse List
-                </Heading>
-                <Text fontSize="sm" color="gray.500">
-                    Warehouse {'>'} Add Warehouse
-                </Text>
-            </Container>
+        <>
+            <Navbar />
+            <Box bg="gray.200" minH="100vh" pb="5">
+                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+                    <Heading as="h1" fontSize="xl">
+                        Warehouse List
+                    </Heading>
+                    <Text fontSize="sm" color="gray.500">
+                        Warehouse {'>'} Add Warehouse
+                    </Text>
+                </Container>
 
-            <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-                <Flex direction="column" m="5">
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Title</FormLabel>
-                        <Input
-                            name="title"
-                            placeholder="Title"
-                            value={formData.title}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
+                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+                    <Flex direction="column" m="5">
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Title</FormLabel>
+                            <Input
+                                name="title"
+                                placeholder="Title"
+                                value={formData.title}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
 
-                    <FormControl mb="4" isRequired>
-                        <FormLabel>Address</FormLabel>
-                        <Input
-                            name="address"
-                            placeholder="Address Warehouse"
-                            value={formData.address}
-                            onChange={handleFormChange}
-                        />
-                    </FormControl>
-                    <Button colorScheme="blue" onClick={handleFormSubmit}>
-                        Add Warehouese
-                    </Button>
-                </Flex>
-            </Container>
-        </Box>
+                        <FormControl mb="4" isRequired>
+                            <FormLabel>Address</FormLabel>
+                            <Input
+                                name="address"
+                                placeholder="Address Warehouse"
+                                value={formData.address}
+                                onChange={handleFormChange}
+                            />
+                        </FormControl>
+                        <Button colorScheme="blue" onClick={handleFormSubmit}>
+                            Add Warehouese
+                        </Button>
+                    </Flex>
+                </Container>
+            </Box>
+        </>
+
     );
 };
 
