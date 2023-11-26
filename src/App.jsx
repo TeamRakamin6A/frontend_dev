@@ -6,6 +6,7 @@ import Items from "./pages/Items/Items";
 import ItemDetail from "./pages/Items/ItemDetail";
 import Categories from "./pages/Categories/Categories";
 import CategoryDetail from "./pages/Categories/CategoryDetail";
+import AddCategory from "./pages/Categories/AddCategorie";
 import Orders from "./pages/Orders/Orders";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import Customers from "./pages/Customers/Customers";
@@ -39,6 +40,7 @@ function App() {
           <Route path="/products/:id" element={<ItemDetail />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/categories/:id" element={<CategoryDetail />} />
+          <Route path="/addcategories" element={<AddCategory />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/orders/:id" element={<OrderDetail />} />
           <Route path="/addorders" element={<CreateOrder />} />
