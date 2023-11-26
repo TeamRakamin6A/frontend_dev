@@ -40,8 +40,9 @@ import {
 import { FiPlusCircle } from "react-icons/fi";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
-import { getAllOrder, updateOrder, deleteOrder} from '../../fetching/order';
+import { getAllOrder, updateOrder, deleteOrder } from '../../fetching/order';
 import { MultiSelect } from "react-multi-select-component";
+import Navbar from '../../components/Navbar';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -156,7 +157,7 @@ const OrderList = () => {
       );
 
       await getAllOrder(currentPage, limit, searchTerm);
-      onCloseUpdateModal();sear
+      onCloseUpdateModal(); sear
       toast({
         title: 'Order update Status successfully.',
         status: 'success',
@@ -235,201 +236,205 @@ const OrderList = () => {
   };
 
   return (
-    <Box bg="gray.200" minH="100vh" pb="5">
-      <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-        <Heading as="h1" fontSize="xl">
-          Order List
-        </Heading>
-        <Text fontSize="sm" color="gray.500">
-          Order {'>'} Order List
-        </Text>
-      </Container>
+    <>
+      <Navbar />
+      <Box bg="gray.200" minH="100vh" pb="5">
+        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
+          <Heading as="h1" fontSize="xl">
+            Order List
+          </Heading>
+          <Text fontSize="sm" color="gray.500">
+            Order {'>'} Order List
+          </Text>
+        </Container>
 
-      <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-        <Flex justify="space-between" align="center" m="5" >
-          <Flex direction="column">
-            <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
-              Order List
-            </Text>
-            <Flex mb="5">
-              <Link to="/addorders">
-                <Button
-                  colorScheme="blue"
-                  leftIcon={<FiPlusCircle />}
-                >
-                  Add Order
-                </Button>
-              </Link>
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+          <Flex justify="space-between" align="center" m="5" >
+            <Flex direction="column">
+              <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
+                Order List
+              </Text>
+              <Flex mb="5">
+                <Link to="/addorders">
+                  <Button
+                    colorScheme="blue"
+                    leftIcon={<FiPlusCircle />}
+                  >
+                    Add Order
+                  </Button>
+                </Link>
+              </Flex>
+              <Flex>
+                <Box w="600px">
+                  <Text mb="2" fontWeight="bold">
+                    Search Order
+                  </Text>
+                  <MultiSelect
+                    options={orders.map((order) => ({
+                      label: order.invoice,
+                      value: order.invoice,
+                    }))}
+                    value={selectedOptions}
+                    onChange={handleSearchChange}
+                    labelledBy="Select"
+                    hasSelectAll={false}
+                    overrideStrings={{
+                      selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
+                      allItemsAreSelected: selectedOptions.length === orders.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
+                    }}
+                  />
+                </Box>
+              </Flex>
             </Flex>
-            <Flex>
-              <Box w="600px">
-                <Text mb="2" fontWeight="bold">
-                  Search Order
-                </Text>
-                <MultiSelect
-                  options={orders.map((order) => ({
-                    label: order.invoice,
-                    value: order.invoice,
-                  }))}
-                  value={selectedOptions}
-                  onChange={handleSearchChange}
-                  labelledBy="Select"
-                  hasSelectAll={false}
-                  overrideStrings={{
-                    selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
-                    allItemsAreSelected: selectedOptions.length === orders.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
-                  }}
+          </Flex>
+
+          <Table variant="simple">
+            <Center>
+              {loading && (
+                <Spinner
+                  thickness='4px'
+                  speed='0.65s'
+                  emptyColor='gray.200'
+                  color='blue.500'
+                  size='xl'
                 />
-              </Box>
+              )}
+            </Center>
+
+            {!loading && (
+              <>
+                <Thead>
+                  <Tr>
+                    <Th width="50px">
+                      <Checkbox />
+                    </Th>
+                    <Th width="150px">Invoice</Th>
+                    <Th width="150px">Total Price</Th>
+                    <Th width="150px">Status</Th>
+                    <Th width="100px">Action</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {orders.map((order) => (
+                    <Tr key={order.id}>
+                      <Td width="50px">
+                        <Checkbox />
+                      </Td>
+                      <Td width="150px">
+                        <Link to={`/orders/${order.invoice}`}>{order.invoice}</Link>
+                      </Td>
+                      <Td width="150px">{order.total_price}</Td>
+                      <Td width="150px">{order.status}</Td>
+                      <Td width="100px">
+                        <Menu>
+                          <MenuButton
+                            as={Button}
+                            size="md"
+                            colorScheme="blue"
+                            variant="outline"
+                            rightIcon={<FaCaretDown />}
+                          >
+                            Action
+                          </MenuButton>
+                          <MenuList>
+                            <MenuItem onClick={() => handleUpdateOrder(order.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                            <MenuItem onClick={() => handleDeleteOrder(order.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                          </MenuList>
+                        </Menu>
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </>
+            )}
+          </Table>
+
+          {/* Pagination */}
+          <Flex justify="space-between" mt="4" mr="20" ml="10">
+            <Flex>
+              {[10, 20, 30].map((option) => (
+                <Button
+                  key={option}
+                  colorScheme={selectedLimit === option ? 'blue' : 'gray'}
+                  onClick={() => handleLimitChange(option)}
+                  mr="1"
+                  size="sm"
+                >
+                  {option}
+                </Button>
+              ))}
+            </Flex>
+
+            <Flex>
+              <IconButton
+                onClick={handlePrevPage}
+                disabled={currentPage === 1}
+                isDisabled={currentPage === 1}
+                backgroundColor="white"
+                color="black"
+                size="sm"
+                icon={<FaChevronLeft />}
+              />
+
+              {renderPagination()}
+
+              <IconButton
+                onClick={handleNextPage}
+                disabled={currentPage === totalPages}
+                isDisabled={currentPage === totalPages}
+                backgroundColor="white"
+                color="black"
+                size="sm"
+                icon={<FaChevronRight />}
+              />
             </Flex>
           </Flex>
-        </Flex>
+        </Container>
 
-        <Table variant="simple">
-          <Center>
-            {loading && (
-              <Spinner
-                thickness='4px'
-                speed='0.65s'
-                emptyColor='gray.200'
-                color='blue.500'
-                size='xl'
+        {/* Update Modal */}
+        <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Update Order</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Input
+                name="status"
+                placeholder="Update Status"
+                mb="4"
+                value={updateFormData.status}
+                onChange={handleUpdateFormChange}
               />
-            )}
-          </Center>
-
-          {!loading && (
-            <>
-              <Thead>
-                <Tr>
-                  <Th width="50px">
-                    <Checkbox />
-                  </Th>
-                  <Th width="150px">Invoice</Th>
-                  <Th width="150px">Total Price</Th>
-                  <Th width="150px">Status</Th>
-                  <Th width="100px">Action</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {orders.map((order) => (
-                  <Tr key={order.id}>
-                    <Td width="50px">
-                      <Checkbox />
-                    </Td>
-                    <Td width="150px">
-                      <Link to={`/orders/${order.invoice}`}>{order.invoice}</Link>
-                    </Td>
-                    <Td width="150px">{order.total_price}</Td>
-                    <Td width="150px">{order.status}</Td>
-                    <Td width="100px">
-                      <Menu>
-                        <MenuButton
-                          as={Button}
-                          size="md"
-                          colorScheme="blue"
-                          variant="outline"
-                          rightIcon={<FaCaretDown />}
-                        >
-                          Action
-                        </MenuButton>
-                        <MenuList>
-                          <MenuItem onClick={() => handleUpdateOrder(order.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                          <MenuItem onClick={() => handleDeleteOrder(order.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                        </MenuList>
-                      </Menu>
-                    </Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </>
-          )}
-        </Table>
-
-        {/* Pagination */}
-        <Flex justify="space-between" mt="4" mr="20" ml="10">
-          <Flex>
-            {[10, 20, 30].map((option) => (
-              <Button
-                key={option}
-                colorScheme={selectedLimit === option ? 'blue' : 'gray'}
-                onClick={() => handleLimitChange(option)}
-                mr="1"
-                size="sm"
-              >
-                {option}
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
+                Update
               </Button>
-            ))}
-          </Flex>
+              <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
 
-          <Flex>
-            <IconButton
-              onClick={handlePrevPage}
-              disabled={currentPage === 1}
-              isDisabled={currentPage === 1}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronLeft />}
-            />
+        {/* Delete Modal */}
+        <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Delete Order</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              Are you sure you want to delete this Order?
+            </ModalBody>
+            <ModalFooter>
+              <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
+                Delete
+              </Button>
+              <Button onClick={onCloseDeleteModal}>Cancel</Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
 
-            {renderPagination()}
-
-            <IconButton
-              onClick={handleNextPage}
-              disabled={currentPage === totalPages}
-              isDisabled={currentPage === totalPages}
-              backgroundColor="white"
-              color="black"
-              size="sm"
-              icon={<FaChevronRight />}
-            />
-          </Flex>
-        </Flex>
-      </Container>
-
-      {/* Update Modal */}
-      <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Update Order</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Input
-              name="status"
-              placeholder="Update Status"
-              mb="4"
-              value={updateFormData.status}
-              onChange={handleUpdateFormChange}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
-              Update
-            </Button>
-            <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-
-      {/* Delete Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={onCloseDeleteModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Delete Order</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Are you sure you want to delete this Order?
-          </ModalBody>
-          <ModalFooter>
-            <Button colorScheme="red" mr={3} onClick={handleDeleteSubmit}>
-              Delete
-            </Button>
-            <Button onClick={onCloseDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </Box>
   );
 };
 
