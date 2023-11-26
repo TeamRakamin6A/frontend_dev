@@ -1,34 +1,34 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { 
-Button,
-Input,
-Select,
-useToast,
-Box,
-Flex,
-Heading,
-SimpleGrid,
-useDisclosure,
-Modal,
-ModalOverlay,
-ModalContent,
-ModalHeader,
-ModalFooter,
-ModalBody,
-ModalCloseButton,
-FormControl,
-FormLabel,
-Table,
-Thead,
-Tbody,
-Tfoot,
-Tr,
-Th,
-Td,
-TableCaption,
-TableContainer,
-Text
+import {
+    Button,
+    Input,
+    Select,
+    useToast,
+    Box,
+    Flex,
+    Heading,
+    SimpleGrid,
+    useDisclosure,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalFooter,
+    ModalBody,
+    ModalCloseButton,
+    FormControl,
+    FormLabel,
+    Table,
+    Thead,
+    Tbody,
+    Tfoot,
+    Tr,
+    Th,
+    Td,
+    TableCaption,
+    TableContainer,
+    Text
 } from "@chakra-ui/react";
 import Navbar from "../../components/Navbar";
 import {
@@ -44,14 +44,6 @@ import { useNavigate } from 'react-router-dom';
 
 const AddSupplyOrders = () => {
     const toast = useToast();
-    const [formData, setFormData] = useState({
-        invoice: "",
-        total_price: 0,
-        supplier_id: "",
-        warehouse_id: "",
-        status: "Pending",
-        items: [],
-    });
 
     const [warehouses, setWarehouses] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
@@ -84,7 +76,7 @@ const AddSupplyOrders = () => {
             const responseItems = await getAllItems(1, 100, "", []);
             setItems(responseItems.data.items);
             setLoading(false)
-        } catch(err) {
+        } catch (err) {
             console.log(err)
         }
     }
@@ -116,7 +108,7 @@ const AddSupplyOrders = () => {
                 duration: 3000,
                 isClosable: true,
             });
-        } catch(err) {
+        } catch (err) {
             toast({
                 title: "Error",
                 description: "Failed to create supply order",
@@ -138,13 +130,13 @@ const AddSupplyOrders = () => {
             setItemList([...itemList, itemObject])
             setTotalPrice(getTotalPrice())
             onClose();
-        } catch(err) {
+        } catch (err) {
             console.log(err);
         }
     }
 
-    if(loading) {
-        return <Loading/>
+    if (loading) {
+        return <Loading />
     }
 
     const getTotalPrice = () => {
@@ -158,7 +150,7 @@ const AddSupplyOrders = () => {
 
     const changeWarehouse = (id) => {
         setWarehouseId(id),
-        setItemList([])
+            setItemList([])
     }
 
     const ItemTable = () => {
@@ -177,7 +169,7 @@ const AddSupplyOrders = () => {
                     <Tbody>
                         {itemList?.map((el, idx) => (
                             <Tr key={idx}>
-                                <Td>{idx+1}</Td>
+                                <Td>{idx + 1}</Td>
                                 <Td>{el.item.title}</Td>
                                 <Td>{convertPrice(el.item.price)}</Td>
                                 <Td>{el.quantity}</Td>
@@ -200,7 +192,7 @@ const AddSupplyOrders = () => {
     const ComponentItem = () => {
         return (
             <>
-                <Button colorScheme="teal" onClick={onOpen}>Add Item</Button>
+                <Button colorScheme="teal" onClick={onOpen} mb={10}>Add Item</Button>
                 <Modal isOpen={isOpen} onClose={onClose}>
                     <ModalOverlay />
                     <ModalContent>
@@ -210,13 +202,13 @@ const AddSupplyOrders = () => {
                             <FormControl>
                                 <FormLabel>Item</FormLabel>
                                 <Select ref={selectedItemRef} placeholder='Select option' mb={3}>
-                                {
-                                    findWarehouseById().Items?.map((product) => 
-                                    (
-                                        <option value={product.id} key={product.id}>{product.title}</option>
-                                    )
-                                    )
-                                }
+                                    {
+                                        findWarehouseById().Items?.map((product) =>
+                                        (
+                                            <option value={product.id} key={product.id}>{product.title}</option>
+                                        )
+                                        )
+                                    }
                                 </Select>
                                 <FormLabel>Quantity</FormLabel>
                                 <Input ref={newItemQuantityRef} placeholder='Quantity' />
@@ -224,9 +216,9 @@ const AddSupplyOrders = () => {
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button colorScheme='teal' onClick={addNewItem}>Submit</Button>
+                            <Button colorScheme='teal' onClick={addNewItem} mr={4}>Submit</Button>
                             <Button colorScheme='blue' mr={3} onClick={onClose}>
-                            Close
+                                Close
                             </Button>
                         </ModalFooter>
                     </ModalContent>
@@ -298,12 +290,12 @@ const AddSupplyOrders = () => {
                                     <option value="Pending">Pending</option>
                                     <option value="Success">Success</option>
                                 </Select>
-                            </Box> 
+                            </Box>
                         </SimpleGrid>
                         <Box>
-                            {warehouseId != 0 ? <ComponentItem/> : ''}
-                            
-                            {itemList.length !== 0 ? <ItemTable/> : ""}
+                            {warehouseId != 0 ? <ComponentItem /> : ''}
+
+                            {itemList.length !== 0 ? <ItemTable /> : ""}
                             <Flex justifyContent="flex-start" >
                                 <Button
                                     type="button"

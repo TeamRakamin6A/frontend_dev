@@ -45,7 +45,7 @@ const Supply_OrderDetail = () => {
         const supplierResponse = await getSupplierById(response.data.supplier_id);
         setSupplier(supplierResponse.data);
         const warehouseResponse = await getWarehouseById(response.data.warehouse_id);
-        setWarehouse(warehouseResponse); 
+        setWarehouse(warehouseResponse);
         setLoading(false)
       } catch (error) {
         console.error("Error fetching supply order detail:", error.message);
@@ -77,8 +77,8 @@ const Supply_OrderDetail = () => {
     }
   };
 
-  if(loading) {
-    return <Loading/>
+  if (loading) {
+    return <Loading />
   }
   const statusOptions = ["Pending", "Success"];
 
@@ -117,11 +117,11 @@ const Supply_OrderDetail = () => {
             </Thead>
             <Tbody>
               <Tr>
-                <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.invoice}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{supplyOrder.total_price}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{supplier.company_name}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>{warehouse.title}</Td>
-                <Td fontSize="12px" textColor={"gray.600"}>
+                <Td textColor={"gray.600"}>{supplyOrder.invoice}</Td>
+                <Td textColor={"gray.600"}>{supplyOrder.total_price}</Td>
+                <Td textColor={"gray.600"}>{supplier.company_name}</Td>
+                <Td textColor={"gray.600"}>{warehouse.title}</Td>
+                <Td textColor={"gray.600"}>
                   {isEditing ? (
                     <Select
                       value={editedStatus}
@@ -168,24 +168,24 @@ const Supply_OrderDetail = () => {
 
           <Table mb={30}>
             <Thead>
-                <Tr>
-                    <Th>No</Th>
-                    <Th>Product</Th>
-                    <Th>Price</Th>
-                    <Th>Quantity</Th>
-                    <Th>Total Price</Th>
-                </Tr>
+              <Tr>
+                <Th>No</Th>
+                <Th>Product</Th>
+                <Th>Price</Th>
+                <Th>Quantity</Th>
+                <Th>Total Price</Th>
+              </Tr>
             </Thead>
             <Tbody>
-                {supplyOrder.Items?.map((el, idx) => (
-                    <Tr key={idx}>
-                        <Td>{idx+1}</Td>
-                        <Td>{el.title}</Td>
-                        <Td>{convertPrice(el.price)}</Td>
-                        <Td>{el.Supply_Item.quantity}</Td>
-                        <Td>{convertPrice(+el.price * +el.Supply_Item.quantity)}</Td>
-                    </Tr>
-                ))}
+              {supplyOrder.Items?.map((el, idx) => (
+                <Tr key={idx}>
+                  <Td>{idx + 1}</Td>
+                  <Td>{el.title}</Td>
+                  <Td>{convertPrice(el.price)}</Td>
+                  <Td>{el.Supply_Item.quantity}</Td>
+                  <Td>{convertPrice(+el.price * +el.Supply_Item.quantity)}</Td>
+                </Tr>
+              ))}
             </Tbody>
           </Table>
 
