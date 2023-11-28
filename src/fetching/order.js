@@ -20,14 +20,15 @@ export async function updateOrder(id, status) {
     }
 }
 
-// Get All Order    <<<< 
-export async function getAllOrder(page, limit, nameFilter) {
+// Get All Order    
+export async function getAllOrder(page, limit, query, warehouseId, customerId, status) {
     try {
-        const response = await instance.get(`/orders?page=${page}&limit=${limit}&name=${nameFilter}`);
-        const data = response.data;
-        return data;
+        const response = await instance.get("/orders", {
+            params: { page, limit, q: query, warehouseId, customerId, status },
+        });
+        return response.data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        throw new Error(error.response.data.message || "Something went wrong");
     }
 }
 
