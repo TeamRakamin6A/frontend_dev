@@ -32,7 +32,7 @@ const Chart = ({ datas }) => {
         <>
             <Doughnut data={data} />
             <Box display={'flex'} alignItems={'center'} justifyContent={'center'} mt={'20px'}>
-                <Text fontWeight={'bold'}>Profit: +{profit}</Text>
+                <Text fontWeight={'bold'}>Profit: {convertPrice(profit)}</Text>
             </Box>
         </>
     )
