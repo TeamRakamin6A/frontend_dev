@@ -1,13 +1,12 @@
 import instance from "../lib/axios";
 
-// Add Order     <<<< 
-export async function createOrder(invoice, warehouse_id, customer_id, status, items) {
+// Create order
+export async function createOrder(data) {
     try {
-        const response = await instance.post('/orders', { invoice, warehouse_id, customer_id, status, items });
-        const data = response.data;
-        return data;
+        const response = await instance.post("/orders", data);
+        return response.data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        throw new Error(error.response.data.message || "Something went wrong");
     }
 }
 
@@ -26,6 +25,16 @@ export async function getAllOrder(page, limit, query, warehouseId, customerId, s
         const response = await instance.get("/orders", {
             params: { page, limit, q: query, warehouseId, customerId, status },
         });
+        return response.data;
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something went wrong");
+    }
+}
+
+// Get Order Detail
+export async function getOrderById(id) {
+    try {
+        const response = await instance.get(`/orders/${id}`);
         return response.data;
     } catch (error) {
         throw new Error(error.response.data.message || "Something went wrong");

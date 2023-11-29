@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Table, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, ButtonGroup, Spacer, Text, Heading, Box } from "@chakra-ui/react";
 import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
-import { getAllOrder } from "../../fetching/order";
+import { getAllOrder, deleteOrder } from "../../fetching/order";
 import { getAllCustomers } from "../../fetching/customer"
 import { getAllWarehouses } from "../../fetching/warehouse";
 import { MultiSelect } from "react-multi-select-component";
@@ -12,7 +12,7 @@ import { FaFilter } from "react-icons/fa";
 import convertPrice from "../../lib/convertPrice";
 import Paginate from "../../components/Paginate";
 
-const Orders = () => {
+const CreateOrder = () => {
   const toast = useToast();
   const [orders, setOrders] = useState([]);
   const [selectedWarehouses, setSelectedWarehouses] = useState([]);
@@ -69,21 +69,21 @@ const Orders = () => {
     }
   };
 
-  // const handleDelete = async (id) => {
-  //   try {
-  //     await deleteOrder(id);
-  //     fetchOrders();
-  //     toast({
-  //       title: "Delete Success",
-  //       description: "deleted",
-  //       status: "success",
-  //       duration: 3000,
-  //       isClosable: true,
-  //     });
-  //   } catch (error) {
-  //     console.error("Error deleting order:", error.message);
-  //   }
-  // };
+  const handleDelete = async (id) => {
+    try {
+      await deleteOrder(id);
+      fetchOrders();
+      toast({
+        title: "Delete Success",
+        description: "deleted",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error("Error deleting order:", error.message);
+    }
+  };
 
   const handleFilterSelect = (filterType) => {
     setSelectedFilter(filterType);
@@ -121,7 +121,7 @@ const Orders = () => {
           <Heading fontSize={'22px'}>Orders</Heading>
           <br />
           <Button colorScheme="messenger" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
-            <Link to={`/add-supplier-orders`}>
+            <Link to={`/addorders`}>
               Add Orders
             </Link>
           </Button>
@@ -195,7 +195,7 @@ const Orders = () => {
             </Thead>
             <Tbody>
               {orders.map((order) => (
-                <Tr key={order.id} href={`/supplier-orders/${order.id}`} >
+                <Tr key={order.id} href={`/orders/${order.id}`} >
                   <Td textColor={"gray.600"}>{order.id}</Td>
                   <Td textColor={"gray.600"}>{convertPrice(order.total_price)}</Td>
                   <Td textColor={"gray.600"}>{order.Customer.name}</Td>
@@ -213,7 +213,7 @@ const Orders = () => {
                         Action
                       </MenuButton>
                       <MenuList>
-                        <Link to={`/supplier-orders/${order.id}`}>
+                        <Link to={`/orders/${order.id}`}>
                           <MenuItem>
                             <InfoIcon mr={4}></InfoIcon>
                             Detail
@@ -240,4 +240,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default CreateOrder;
