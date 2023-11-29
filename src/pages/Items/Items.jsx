@@ -230,32 +230,6 @@ const Items = () => {
                                 </Link>
                               </MenuItem>
                               <MenuItem onClick={() => handleDeleteClick(product.id)}>Delete Item</MenuItem>
-                              <AlertDialog
-                                isOpen={isOpen}
-                                leastDestructiveRef={cancelRef}
-                                onClose={onClose}
-                              >
-                                <AlertDialogOverlay>
-                                  <AlertDialogContent>
-                                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                                      Delete Customer
-                                    </AlertDialogHeader>
-
-                                    <AlertDialogBody>
-                                      Are you sure?  You cant undo this action afterwards. {deleteId}
-                                    </AlertDialogBody>
-
-                                    <AlertDialogFooter>
-                                      <Button ref={cancelRef} onClick={onClose}>
-                                        Cancel
-                                      </Button>
-                                      <Button colorScheme='red' onClick={() => handleDelete(deleteId)} ml={3}>
-                                        Delete
-                                      </Button>
-                                    </AlertDialogFooter>
-                                  </AlertDialogContent>
-                                </AlertDialogOverlay>
-                              </AlertDialog>
                             </MenuList>
                           </Menu>
                         </Box>
@@ -263,6 +237,32 @@ const Items = () => {
                     </Tr>
                   ))
                 }
+                <AlertDialog
+                  isOpen={isOpen}
+                  leastDestructiveRef={cancelRef}
+                  onClose={onClose}
+                >
+                  <AlertDialogOverlay>
+                    <AlertDialogContent>
+                      <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                        Delete Customer
+                      </AlertDialogHeader>
+
+                      <AlertDialogBody>
+                        Are you sure?  You cant undo this action afterwards. {deleteId}
+                      </AlertDialogBody>
+
+                      <AlertDialogFooter>
+                        <Button ref={cancelRef} onClick={onClose}>
+                          Cancel
+                        </Button>
+                        <Button colorScheme='red' onClick={() => handleDelete(deleteId)} ml={3}>
+                          Delete
+                        </Button>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialogOverlay>
+                </AlertDialog>
               </Tbody>
             </Table>
           </TableContainer>
