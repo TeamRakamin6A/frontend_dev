@@ -112,7 +112,7 @@ const CreateOrder = () => {
         } catch (err) {
             toast({
                 title: "Error",
-                description: "Failed to create supply order",
+                description: "Failed to create order",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
@@ -256,7 +256,7 @@ const CreateOrder = () => {
                             <Box style={{ fontSize: "14px", fontWeight: "bold", }}>
                                 Customer
                                 <Select
-                                    name="supplier_id"
+                                    name="customer_id"
                                     fontSize="14px"
                                     height="40px"
                                     onChange={(e) => setCustomerId(+(e.target.value))}
@@ -323,7 +323,7 @@ const CreateOrder = () => {
                                 >
                                     Add Orders
                                 </Button>
-                                <Link to="/supplier-orders">
+                                <Link to="/orders">
                                     <Button variant="outline" colorScheme="blue" p={7}>
                                         Back to List Orders
                                     </Button>

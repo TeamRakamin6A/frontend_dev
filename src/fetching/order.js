@@ -13,9 +13,10 @@ export async function createOrder(data) {
 // Update Order
 export async function updateOrder(id, status) {
     try {
-        await instance.put(`/orders/${id}`, { status });
+        const response = await instance.put(`/orders/${id}`, { status });
+        return response.data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        throw new Error(error.response.data.message || "Something went wrong");
     }
 }
 
