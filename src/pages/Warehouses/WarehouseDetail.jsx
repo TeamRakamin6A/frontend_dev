@@ -1,4 +1,4 @@
-import { json, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getWarehouseById, updateQuantity, addItemToWarehouse, getAllWarehouses, moveQuantityToWarehouse } from "../../fetching/warehouse";
 import { getAllItems } from "../../fetching/item"
 import { useEffect, useState, useRef } from "react";
@@ -9,7 +9,6 @@ import {
   BreadcrumbLink,
   Button,
   Flex,
-  Image,
   Table,
   Tbody,
   Text,
@@ -33,17 +32,13 @@ import {
   FormLabel,
   Input,
   useToast,
-  Link,
   Select
 } from "@chakra-ui/react";
 import {
   FaCaretDown,
-  FaChevronLeft,
-  FaChevronRight,
   FaRegEdit,
 } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading"
@@ -94,6 +89,7 @@ const WarehouseDetail = () => {
 
     const dataItem = warehouse.Items ? warehouse.Items.map(item => item.title) : []
     setItemMap(dataItem)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpenMove])
 
 
@@ -104,12 +100,26 @@ const WarehouseDetail = () => {
         quantity: +quantityRef.current.value,
         item_id: +id
       }
-
-      await updateQuantity(payload)
+      const res = await updateQuantity(payload)
+      console.log(payload);
       await fetchWarehouseDetail();
       onClose()
-    } catch (err) {
-      console.log(err)
+      toast({
+        title: 'Success',
+        description: res.message,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Success',
+        description: error.response.data.message || 'Error Update Quantity',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      })
     }
   }
 
@@ -121,7 +131,6 @@ const WarehouseDetail = () => {
     } catch (error) {
       console.log(error);
     }
-
   }
 
   const handleMoveItem = async () => {
@@ -153,7 +162,7 @@ const WarehouseDetail = () => {
       console.log(error);
       toast({
         title: 'Error',
-        description: 'asdaaaaaa',
+        description: error.response.data.message || 'Error move Item',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -179,11 +188,11 @@ const WarehouseDetail = () => {
         isClosable: true,
       })
       onCloseAdd();
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
       toast({
         title: 'Error addItem',
-        description: "Error addItem",
+        description: error.response.data.message || "Error addItem",
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -270,7 +279,7 @@ const WarehouseDetail = () => {
                   </FormControl>
                 </ModalBody>
                 <ModalFooter>
-                  <Button mr={3} colorScheme="teal" onClick={(e) => handleAddItem()}>Submit</Button>
+                  <Button mr={3} colorScheme="teal" onClick={() => handleAddItem()}>Submit</Button>
                   <Button onClick={onCloseAdd}>Close</Button>
                 </ModalFooter>
               </ModalContent>
@@ -308,7 +317,7 @@ const WarehouseDetail = () => {
                   <Input ref={newItemQuantityRef} placeholder='Quantity' />
                 </ModalBody>
                 <ModalFooter>
-                  <Button mr={3} colorScheme="teal" onClick={(e) => handleMoveItem()}>Submit</Button>
+                  <Button mr={3} colorScheme="teal" onClick={() => handleMoveItem()}>Submit</Button>
                   <Button onClick={onCloseMove}>Close</Button>
                 </ModalFooter>
               </ModalContent>
@@ -358,7 +367,7 @@ const WarehouseDetail = () => {
                                 </FormControl>
                               </ModalBody>
                               <ModalFooter>
-                                <Button mr={3} colorScheme="teal" onClick={(e) => handleUpdateQuantity(item.id)}>Submit</Button>
+                                <Button mr={3} colorScheme="teal" onClick={() => handleUpdateQuantity(item.id)}>Submit</Button>
                                 <Button onClick={onClose}>Close</Button>
                               </ModalFooter>
                             </ModalContent>

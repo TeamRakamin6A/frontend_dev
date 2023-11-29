@@ -1,13 +1,21 @@
-import { FaRegHospital } from "react-icons/fa";
 import instance from "../lib/axios";
 
-export async function getAllWarehouses(page, limit, nameFilter) {
+export async function getAllWarehouses(page, limit, q) {
     try {
-        const response = await instance.get(`/warehouses?page=${page}&limit=${limit}&name=${nameFilter}`);
+        const response = await instance({
+            url: '/warehouses',
+            method: "GET",
+            params: {
+                page: page,
+                limit,
+                q
+            }
+        });
         const data = response.data;
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -18,8 +26,8 @@ export async function createWarehouse(title, address) {
         return data;
 
     } catch (error) {
-        console.error();
-        throw error;
+        console.log(error)
+        throw error
     }
 }
 
@@ -28,7 +36,8 @@ export async function updateWarehouse(id, title, address) {
     try {
         await instance.put(`/warehouses/${id}`, { title, address });
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -45,7 +54,8 @@ export async function getWarehouseById(id) {
 
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -56,7 +66,8 @@ export async function deleteWarehouseById(id) {
         await instance.delete(`/warehouses/${id}`);
 
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -76,7 +87,8 @@ export async function updateQuantity(params) {
 
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -92,7 +104,8 @@ export async function moveQuantityToWarehouse(params) {
 
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || "Something went wrong");
+        console.log(error)
+        throw error
     }
 }
 
@@ -112,6 +125,7 @@ export async function addItemToWarehouse(params) {
 
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }

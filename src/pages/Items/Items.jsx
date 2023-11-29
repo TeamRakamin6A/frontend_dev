@@ -62,7 +62,7 @@ const Items = () => {
         setTotalPage(res.data.totalPages)
         setItem(res.data.items)
 
-        const categoryResponse = await getAllCategories(1,100,'');
+        const categoryResponse = await getAllCategories(1, 100, '');
         const categoryOptions = categoryResponse.data.map((cat) => ({
           label: cat.title,
           value: cat.id
@@ -110,6 +110,7 @@ const Items = () => {
   const handleDelete = async (id) => {
     try {
       const deleteRes = await deleteItem(id)
+      onClose()
       toast({
         title: "Success",
         description: deleteRes.message,
@@ -118,8 +119,7 @@ const Items = () => {
         duration: 3000,
         isClosable: true,
       });
-      onClose()
-      const res = await getAllItems(currentPage, itemPerPage, q, null)
+      const res = await getAllItems(currentPage, itemPerPage, q, [])
       setItem(res.data.items)
       setTotalPage(res.data.totalPages)
     } catch (error) {
@@ -142,7 +142,7 @@ const Items = () => {
 
   const handleItemPage = async (e) => {
     setItemPerPage(+e.target.value)
-    const res = await getAllItems(currentPage, itemPerPage, "", null);
+    const res = await getAllItems(currentPage, itemPerPage, "", []);
     setItem(res.data.items);
     setTotalPage(res.data.totalPages);
   }

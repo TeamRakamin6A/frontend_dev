@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react';
 import {
   Box,
-  Center,
-  Container,
-  Heading,
   Text,
   Button,
-  IconButton,
   Input,
   Table,
   Thead,
@@ -29,14 +25,12 @@ import {
   ModalFooter,
   useDisclosure,
   useToast,
-  Spinner,
   HStack,
-  TableContainer
+  TableContainer,
+  Select
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
-  FaChevronLeft,
-  FaChevronRight,
   FaRegEdit,
 } from "react-icons/fa";
 import { FiPlusCircle } from "react-icons/fi";
@@ -51,12 +45,12 @@ import CustomHeader from '../../components/Boxtop';
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [limit, setLimit] = useState(10);
-  const [itemPerPage] = useState(10);
-  const [selectedLimit, setSelectedLimit] = useState(10);
-  const [searchTerm, setSearchTerm] = useState('');
+  // const [limit, setLimit] = useState(10);
+  const [itemPerPage, setItemPerPage] = useState(10);
+  const [q, setQ] = useState('')
+  // const [searchTerm, setSearchTerm] = useState('');
   const [selectedWarehouseId, setSelectedWarehouseId] = useState(null);
-  const [selectedOptions, setSelectedOptions] = useState([]);
+  // const [selectedOptions, setSelectedOptions] = useState([]);
 
   const { isOpen: isUpdateModalOpen, onOpen: onOpenUpdateModal, onClose: onCloseUpdateModal } =
     useDisclosure();
@@ -82,7 +76,7 @@ const Warehouses = () => {
     setLoading(true);
 
     try {
-      const result = await getAllWarehouses(currentPage, itemPerPage, searchTerm);
+      const result = await getAllWarehouses(currentPage, itemPerPage, q);
       const sortedWarehouses = sortWarehouseById(result.data);
       setWarehouses(sortedWarehouses);
       setTotalPages(result.totalPage);
@@ -96,10 +90,10 @@ const Warehouses = () => {
   };
 
   useEffect(() => {
-
     setLoading(true);
     fetchWarehouses();
-  }, [currentPage, itemPerPage, searchTerm]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, itemPerPage]);
 
   const handleDeleteWarehouse = async (warehouseId) => {
     setSelectedWarehouseId(warehouseId);
@@ -109,11 +103,11 @@ const Warehouses = () => {
   const handleDeleteSubmit = async () => {
     try {
       await deleteWarehouseById(selectedWarehouseId);
-      const result = await getAllWarehouses(currentPage, limit, searchTerm);
+      const result = await getAllWarehouses(currentPage, itemPerPage, q);
       setWarehouses(result.data);
       onCloseDeleteModal();
       toast({
-        title: 'Warehouse deleted successfully.',
+        title: result.message || 'Warehouse deleted successfully.',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -121,7 +115,7 @@ const Warehouses = () => {
     } catch (error) {
       console.error('Error deleting Warehouse:', error.message);
       toast({
-        title: 'Error deleting warehouse.',
+        title: error.response.data.message || 'Error deleting warehouse.',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -166,7 +160,7 @@ const Warehouses = () => {
     } catch (error) {
       console.error('Error updating warehouse:', error.message);
       toast({
-        title: 'Error updating warehouse.',
+        title: error.response.data.message || 'Error updating warehouse.',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -174,11 +168,13 @@ const Warehouses = () => {
     }
   };
 
-  // const handleSearch = async () => {
-  //   const res = await getAllWarehouses(currentPage, itemPerPage, q, null)
-  //   setWarehouses(res.data.items)
-  //   setTotalPage(res.data.totalPages)
-  // }
+  const handleSearch = async () => {
+    setLoading(true)
+    const res = await getAllWarehouses(currentPage, itemPerPage, q)
+    setWarehouses(res.data)
+    setTotalPages(res.data.totalPages)
+    setLoading(false)
+  }
 
   // const handleSearchChange = (selected) => {
   //   setSelectedOptions(selected);
@@ -196,6 +192,13 @@ const Warehouses = () => {
       setCurrentPage(currentPage + 1);
     }
   };
+
+  const handleItemPage = async (e) => {
+    setItemPerPage(+e.target.value)
+    const res = await getAllWarehouses(currentPage, itemPerPage, "", []);
+    setWarehouses(res.data.items);
+    setTotalPages(res.data.totalPages);
+  }
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -222,7 +225,12 @@ const Warehouses = () => {
                   </Button>
                 </Link>
               </Flex>
-              <Flex>
+              <Flex justify={'space-between'}>
+                <HStack maxW={'600px'} mt={'25px'}>
+                  <Input placeholder='search warehouse' onChange={(e) => setQ(e.target.value)} />
+                  <Button type="button" onClick={handleSearch}>Search</Button>
+                </HStack>
+
                 {/* <Box w="600px">
                   <Text mb="2" fontWeight="bold">
                     Search Warehouse
@@ -245,6 +253,15 @@ const Warehouses = () => {
               </Flex>
             </Flex>
           </Flex>
+          <Flex justify={'flex-end'} mb={'20px'}>
+            <Box w={'140px'} mt={'20px'}>
+              <Select placeholder='Item Page' onChange={handleItemPage} value={itemPerPage}>
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+              </Select>
+            </Box>
+          </Flex>
           <TableContainer rounded={'10px'} overflowX={'auto'} border={'2px solid #D9D9D9'}>
             <Table variant="simple" >
 
@@ -261,7 +278,7 @@ const Warehouses = () => {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {warehouses.map((warehouse) => (
+                    {warehouses?.map((warehouse) => (
                       <Tr key={warehouse.id} borderBottom={'2px solid #D9D9D9'}>
                         <Td width="50px">
                           <Checkbox />

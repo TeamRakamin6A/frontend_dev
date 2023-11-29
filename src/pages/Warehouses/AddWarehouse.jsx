@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
     Box,
     Container,
-    Heading,
-    Text,
     Button,
     Input,
     Flex,
@@ -14,6 +12,7 @@ import {
 import { createWarehouse } from '../../fetching/warehouse';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import CustomHeader from '../../components/Boxtop';
 
 const CreateWarehouse = () => {
     const [formData, setFormData] = useState({
@@ -35,7 +34,8 @@ const CreateWarehouse = () => {
 
         if (!formData.title || !formData.address) {
             toast({
-                title: 'All fields are required.',
+                title: "Error",
+                description: 'All fields are required.',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -44,13 +44,14 @@ const CreateWarehouse = () => {
         }
 
         try {
-            await createWarehouse(
+            const res = await createWarehouse(
                 formData.title,
                 formData.address,
             );
 
             toast({
-                title: 'Warehouse Created Successfully',
+                title: 'Success',
+                description: res.message || 'Warehouse Created Successfully',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -60,7 +61,8 @@ const CreateWarehouse = () => {
         } catch (error) {
             console.error('Error add Warehouse:', error.message);
             toast({
-                title: 'Error add Warehouse.',
+                title: 'Error',
+                description: error.response.data.message || 'Error add Warehouse.',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -72,15 +74,7 @@ const CreateWarehouse = () => {
         <>
             <Navbar />
             <Box bg="gray.200" minH="100vh" pb="5">
-                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                    <Heading as="h1" fontSize="xl">
-                        Warehouse List
-                    </Heading>
-                    <Text fontSize="sm" color="gray.500">
-                        Warehouse {'>'} Add Warehouse
-                    </Text>
-                </Container>
-
+                <CustomHeader title={'Warehouse'} subtitle={'Add Warehouse'} href={'warehouses'} subhref={'warehouses/addwarehouse'} />
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
                     <Flex direction="column" m="5">
                         <FormControl mb="4" isRequired>
