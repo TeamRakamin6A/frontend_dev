@@ -60,6 +60,7 @@ const WarehouseDetail = () => {
   const [itemMap, setItemMap] = useState([]);
   const selectedItemRef = useRef(0);
   const selectedWarehouseRef = useRef(0);
+  const [itemId, setItemId] = useState(0)
 
   const fetchWarehouseDetail = async () => {
     try {
@@ -93,13 +94,14 @@ const WarehouseDetail = () => {
   }, [isOpenMove])
 
 
-  const handleUpdateQuantity = async (id) => {
+  const handleUpdateQuantity = async () => {
     try {
       let payload = {
         id: warehouse.id,
         quantity: +quantityRef.current.value,
-        item_id: +id
+        item_id: itemId
       }
+      console.log(id, "<<<<<<<< item id");
       const res = await updateQuantity(payload)
       console.log(payload);
       await fetchWarehouseDetail();
@@ -131,6 +133,11 @@ const WarehouseDetail = () => {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const handleUpdateQuantityClick = async (id) => {
+    setItemId(id)
+    onOpen()
   }
 
   const handleMoveItem = async () => {
@@ -354,7 +361,7 @@ const WarehouseDetail = () => {
                           Action
                         </MenuButton>
                         <MenuList>
-                          <MenuItem onClick={onOpen} icon={<FaRegEdit />}>Edit Quantity</MenuItem>
+                          <MenuItem onClick={() => handleUpdateQuantityClick(item.id)} icon={<FaRegEdit />}>Edit Quantity</MenuItem>
                           <Modal onClose={onClose} isOpen={isOpen} isCentered>
                             <ModalOverlay />
                             <ModalContent>
@@ -367,7 +374,7 @@ const WarehouseDetail = () => {
                                 </FormControl>
                               </ModalBody>
                               <ModalFooter>
-                                <Button mr={3} colorScheme="teal" onClick={() => handleUpdateQuantity(item.id)}>Submit</Button>
+                                <Button mr={3} colorScheme="teal" onClick={() => handleUpdateQuantity()}>Submit</Button>
                                 <Button onClick={onClose}>Close</Button>
                               </ModalFooter>
                             </ModalContent>
