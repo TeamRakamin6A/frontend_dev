@@ -42,7 +42,7 @@ export async function getWarehouseById(id) {
             method: "GET",
         });
         const data = response.data.data
-        
+
         return data;
     } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');
@@ -62,7 +62,7 @@ export async function deleteWarehouseById(id) {
 
 export async function updateQuantity(params) {
     try {
-        const {id, item_id, quantity} = params;
+        const { id, item_id, quantity } = params;
         const response = await instance({
             url: `/warehouses/quantities/${id}`,
             method: "PUT",
@@ -75,14 +75,30 @@ export async function updateQuantity(params) {
         const data = response.data;
 
         return data;
-    } catch(error) {
+    } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');
+    }
+}
+
+
+export async function moveQuantityToWarehouse(params) {
+    try {
+        const response = await instance({
+            url: "/warehouses/moves",
+            method: "POST",
+            data: params
+        })
+        const data = response.data;
+
+        return data;
+    } catch (error) {
+        throw new Error(error.response.data.message || "Something went wrong");
     }
 }
 
 export async function addItemToWarehouse(params) {
     try {
-        const {id, item_id, quantity} = params;
+        const { id, item_id, quantity } = params;
         const response = await instance({
             url: `/warehouses/addItem/${id}`,
             method: "POST",
@@ -95,7 +111,7 @@ export async function addItemToWarehouse(params) {
         const data = response.data;
 
         return data;
-    } catch(error) {
+    } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');
     }
 }

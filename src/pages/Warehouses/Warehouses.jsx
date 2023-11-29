@@ -30,7 +30,8 @@ import {
   useDisclosure,
   useToast,
   Spinner,
-  HStack
+  HStack,
+  TableContainer
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -45,6 +46,7 @@ import { getAllWarehouses, deleteWarehouseById, updateWarehouse } from '../../fe
 import { MultiSelect } from "react-multi-select-component";
 import Paginate from '../../components/Paginate';
 import Navbar from '../../components/Navbar';
+import CustomHeader from '../../components/Boxtop';
 
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
@@ -90,11 +92,11 @@ const Warehouses = () => {
       setLoading(false);
     }
 
-    
+
   };
 
   useEffect(() => {
-    
+
     setLoading(true);
     fetchWarehouses();
   }, [currentPage, itemPerPage, searchTerm]);
@@ -202,17 +204,9 @@ const Warehouses = () => {
   return (
     <>
       <Navbar />
-      <Box bg="gray.200" minH="100vh" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Warehouse List
-          </Heading>
-          <Text fontSize="sm" color="gray.500">
-            Warehouse {'>'} Warehouse List
-          </Text>
-        </Container>
-
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+      <Box w={'full'} bg="gray.200" minH="100vh" >
+        <CustomHeader title={'Warehouse'} subtitle={'Warehouse list'} href={'warehouses'} subhref={'warehouses'} />
+        <Box p={'20px'} bg="white" borderRadius="md" boxShadow="md" m={"20px"}>
           <Flex justify="space-between" align="center" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
@@ -232,8 +226,8 @@ const Warehouses = () => {
                 {/* <Box w="600px">
                   <Text mb="2" fontWeight="bold">
                     Search Warehouse
-                  </Text> */}
-                {/* <MultiSelect
+                  </Text>
+                  <MultiSelect
                     options={Warehouses.map((warehouse) => ({
                       label: warehouse.invoice,
                       value: warehouse.invoice,
@@ -246,75 +240,65 @@ const Warehouses = () => {
                       selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
                       allItemsAreSelected: selectedOptions.length === orders.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
                     }}
-                  /> */}
-                {/* </Box> */}
+                  />
+                </Box> */}
               </Flex>
             </Flex>
           </Flex>
+          <TableContainer rounded={'10px'} overflowX={'auto'} border={'2px solid #D9D9D9'}>
+            <Table variant="simple" >
 
-          <Table variant="simple">
-            {/* <Center>
-              {loading && (
-                <Spinner
-                  thickness='4px'
-                  speed='0.65s'
-                  emptyColor='gray.200'
-                  color='blue.500'
-                  size='xl'
-                />
-              )}
-            </Center> */}
-
-            {!loading && (
-              <>
-                <Thead>
-                  <Tr>
-                    <Th width="50px">
-                      <Checkbox />
-                    </Th>
-                    <Th width="150px">Title</Th>
-                    <Th width="150px">Address</Th>
-                    <Th width="100px">Action</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                  {warehouses.map((warehouse) => (
-                    <Tr key={warehouse.id}>
-                      <Td width="50px">
+              {!loading && (
+                <>
+                  <Thead>
+                    <Tr borderBottom={'2px solid #D9D9D9'}>
+                      <Th width="50px">
                         <Checkbox />
-                      </Td>
-                      <Td width="150px">
-                        <Link to={`/warehouses/${warehouse.id}`}>{warehouse.title || "null"}</Link>
-                      </Td>
-                      <Td width="150px">{warehouse.address}</Td>
-                      {/* <Td width="150px">{order.status}</Td> */}
-                      <Td width="100px">
-                        <Menu>
-                          <MenuButton
-                            as={Button}
-                            size="md"
-                            colorScheme="blue"
-                            variant="outline"
-                            rightIcon={<FaCaretDown />}
-                          >
-                            Action
-                          </MenuButton>
-                          <MenuList>
-                            <MenuItem onClick={() => handleUpdateWarehouse(warehouse.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                            <MenuItem onClick={() => handleDeleteWarehouse(warehouse.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                          </MenuList>
-                        </Menu>
-                      </Td>
+                      </Th>
+                      <Th width="150px">Title</Th>
+                      <Th width="150px">Address</Th>
+                      <Th width="100px">Action</Th>
                     </Tr>
-                  ))}
-                </Tbody>
-              </>
-            )}
-          </Table>
+                  </Thead>
+                  <Tbody>
+                    {warehouses.map((warehouse) => (
+                      <Tr key={warehouse.id} borderBottom={'2px solid #D9D9D9'}>
+                        <Td width="50px">
+                          <Checkbox />
+                        </Td>
+                        <Td width="150px">
+                          <Link to={`/warehouses/${warehouse.id}`}>{warehouse.title || "null"}</Link>
+                        </Td>
+                        <Td width="150px">{warehouse.address}</Td>
+                        {/* <Td width="150px">{order.status}</Td> */}
+                        <Td width="100px">
+                          <Menu>
+                            <MenuButton
+                              as={Button}
+                              size="md"
+                              colorScheme="blue"
+                              variant="outline"
+                              rightIcon={<FaCaretDown />}
+                            >
+                              Action
+                            </MenuButton>
+                            <MenuList>
+                              <MenuItem onClick={() => handleUpdateWarehouse(warehouse.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                              <MenuItem onClick={() => handleDeleteWarehouse(warehouse.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                            </MenuList>
+                          </Menu>
+                        </Td>
+                      </Tr>
+                    ))}
+                  </Tbody>
+                </>
+              )}
+            </Table>
+          </TableContainer>
 
           {/* Pagination */}
           <Paginate totalPages={totalPages} itemPerPage={itemPerPage} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
-        </Container>
+        </Box>
 
         {/* Update Modal */}
         <Modal isOpen={isUpdateModalOpen} onClose={onCloseUpdateModal}>
@@ -364,7 +348,7 @@ const Warehouses = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </Box>
+      </Box >
     </>
 
   );
