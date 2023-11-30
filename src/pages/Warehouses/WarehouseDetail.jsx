@@ -47,6 +47,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading"
+import Footer from "../../components/Footer";
 
 const WarehouseDetail = () => {
   const { id } = useParams()
@@ -139,7 +140,7 @@ const WarehouseDetail = () => {
   return (
     <>
       <Navbar />
-      <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} pb={'20px'}>
+      <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
         <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
           <Text fontWeight={'extrabold'} fontSize={'25px'}>Warehose</Text>
           <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
@@ -173,7 +174,7 @@ const WarehouseDetail = () => {
           <Text mt={'20px'} fontWeight={'bold'} fontSize={'25px'}>Product List</Text>
           <Flex mb="5">
             <Button
-              colorScheme="blue"
+              colorScheme="linkedin"
               leftIcon={<FiPlusCircle />}
               onClick={onOpenAdd}
             >
@@ -230,7 +231,7 @@ const WarehouseDetail = () => {
                         <MenuButton
                           as={Button}
                           size="md"
-                          colorScheme="messenger"
+                          colorScheme="linkedin"
                           variant="outline"
                           rightIcon={<FaCaretDown />}
                         >
@@ -266,6 +267,7 @@ const WarehouseDetail = () => {
 
         </Box>
       </Box>
+      <Footer />
     </>)
 };
 

@@ -22,14 +22,13 @@ import {
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCategorieById, updateCategorie, deleteCategorie } from '../../fetching/category'; 
 import Navbar from "../../components/Navbar";
-import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
 
 const CategoryDetail = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
   
   const {
@@ -49,12 +48,10 @@ const CategoryDetail = () => {
   } = useDisclosure();
 
   useEffect(() => {
-    setLoading(true);
     const fetchCategoryDetail = async () => {
       try {
         const categoryDetail = await getCategorieById(id);
         setCategory(categoryDetail.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching category detail:', error.message);
         toast({
@@ -83,7 +80,6 @@ const CategoryDetail = () => {
 
   
   const handleUpdateFormSubmit = async () => {
-    setLoading(true);
     try {
       await updateCategorie(
         id,
@@ -93,7 +89,6 @@ const CategoryDetail = () => {
       
       const updatedCategoryData = await getCategorieById(id);
       setCategory(updatedCategoryData.data);
-      setLoading(false);
 
       onCloseUpdateModal();
 
@@ -147,16 +142,11 @@ const CategoryDetail = () => {
     onOpenUpdateModal();
   };
 
-  if (loading) {
-    return (
-      <Loading />
-    );
-  }
 
   return (
     <>
       <Navbar />
-      <Box minH="88vh" bg="gray.200" pb="5">
+      <Box minH="79vh" bg="gray.200" pb="5">
         <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
           <Heading as="h1" fontSize="xl">
             Category Detail
@@ -252,6 +242,7 @@ const CategoryDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

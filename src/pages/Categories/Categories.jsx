@@ -28,6 +28,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Select,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -44,6 +45,7 @@ import { getAllCategories, updateCategorie, deleteCategorie } from '../../fetchi
 import { MultiSelect } from 'react-multi-select-component';
 import Navbar from '../../components/Navbar';
 import Loading from '../../components/Loading';
+import Footer from "../../components/Footer";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -184,7 +186,7 @@ const Categories = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -202,7 +204,7 @@ const Categories = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -249,7 +251,7 @@ const Categories = () => {
         </Container>
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-          <Flex justify="space-between" align="center" m="5" >
+          <Flex justify="space-between" align="flex-end" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
                 Category List
@@ -257,7 +259,7 @@ const Categories = () => {
               <Flex mb="5">
                 <Link to="/addcategories">
                   <Button
-                    colorScheme="messenger"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Category
@@ -286,6 +288,22 @@ const Categories = () => {
                 </Box>
               </Flex>
             </Flex>
+            <Flex mr="5">
+              <Box w="140px">
+                <Select
+                  placeholder='Category Page'
+                  size="sm"
+                  value={selectedLimit}
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                >
+                  {[10, 2, 30].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            </Flex>
           </Flex>
 
           <Table variant="simple">
@@ -312,7 +330,7 @@ const Categories = () => {
                       <MenuButton
                         as={Button}
                         size="md"
-                        colorScheme="messenger"
+                        colorScheme="linkedin"
                         variant="outline"
                         rightIcon={<FaCaretDown />}
                       >
@@ -330,21 +348,7 @@ const Categories = () => {
           </Table>
 
           {/* Pagination */}
-          <Flex justify="space-between" mt="4" mr="20" ml="10">
-            <Flex>
-              {[10, 20, 30].map((option) => (
-                <Button
-                  key={option}
-                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                  onClick={() => handleLimitChange(option)}
-                  mr="1"
-                  size="sm"
-                >
-                  {option}
-                </Button>
-              ))}
-            </Flex>
-
+          <Flex justify="flex-end" mt="4" mr="20" ml="10">
             <Flex>
               <IconButton
                 onClick={handlePrevPage}
@@ -415,6 +419,7 @@ const Categories = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

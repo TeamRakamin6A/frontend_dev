@@ -14,6 +14,7 @@ import {
 import { addCategorie } from '../../fetching/category'; 
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from "../../components/Footer";
 
 const AddCategory = () => {
     const [category, setCategory] = useState({
@@ -66,7 +67,7 @@ const AddCategory = () => {
     return (
         <>
             <Navbar />
-            <Box minH="88vh" bg="gray.200" pb="5">
+            <Box minH="79vh" bg="gray.200" pb="5">
                 <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
                     <Heading as="h1" fontSize="xl">
                         Category List
@@ -103,6 +104,7 @@ const AddCategory = () => {
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
     );
 };

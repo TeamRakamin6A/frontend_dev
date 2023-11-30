@@ -14,6 +14,7 @@ import {
 import { createOrder } from '../../fetching/order';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const CreateOrder = () => {
     const [formData, setFormData] = useState({
@@ -175,12 +176,13 @@ const CreateOrder = () => {
                             />
                         </FormControl>
 
-                        <Button colorScheme="blue" onClick={handleFormSubmit}>
+                        <Button colorScheme="linkedin" onClick={handleFormSubmit}>
                             Add Order
                         </Button>
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
 
     );

@@ -28,8 +28,10 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Select,
   useDisclosure,
   useToast,
+  TableContainer,
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -44,6 +46,7 @@ import { getAllSuppliers, updateSupplier, deleteSupplier } from '../../fetching/
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
 
 const SupplierList = () => {
   const [suppliers, setSuppliers] = useState([]);
@@ -195,7 +198,7 @@ const SupplierList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -213,7 +216,7 @@ const SupplierList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -268,108 +271,105 @@ const SupplierList = () => {
         </Container>
 
         <Container maxW="container.xl" bg="white" p="4" borderRadius="md" boxShadow="md">
-          <Flex justify="space-between" align="center" m="5" >
+          <Flex align="flex-end" justify="space-between" m="5">
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
                 Supplier List
               </Text>
               <Flex mb="5">
                 <Link to="/addsuppliers">
-                  <Button
-                    colorScheme="messenger"
-                    leftIcon={<FiPlusCircle />}
-                  >
+                  <Button colorScheme="linkedin" leftIcon={<FiPlusCircle />}>
                     Add Supplier
                   </Button>
                 </Link>
               </Flex>
-              <Flex>
-                <Box w="600px">
-                  <Text mb="2" fontWeight="bold">
-                    Search Supplier
-                  </Text>
-                  <MultiSelect
-                    options={suppliers.map((supplier) => ({
-                      label: supplier.company_name,
-                      value: supplier.company_name,
-                    }))}
-                    value={selectedOptions}
-                    onChange={handleSearchChange}
-                    labelledBy="Select"
-                    hasSelectAll={false}
-                    overrideStrings={{
-                      selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
-                      allItemsAreSelected: selectedOptions.length === suppliers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
-                    }}
-                  />
-                </Box>
-              </Flex>
+              <Box w="600px" mb="5">
+                <Text mb="2" fontWeight="bold">
+                  Search Supplier
+                </Text>
+                <MultiSelect
+                  options={suppliers.map((supplier) => ({
+                    label: supplier.company_name,
+                    value: supplier.company_name,
+                  }))}
+                  value={selectedOptions}
+                  onChange={handleSearchChange}
+                  labelledBy="Select"
+                  hasSelectAll={false}
+                  overrideStrings={{
+                    selectSomeItems: selectedOptions.length === 1 ? selectedOptions[0].label : 'Search...',
+                    allItemsAreSelected: selectedOptions.length === suppliers.length ? selectedOptions.map(option => option.label).join(', ') : 'All',
+                  }}
+                />
+              </Box>
+            </Flex>
+            <Flex mr="5">
+              <Box w="140px">
+                <Select
+                  placeholder='Supplier Page'
+                  size="sm"
+                  value={selectedLimit}
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                >
+                  {[10, 20, 30].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
             </Flex>
           </Flex>
 
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th width="50px">
-                  <Checkbox isDisabled />
-                </Th>
-                <Th width="150px">Company Name</Th>
-                <Th width="150px">Email</Th>
-                <Th width="150px">Zip Code</Th>
-                <Th width="150px">Address</Th>
-                <Th width="100px">Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {suppliers.map((supplier) => (
-                <Tr key={supplier.id}>
-                  <Td width="50px">
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th width="50px">
                     <Checkbox isDisabled />
-                  </Td>
-                  <Td width="150px">
-                    <Link to={`/suppliers/${supplier.id}`}>{supplier.company_name}</Link>
-                  </Td>
-                  <Td width="150px">{supplier.email}</Td>
-                  <Td width="150px">{supplier.zip_code}</Td>
-                  <Td width="150px">{supplier.address}</Td>
-                  <Td width="100px">
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        size="md"
-                        colorScheme="messenger"
-                        variant="outline"
-                        rightIcon={<FaCaretDown />}
-                      >
-                        Action
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem onClick={() => handleUpdateSupplier(supplier.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                        <MenuItem onClick={() => handleDeleteSupplier(supplier.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Td>
+                  </Th>
+                  <Th width="150px">Company Name</Th>
+                  <Th width="150px">Email</Th>
+                  <Th width="150px">Zip Code</Th>
+                  <Th width="150px">Address</Th>
+                  <Th width="100px">Action</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {suppliers.map((supplier) => (
+                  <Tr key={supplier.id}>
+                    <Td width="50px">
+                      <Checkbox isDisabled />
+                    </Td>
+                    <Td width="150px">
+                      <Link to={`/suppliers/${supplier.id}`}>{supplier.company_name}</Link>
+                    </Td>
+                    <Td width="150px">{supplier.email}</Td>
+                    <Td width="150px">{supplier.zip_code}</Td>
+                    <Td width="150px">{supplier.address}</Td>
+                    <Td width="100px">
+                      <Menu>
+                        <MenuButton
+                          as={Button}
+                          size="md"
+                          colorScheme="linkedin"
+                          variant="outline"
+                          rightIcon={<FaCaretDown />}
+                        >
+                          Action
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem onClick={() => handleUpdateSupplier(supplier.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                          <MenuItem onClick={() => handleDeleteSupplier(supplier.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
 
           {/* Pagination */}
-          <Flex justify="space-between" mt="4" mr="20" ml="10">
-            <Flex>
-              {[10, 20, 30].map((option) => (
-                <Button
-                  key={option}
-                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                  onClick={() => handleLimitChange(option)}
-                  mr="1"
-                  size="sm"
-                >
-                  {option}
-                </Button>
-              ))}
-            </Flex>
-
+          <Flex justify="flex-end" mt="4" mr="20" ml="10">
             <Flex>
               <IconButton
                 onClick={handlePrevPage}
@@ -470,6 +470,7 @@ const SupplierList = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

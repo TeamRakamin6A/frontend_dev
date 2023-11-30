@@ -23,6 +23,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getSupplierById, updateSupplier, deleteSupplier } from '../../fetching/supplier';
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
 
 const SupplierDetail = () => {
   const { id } = useParams();
@@ -310,6 +311,7 @@ const SupplierDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

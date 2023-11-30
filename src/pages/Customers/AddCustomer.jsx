@@ -14,6 +14,7 @@ import {
 import { addCustomer } from '../../fetching/customer';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const AddCustomer = () => {
     const [customer, setCustomer] = useState({
@@ -142,6 +143,7 @@ const AddCustomer = () => {
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
     );
 };

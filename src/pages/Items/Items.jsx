@@ -36,6 +36,7 @@ import convertPrice from "../../lib/convertPrice";
 import { getAllCategories } from "../../fetching/category";
 import Loading from "../../components/Loading";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const Items = () => {
   const [selected, setSelected] = useState([]);
@@ -167,7 +168,7 @@ const Items = () => {
       </Box>
       <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'}>
         <Text mt={'20px'} fontWeight={'bold'} fontSize={'25px'}>Product List</Text>
-        <Button mt={'20px'} onClick={() => navigate('/add-products')} height='48px' width='200px' bgColor={'#2C6AE5'} color={'white'}><FaPlusCircle fontSize={'30px'} />
+        <Button mt={'20px'} onClick={() => navigate('/add-products')} height='48px' width='200px' colorScheme="linkedin" ><FaPlusCircle fontSize={'30px'} />
           <Text ml={'10px'} >Add Product</Text>
         </Button>
         <HStack maxW={'600px'} mt={'25px'}>
@@ -217,7 +218,7 @@ const Items = () => {
                       <Td>
                         <Box>
                           <Menu>
-                            <MenuButton as={Button} colorScheme='blue' variant='outline'>
+                            <MenuButton as={Button} colorScheme='linkedin' variant='outline'>
                               Action
                             </MenuButton>
                             <MenuList>
@@ -270,6 +271,7 @@ const Items = () => {
         <Paginate totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
       </Box>
     </Box >
+    <Footer />
   </>
 };
 

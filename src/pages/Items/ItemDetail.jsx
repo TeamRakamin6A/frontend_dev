@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Image, Text } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 const ItemDetail = () => {
   const { id } = useParams()
@@ -78,6 +79,7 @@ const ItemDetail = () => {
           </Flex>
         </Box>
       </Box>
+      <Footer />
     </>
   )
 };

@@ -28,9 +28,9 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Select,
   useDisclosure,
   useToast,
-  Spinner,
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -45,6 +45,7 @@ import { getAllCustomers, updateCustomer, deleteCustomer } from '../../fetching/
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -200,7 +201,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -218,7 +219,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -266,7 +267,7 @@ const CustomerList = () => {
         </Container>
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-          <Flex justify="space-between" align="center" m="5" >
+          <Flex align="flex-end" justify="space-between" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
                 Customer List
@@ -274,7 +275,7 @@ const CustomerList = () => {
               <Flex mb="5">
                 <Link to="/addcustomers">
                   <Button
-                    colorScheme="messenger"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Customer
@@ -302,6 +303,22 @@ const CustomerList = () => {
                   />
                 </Box>
               </Flex>
+            </Flex>
+            <Flex mr="5">
+              <Box w="140px">
+                <Select
+                  placeholder='Customer Page'
+                  size="sm"
+                  value={selectedLimit}
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                >
+                  {[10, 20, 30].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
             </Flex>
           </Flex>
 
@@ -335,7 +352,7 @@ const CustomerList = () => {
                       <MenuButton
                         as={Button}
                         size="md"
-                        colorScheme="messenger"
+                        colorScheme="linkedin"
                         variant="outline"
                         rightIcon={<FaCaretDown />}
                       >
@@ -353,21 +370,7 @@ const CustomerList = () => {
           </Table>
 
           {/* Pagination */}
-          <Flex justify="space-between" mt="4" mr="20" ml="10">
-            <Flex>
-              {[10, 20, 30].map((option) => (
-                <Button
-                  key={option}
-                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                  onClick={() => handleLimitChange(option)}
-                  mr="1"
-                  size="sm"
-                >
-                  {option}
-                </Button>
-              ))}
-            </Flex>
-
+          <Flex justify="flex-end" mt="4" mr="20" ml="10">
             <Flex>
               <IconButton
                 onClick={handlePrevPage}
@@ -468,6 +471,7 @@ const CustomerList = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

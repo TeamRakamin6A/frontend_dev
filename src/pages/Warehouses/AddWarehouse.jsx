@@ -14,6 +14,7 @@ import {
 import { createWarehouse } from '../../fetching/warehouse';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const CreateWarehouse = () => {
     const [formData, setFormData] = useState({
@@ -71,7 +72,7 @@ const CreateWarehouse = () => {
     return (
         <>
             <Navbar />
-            <Box bg="gray.200" minH="100vh" pb="5">
+            <Box bg="gray.200" minH="79vh" pb="5">
                 <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
                     <Heading as="h1" fontSize="xl">
                         Warehouse List
@@ -102,12 +103,13 @@ const CreateWarehouse = () => {
                                 onChange={handleFormChange}
                             />
                         </FormControl>
-                        <Button colorScheme="blue" onClick={handleFormSubmit}>
+                        <Button colorScheme="linkedin" onClick={handleFormSubmit}>
                             Add Warehouese
                         </Button>
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
 
     );

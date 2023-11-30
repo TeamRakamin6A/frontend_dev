@@ -24,6 +24,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCustomerById, updateCustomer, deleteCustomer } from '../../fetching/customer';
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
 
 const CustomerDetail = () => {
   const { id } = useParams();
@@ -322,6 +323,7 @@ const CustomerDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

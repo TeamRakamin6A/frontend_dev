@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { MultiSelect } from "react-multi-select-component"
 import { getAllCategories } from "../../fetching/category"
 import Navbar from "../../components/Navbar"
+import Footer from "../../components/Footer";
 
 const EditItem = () => {
     const { id } = useParams();
@@ -102,7 +103,7 @@ const EditItem = () => {
     return (
         <>
             <Navbar />
-            <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} >
+            <Box w={'full'} pb={'5'} bg={'#F3F3F3'} >
                 <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
                     <Text fontWeight={'extrabold'} fontSize={'25px'}>{name}</Text>
                     <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
@@ -153,7 +154,7 @@ const EditItem = () => {
                             <Flex justifyContent={'center'} h={'407px'} alignItems={'center'}>
                                 <VStack>
                                     <Text fontWeight={'bold'} align={'center'} fontSize={'32px'}>Drop product image here Or</Text>
-                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#2C6AE5'}>
+                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#2593CF'}>
                                         <FormLabel fontSize={'18px'} color={'white'} fontWeight={'bold'} htmlFor={'file'}>Input File</FormLabel>
                                     </Flex>
                                     <Input type="file" id="file" h={'40px'} placeholder="Browse File" hidden  {...getInputProps()} />
@@ -163,10 +164,11 @@ const EditItem = () => {
 
                     </Flex>
                     <Box display={'flex'} justifyContent={'center'}>
-                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} bgColor={'#2C6AE5'} color={'white'}>Update Product</Button>
+                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} colorScheme="linkedin">Update Product</Button>
                     </Box>
                 </Box>
             </Box>
+            <Footer />
         </>
 
     )
