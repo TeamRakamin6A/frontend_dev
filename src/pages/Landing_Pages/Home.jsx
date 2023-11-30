@@ -5,15 +5,17 @@ import {
     Button,
     Heading
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import Menu from "../../components/Menu";
 import Vector from "../../assets/img-landing.png"
+import About from "./About";
+import Features from "./Features";
+import Info from "./Info";
 
 const Home = () => {
     return (
-        <div>
+        <Box>
             <Menu />
-            <Box display={"flex"} p={20} alignItems={"center"}>
+            <Box display={"flex"} p={20} alignItems={"center"} id="home">
                 <Box w={"50%"}>
                     <Heading color={"#223965"} fontSize={80}>Inventory Management</Heading>
                     <Text mt={6} fontSize={20}>Make it easy to manage best-selling products down to detailed availability in various storage locations directly through an inventory management app.</Text>
@@ -23,7 +25,16 @@ const Home = () => {
                     <Image src={Vector}></Image>
                 </Box>
             </Box>
-        </div>
+            <Box mt={"120px"} id="about">
+                <About />
+            </Box>
+            <Box mt={"120px"} id="features">
+                <Features />
+            </Box>
+            <Box mt={"120px"} id="info">
+                <Info />
+            </Box>
+        </Box>
     )
 }
 

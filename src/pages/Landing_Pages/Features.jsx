@@ -2,7 +2,6 @@ import {
     Heading,
     SimpleGrid,
 } from "@chakra-ui/react";
-import Menu from "../../components/Menu";
 import BoxFeatures from "../../components/BoxFeatures"
 import Filter from "../../assets/filter.png"
 import Inventory from "../../assets/catatan.png"
@@ -12,7 +11,6 @@ import Location from "../../assets/lokasi.png"
 const Features = () => {
     return (
         <>
-            <Menu />
             <Heading textAlign={"center"} color={"gray.500"} fontSize={20} mb={20}>Features</Heading>
             <SimpleGrid columns={[2, null, 3]} spacing="40px" mx={40}>
                 <BoxFeatures

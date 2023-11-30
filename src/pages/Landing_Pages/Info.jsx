@@ -4,8 +4,9 @@ import {
     Image,
     Heading,
     Text,
+    Center,
+    Flex,
 } from "@chakra-ui/react";
-import Menu from "../../components/Menu";
 import Team1 from "../../assets/team/jalu.png"
 import Team2 from "../../assets/team/maul.png"
 import Team3 from "../../assets/team/andi.png"
@@ -17,16 +18,15 @@ import Team7 from "../../assets/team/surya.png"
 const Info = () => {
     return (
         <>
-            <Menu />
             <Heading textAlign={"center"} color={"gray.500"} fontSize={20} mb={20}>Team</Heading>
-            <SimpleGrid columns={5} spacingX="20px" spacingY="20px" mx={40}>
+            <Flex gap={"80px"} flexWrap={"wrap"} justifyContent={'center'} mb={"20px"} w={'1200px'} mx={"auto"}>
                 <Box h={420} w={"fit-content"} boxShadow={"lg"} display={"flex"} flexDirection={"column"} alignItems={"center"} textAlign={"center"}>
                     <Box>
                         <Image src={Team1} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Ahmad Jalu Fahreza</Heading>
-                    <Box display={"flex"} >
-                        <Box mr={14}>
+                    <Box display={"flex"} gap={'20px'}>
+                        <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Supplier</Text>
                         </Box>
@@ -43,8 +43,8 @@ const Info = () => {
                         <Image src={Team2} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Maulana Rafinda</Heading>
-                    <Box display={"flex"} >
-                        <Box mr={14}>
+                    <Box display={"flex"} gap={'20px'}>
+                        <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Items</Text>
                             <Text>Supply Orders</Text>
@@ -62,8 +62,8 @@ const Info = () => {
                         <Image src={Team5} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Rangga Krisna</Heading>
-                    <Box display={"flex"} >
-                        <Box mr={14}>
+                    <Box display={"flex"} gap={'20px'}>
+                        <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Authentication</Text>
                             <Text>Order</Text>
@@ -82,8 +82,8 @@ const Info = () => {
                         <Image src={Team6} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Reygan Fadhilah</Heading>
-                    <Box display={"flex"} >
-                        <Box mr={14}>
+                    <Box display={"flex"} gap={'20px'}>
+                        <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Customers</Text>
                         </Box>
@@ -99,7 +99,7 @@ const Info = () => {
                         <Image src={Team3} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Andi Ariski</Heading>
-                    <Box display={"flex"} >
+                    <Box display={"flex"} gap={'20px'}>
                         <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Seeding</Text>
@@ -111,7 +111,7 @@ const Info = () => {
                         <Image src={Team7} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Surya Adi</Heading>
-                    <Box display={"flex"} >
+                    <Box display={"flex"} gap={'20px'}>
                         <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Seeding</Text>
@@ -130,7 +130,7 @@ const Info = () => {
                         </Box>
                     </Box>
                 </Box>
-            </SimpleGrid >
+            </Flex>
         </>
     )
 }

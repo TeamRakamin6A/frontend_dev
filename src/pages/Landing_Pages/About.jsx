@@ -4,13 +4,11 @@ import {
     Image,
     Text
 } from "@chakra-ui/react";
-import Menu from "../../components/Menu";
 import Vector from "../../assets/landing2.png"
 
 const About = () => {
     return (
         <>
-            <Menu />
             <Heading textAlign={"center"} color={"gray.500"} fontSize={20}>About Us</Heading>
             <Heading textAlign={"center"} color={"#223965"} fontSize={40}>Learn More <span style={{ color: "#2593CF" }}>About Us</span></Heading>
             <Box display={"flex"} alignItems={"center"} mx={40}>

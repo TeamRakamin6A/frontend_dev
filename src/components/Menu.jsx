@@ -17,24 +17,24 @@ const Menu = () => {
                 </Box>
                 <Box display={"flex"} alignItems={'center'}>
                     <Text fontSize={20} fontWeight={"medium"} mr={10}>
-                        <Link color="gray.600" to="/home">
+                        <a color="gray.600" href="/home">
                             Home
-                        </Link>
+                        </a>
                     </Text>
                     <Text fontSize={20} fontWeight={"medium"} mr={10}>
-                        <Link color="gray.600" to="/about">
+                        <a color="gray.600" href="#about">
                             About us
-                        </Link>
+                        </a>
                     </Text>
                     <Text fontSize={20} fontWeight={"medium"} mr={10}>
-                        <Link color="gray.600" to="/features">
+                        <a color="gray.600" href="#features">
                             Features
-                        </Link>
+                        </a>
                     </Text>
                     <Text fontSize={20} fontWeight={"medium"} mr={10}>
-                        <Link color="gray.600" to="/info">
+                        <a color="gray.600" href="#info">
                             Info
-                        </Link>
+                        </a>
                     </Text>
                     <Button as={Link} to="/login" px={10} py={8} borderRadius={10} fontSize={20} mr={10} colorScheme="blue">Login</Button>
                 </Box>
