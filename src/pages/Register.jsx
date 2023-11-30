@@ -122,7 +122,7 @@ const Register = () => {
               Register
             </Button>
           </form>
-          <Text mt={'20px'}>Have an account? <Link to={"/login"}><Box display={'inline'} color={'blue'} _hover={{ textDecoration: 'underline' }}>Login</Box></Link></Text>
+          <Box mt={'20px'}>Have an account? <Link to={"/login"}><Box display={'inline'} color={'blue'} _hover={{ textDecoration: 'underline' }}>Login</Box></Link></Box>
         </Flex>
       </Box>
     </Box>

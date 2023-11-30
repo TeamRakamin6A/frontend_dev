@@ -47,3 +47,19 @@ export async function getUserLogin() {
     }
 
 }
+
+export async function updateUser(payload) {
+    try {
+        const response = await instance({
+            url: '/users',
+            method: 'PUT',
+            data: payload
+        })
+
+        const data = response.data;
+        return data
+    } catch (error) {
+        console.log(error);
+        throw error
+    }
+}

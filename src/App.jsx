@@ -26,6 +26,7 @@ import CreateWarehouse from "./pages/Warehouses/AddWarehouse";
 import AddItem from "./pages/Items/AddItem";
 import EditItem from "./pages/Items/EditItem";
 import PrivateRoute from "./components/PrivateRoute";
+import ForgetPassword from "./pages/ForgetPassword";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forget" element={<ForgetPassword />} />
           <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
           <Route path="/products" element={<PrivateRoute><Items /></PrivateRoute>} />
           <Route path="/add-products" element={<PrivateRoute><AddItem /></PrivateRoute>} />

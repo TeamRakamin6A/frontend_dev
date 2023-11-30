@@ -70,12 +70,13 @@ const Login = () => {
             <FormControl isRequired mt={6}>
               <Input w={'480px'} h={"55px"} border={'2px solid #CCC9C9'} type="password" name="password" placeholder="Input Your Password" onChange={(e) => setPassword(e.target.value)} />
             </FormControl>
+            <Box color={'blue'} mt={'20px'} _hover={{ textDecoration: 'underline' }}> <Link to={"/forget"}>Forget Password?</Link></Box>
             <Button mt={8} h={"55px"} w={'full'} color={"blue"} type="button" onClick={handleSubmit}>
               Login
             </Button>
           </form>
-          <Text mt={'20px'}>Have not an account? <Link to={"/register"}><Box display={'inline'} color={'blue'} _hover={{ textDecoration: 'underline' }}>Register</Box></Link></Text>
-          <Text mt={'20px'} _hover={{ textDecoration: 'underline' }}> <Link to={"/home"}>Back to Home</Link></Text>
+          <Box mt={'20px'}>Have not an account? <Link to={"/register"}><Box display={'inline'} color={'blue'} _hover={{ textDecoration: 'underline' }}>Register</Box></Link></Box>
+          <Box mt={'20px'} _hover={{ textDecoration: 'underline' }}> <Link to={"/home"}>Back to Home</Link></Box>
         </Flex>
       </Box>
     </Box>
