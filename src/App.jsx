@@ -1,4 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Landing_Pages/home";
+import About from "./pages/Landing_Pages/about";
+import Features from "./pages/Landing_Pages/features";
+import Info from "./pages/Landing_Pages/info";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -32,6 +36,10 @@ function App() {
     <ChakraProvider>
       <Router>
         <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/features" element={<Features />} />
+          <Route path="/info" element={<Info />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, ButtonGroup, Spacer, Text, Heading, Box } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
+import { Table, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, Flex, Select, Spacer, Text, Heading, Box } from "@chakra-ui/react";
+import { DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { getAllSupplyOrders, deleteSupplyOrder } from "../../fetching/supply_order";
 import { getAllSuppliers } from "../../fetching/supplier"
 import { getAllWarehouses } from "../../fetching/warehouse";
@@ -20,6 +20,7 @@ const Supply_Orders = () => {
   const [selectedSuppliers, setSelectedSuppliers] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
@@ -38,7 +39,7 @@ const Supply_Orders = () => {
     try {
       const response = await getAllSupplyOrders(
         currentPage,
-        5,
+        dataPerPage,
         null,
         selectedWarehouses.length === 0 ? null : selectedWarehouses.map(warehouse => warehouse.value),
         selectedSuppliers.length === 0 ? null : selectedSuppliers.map(supplier => supplier.value),
@@ -105,6 +106,20 @@ const Supply_Orders = () => {
     }
   };
 
+  const handleDataPage = async (e) => {
+    setDataPerPage(+e.target.value)
+    const res = await getAllSupplyOrders(
+      currentPage,
+      dataPerPage,
+      null,
+      selectedWarehouses.length === 0 ? null : selectedWarehouses.map(warehouse => warehouse.value),
+      selectedSuppliers.length === 0 ? null : selectedSuppliers.map(supplier => supplier.value),
+      selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
+    );
+    setSupplyOrders(res.data);
+    setTotalPages(res.totalPage);
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
@@ -161,6 +176,15 @@ const Supply_Orders = () => {
               <br />
             </Box>
             <Spacer />
+            <Flex justify={'flex-end'} mr={10}>
+              <Box w={'140px'}>
+                <Select placeholder='Data Page' onChange={handleDataPage} value={dataPerPage}>
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                </Select>
+              </Box>
+            </Flex>
             <Box style={{ display: "flex", alignItems: "center", border: "2px solid", borderColor: "purple", borderRadius: "6px", padding: "2px", marginBottom: "24px" }}>
               <Menu>
                 <MenuButton as={IconButton} icon={<FaFilter />} size="md" variant="outline" colorScheme="purple" style={{ background: "transparent", border: "none" }} />

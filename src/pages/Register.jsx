@@ -4,6 +4,7 @@ import {
   Button,
   FormControl,
   Input,
+  Select,
   Text,
   useToast,
   Center
@@ -47,16 +48,16 @@ const Register = () => {
       });
       navigate("/login");
     } catch (e) {
-      const error = new Error(e);
+      const errorMessage = e?.message || "An error occurred. Please try again.";
+      setError(errorMessage);
       toast({
         title: "An error occurred.",
-        description: error?.message || "An error occurred. Please try again.",
+        description: errorMessage,
         status: "error",
         duration: 3000,
         isClosable: true,
       });
     }
-    setError(error?.message || console.error());
   };
 
   return (
@@ -111,8 +112,11 @@ const Register = () => {
                 )}
               </FormControl>
 
-              <FormControl isRequired>
-                <Input type="text" name="role" placeholder="Role" mt={4} onChange={(e) => setRole(e.target.value)} />
+              <FormControl isRequired mt={4}>
+                <Select placeholder="Select Role" onChange={(e) => setRole(e.target.value)}>
+                  <option value="admin">Admin</option>
+                  <option value="superadmin">Super Admin</option>
+                </Select>
               </FormControl>
 
               <Button mt={8} color={hexaColor.colorSubmit} type="button" onClick={handleSubmit}>

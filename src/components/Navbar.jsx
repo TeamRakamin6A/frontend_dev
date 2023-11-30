@@ -45,7 +45,7 @@ const Navbar = () => {
 
   const logOut = () => {
     localStorage.removeItem('token')
-    navigate('/login')
+    navigate('/home')
   }
 
   return (
