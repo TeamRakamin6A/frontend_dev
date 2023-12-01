@@ -26,16 +26,6 @@ const Supply_Orders = () => {
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
 
-  useEffect(() => {
-    fetchSupplyOrders();
-    fetchWarehouses();
-    fetchSuppliers();
-  }, [currentPage, selectedWarehouses, selectedSuppliers, selectedStatus]);
-
-  const paginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   const fetchSupplyOrders = async () => {
     try {
       const response = await getAllSupplyOrders(
@@ -47,7 +37,7 @@ const Supply_Orders = () => {
         selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
       );
       setSupplyOrders(response.data);
-      console.log(response.data, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Repsonse")
+      console.log(response.data, "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< Repsonse")
       setTotalPages(response.totalPage);
     } catch (error) {
       console.error("Error fetching supply orders:", error.message);
@@ -72,6 +62,13 @@ const Supply_Orders = () => {
     }
   };
 
+  useEffect(() => {
+    fetchSupplyOrders();
+    fetchWarehouses();
+    fetchSuppliers();
+  }, [currentPage, selectedWarehouses, selectedSuppliers, selectedStatus, dataPerPage]);
+
+
   const handleDelete = async (id) => {
     try {
       await deleteSupplyOrder(id);
@@ -95,6 +92,11 @@ const Supply_Orders = () => {
     }
   };
 
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const prevPage = () => {
     if (currentPage !== 1) {
       setCurrentPage(currentPage - 1);
@@ -107,18 +109,9 @@ const Supply_Orders = () => {
     }
   };
 
+
   const handleDataPage = async (e) => {
     setDataPerPage(+e.target.value)
-    const res = await getAllSupplyOrders(
-      currentPage,
-      dataPerPage,
-      null,
-      selectedWarehouses.length === 0 ? null : selectedWarehouses.map(warehouse => warehouse.value),
-      selectedSuppliers.length === 0 ? null : selectedSuppliers.map(supplier => supplier.value),
-      selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
-    );
-    setSupplyOrders(res.data);
-    setTotalPages(res.totalPage);
   }
 
   return (
@@ -221,7 +214,7 @@ const Supply_Orders = () => {
             </Thead>
             <Tbody>
               {supplyOrders.map((order) => (
-                <Tr key={order.id} href={`/supplier-orders/${order.id}`}  borderBottom={'2px solid #D9D9D9'} >
+                <Tr key={order.id} href={`/supplier-orders/${order.id}`} borderBottom={'2px solid #D9D9D9'} >
                   <Td textColor={"gray.600"}>{order.id}</Td>
                   <Td textColor={"gray.600"}>{convertPrice(order.total_price)}</Td>
                   <Td textColor={"gray.600"}>{order.Supplier.company_name}</Td>

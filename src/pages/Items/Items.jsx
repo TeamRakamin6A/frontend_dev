@@ -142,9 +142,6 @@ const Items = () => {
 
   const handleItemPage = async (e) => {
     setItemPerPage(+e.target.value)
-    const res = await getAllItems(currentPage, itemPerPage, "", []);
-    setItem(res.data.items);
-    setTotalPage(res.data.totalPages);
   }
 
   if (loading) {
