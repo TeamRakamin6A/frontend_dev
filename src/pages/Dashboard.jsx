@@ -39,7 +39,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <Box w={"full"} bgColor={"#F3F3F3"} padding={'25px'}>
+      <Box w={"full"} h={'100vh'} bgColor={"#F3F3F3"} padding={'25px'}>
         <Flex direction={'row'} wrap={'wrap'} justify={'center'} align={'center'} gap={'90px'} pt={'40px'}>
           <Box>
             <HStack gap={'20px'}>
