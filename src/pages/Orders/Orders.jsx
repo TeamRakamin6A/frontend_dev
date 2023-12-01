@@ -12,7 +12,7 @@ import CustomHeader from "../../components/Boxtop";
 import convertPrice from "../../lib/convertPrice";
 import Paginate from "../../components/Paginate";
 
-const CreateOrder = () => {
+const Orders = () => {
   const toast = useToast();
   const [orders, setOrders] = useState([]);
   const [selectedWarehouses, setSelectedWarehouses] = useState([]);
@@ -240,4 +240,4 @@ const CreateOrder = () => {
   );
 };
 
-export default CreateOrder;
+export default Orders;
