@@ -9,6 +9,7 @@ import {
   IconButton,
   Input,
   Table,
+  TableContainer,
   Thead,
   Tbody,
   Tr,
@@ -27,6 +28,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Select,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -44,6 +46,7 @@ import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import CustomHeader from '../../components/Boxtop';
+import Footer from "../../components/Footer";
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -199,7 +202,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -217,7 +220,7 @@ const CustomerList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -257,8 +260,8 @@ const CustomerList = () => {
       <Box bg="gray.200" minH="100vh" pb="5">
         <CustomHeader title={'Customer'} subtitle={'Customer List'} href={'customers'} subhref={'customers'} />
 
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt={'30px'}>
-          <Flex justify="space-between" align="center" m="5" >
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
+          <Flex align="flex-end" justify="space-between" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
                 Customer List
@@ -266,7 +269,7 @@ const CustomerList = () => {
               <Flex mb="5">
                 <Link to="/addcustomers">
                   <Button
-                    colorScheme="messenger"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Customer
@@ -295,71 +298,75 @@ const CustomerList = () => {
                 </Box>
               </Flex>
             </Flex>
+            <Flex mr="5">
+              <Box w="140px">
+                <Select
+                  placeholder='Customer Page'
+                  size="sm"
+                  value={selectedLimit}
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                >
+                  {[10, 20, 30].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            </Flex>
           </Flex>
 
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th width="50px">
-                  <Checkbox isDisabled />
-                </Th>
-                <Th width="150px">Name</Th>
-                <Th width="150px">Email</Th>
-                <Th width="150px">Phone Number</Th>
-                <Th width="150px">Address</Th>
-                <Th width="100px">Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {customers.map((customer) => (
-                <Tr key={customer.id}>
-                  <Td width="50px">
+          <TableContainer rounded={'10px'} overflowX={'auto'} border={'2px solid #D9D9D9'}>
+            <Table variant="simple">
+              <Thead>
+                <Tr borderBottom={'2px solid #D9D9D9'} >
+                  <Th width="50px">
                     <Checkbox isDisabled />
-                  </Td>
-                  <Td width="150px">
-                    <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
-                  </Td>
-                  <Td width="150px">{customer.email}</Td>
-                  <Td width="150px">{customer.phone_number}</Td>
-                  <Td width="150px">{customer.address}</Td>
-                  <Td width="100px">
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        size="md"
-                        colorScheme="messenger"
-                        variant="outline"
-                        rightIcon={<FaCaretDown />}
-                      >
-                        Action
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem onClick={() => handleUpdateCustomer(customer.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                        <MenuItem onClick={() => handleDeleteCustomer(customer.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Td>
+                  </Th>
+                  <Th width="150px">Name</Th>
+                  <Th width="150px">Email</Th>
+                  <Th width="150px">Phone Number</Th>
+                  <Th width="150px">Address</Th>
+                  <Th width="100px">Action</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {customers.map((customer) => (
+                  <Tr key={customer.id} borderBottom={'2px solid #D9D9D9'} >
+                    <Td width="50px">
+                      <Checkbox isDisabled />
+                    </Td>
+                    <Td width="150px">
+                      <Link to={`/customers/${customer.id}`}>{customer.name}</Link>
+                    </Td>
+                    <Td width="150px">{customer.email}</Td>
+                    <Td width="150px">{customer.phone_number}</Td>
+                    <Td width="150px">{customer.address}</Td>
+                    <Td width="100px">
+                      <Menu>
+                        <MenuButton
+                          as={Button}
+                          size="md"
+                          colorScheme="linkedin"
+                          variant="outline"
+                          rightIcon={<FaCaretDown />}
+                        >
+                          Action
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem onClick={() => handleUpdateCustomer(customer.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                          <MenuItem onClick={() => handleDeleteCustomer(customer.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
 
           {/* Pagination */}
-          <Flex justify="space-between" mt="4" mr="20" ml="10">
-            <Flex>
-              {[10, 20, 30].map((option) => (
-                <Button
-                  key={option}
-                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                  onClick={() => handleLimitChange(option)}
-                  mr="1"
-                  size="sm"
-                >
-                  {option}
-                </Button>
-              ))}
-            </Flex>
-
+          <Flex justify="flex-end" mt="4" mr="20" ml="10">
             <Flex>
               <IconButton
                 onClick={handlePrevPage}
@@ -460,6 +467,7 @@ const CustomerList = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

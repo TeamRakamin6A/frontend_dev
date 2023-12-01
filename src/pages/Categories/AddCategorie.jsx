@@ -14,6 +14,8 @@ import {
 import { addCategorie } from '../../fetching/category'; 
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Footer from "../../components/Footer";
+import CustomHeader from '../../components/Boxtop';
 
 const AddCategory = () => {
     const [category, setCategory] = useState({
@@ -66,22 +68,8 @@ const AddCategory = () => {
     return (
         <>
             <Navbar />
-            <Box minH="88vh" bg="gray.200" pb="5">
-                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                    <Heading as="h1" fontSize="xl">
-                        Category List
-                    </Heading>
-                    <Flex align="center">
-                        <Link to="/categories">
-                            <Text fontSize="sm" color="gray.500" mr="1">
-                                Category
-                            </Text>
-                        </Link>
-                        <Text fontSize="sm" color="gray.500">
-                            {'>'} Add Category
-                        </Text>
-                    </Flex>
-                </Container>
+            <Box minH="79vh" bg="gray.200" pb="5">
+            <CustomHeader title={'Category'} subtitle={'Add Category'} href={'categories'} subhref={`addcategories`} />
 
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="100">
                     <Flex direction="column" m="5">
@@ -96,13 +84,14 @@ const AddCategory = () => {
                         </FormControl>
 
                         <Flex justifyContent="center" alignItems="center">
-                            <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                            <Button size="md" colorScheme="linkedin" onClick={handleFormSubmit}>
                                 Add Category
                             </Button>
                         </Flex>
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
     );
 };

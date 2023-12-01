@@ -9,6 +9,7 @@ import {
   IconButton,
   Input,
   Table,
+  TableContainer,
   Thead,
   Tbody,
   Tr,
@@ -43,6 +44,7 @@ import { Link } from 'react-router-dom';
 import { getAllOrder, updateOrder, deleteOrder } from '../../fetching/order';
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from '../../components/Navbar';
+import Footer from '../../components/Footer';
 
 const OrderList = () => {
   const [orders, setOrders] = useState([]);
@@ -190,7 +192,7 @@ const OrderList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'blue' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -208,7 +210,7 @@ const OrderList = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'teal' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -257,7 +259,7 @@ const OrderList = () => {
               <Flex mb="5">
                 <Link to="/addorders">
                   <Button
-                    colorScheme="blue"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Order
@@ -288,6 +290,7 @@ const OrderList = () => {
             </Flex>
           </Flex>
 
+          <TableContainer rounded={'10px'} overflowX={'auto'} border={'2px solid #D9D9D9'}>
           <Table variant="simple">
             <Center>
               {loading && (
@@ -304,7 +307,7 @@ const OrderList = () => {
             {!loading && (
               <>
                 <Thead>
-                  <Tr>
+                  <Tr borderBottom={'2px solid #D9D9D9'} >
                     <Th width="50px">
                       <Checkbox />
                     </Th>
@@ -316,7 +319,7 @@ const OrderList = () => {
                 </Thead>
                 <Tbody>
                   {orders.map((order) => (
-                    <Tr key={order.id}>
+                    <Tr key={order.id} borderBottom={'2px solid #D9D9D9'} >
                       <Td width="50px">
                         <Checkbox />
                       </Td>
@@ -330,7 +333,7 @@ const OrderList = () => {
                           <MenuButton
                             as={Button}
                             size="md"
-                            colorScheme="blue"
+                            colorScheme="linkedin"
                             variant="outline"
                             rightIcon={<FaCaretDown />}
                           >
@@ -345,9 +348,11 @@ const OrderList = () => {
                     </Tr>
                   ))}
                 </Tbody>
+                
               </>
             )}
           </Table>
+          </TableContainer>
 
           {/* Pagination */}
           <Flex justify="space-between" mt="4" mr="20" ml="10">
@@ -433,6 +438,7 @@ const OrderList = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
 
   );

@@ -7,6 +7,7 @@ import Items from "./pages/Items/Items";
 import ItemDetail from "./pages/Items/ItemDetail";
 import Categories from "./pages/Categories/Categories";
 import CategoryDetail from "./pages/Categories/CategoryDetail";
+import AddCategory from "./pages/Categories/AddCategorie";
 import Orders from "./pages/Orders/Orders";
 import OrderDetail from "./pages/Orders/OrderDetail";
 import Customers from "./pages/Customers/Customers";
@@ -44,6 +45,7 @@ function App() {
           <Route path="/products/:id" element={<PrivateRoute><ItemDetail /></PrivateRoute>} />
           <Route path="/categories" element={<PrivateRoute><Categories /></PrivateRoute>} />
           <Route path="/categories/:id" element={<PrivateRoute><CategoryDetail /></PrivateRoute>} />
+          <Route path="/addcategories" element={<AddCategory />} />
           <Route path="/orders" element={<PrivateRoute><Orders /></PrivateRoute>} />
           <Route path="/orders/:id" element={<PrivateRoute><OrderDetail /></PrivateRoute>} />
           <Route path="/addorders" element={<PrivateRoute><CreateOrder /></PrivateRoute>} />

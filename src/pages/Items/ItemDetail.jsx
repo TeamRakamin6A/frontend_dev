@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import Navbar from "../../components/Navbar";
 import CustomHeader from "../../components/Boxtop";
+import Footer from "../../components/Footer";
 
 const ItemDetail = () => {
   const { id } = useParams()
@@ -30,7 +31,7 @@ const ItemDetail = () => {
         <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'90px'}>
           <Text mt={'20px'} fontWeight={'bold'} fontSize={'25px'}>Detail Product</Text>
           <Flex justify={'center'} align={'center'} gap={'60px'} mt={'60px'}>
-            <Box border={'2px solid #2C6BE5'} p={'10px'} rounded={'10px'} >
+            <Box border={'2px solid #0090CD'} p={'10px'} rounded={'10px'} >
               {
                 item.image_url ? <Image src={item.image_url} w={'300px'} h={'250px'} />
                   : <Text w={'300px'} h={'250px'} display={'flex'} justifyContent={'center'} alignItems={'center'} fontSize={'30px'} fontWeight={'semibold'}>Image Not Found</Text>
@@ -68,6 +69,7 @@ const ItemDetail = () => {
           </Flex>
         </Box>
       </Box>
+      <Footer />
     </>
   )
 };

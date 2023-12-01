@@ -22,6 +22,7 @@ import { getCustomerById, updateCustomer, deleteCustomer } from '../../fetching/
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
 import CustomHeader from '../../components/Boxtop';
+import Footer from "../../components/Footer";
 
 const CustomerDetail = () => {
   const { id } = useParams();
@@ -210,12 +211,12 @@ const CustomerDetail = () => {
             </FormControl>
 
             <Flex justify="space-between">
-              <Button colorScheme="blue" onClick={handleBack}>
+              <Button colorScheme="linkedin" onClick={handleBack}>
                 Back To Customers
               </Button>
 
               <Flex>
-                <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
+                <Button colorScheme="green" mr={2} onClick={handleUpdateButtonClick}>
                   Update Customer
                 </Button>
 
@@ -276,7 +277,7 @@ const CustomerDetail = () => {
             </ModalBody>
             <ModalFooter>
               {/* Tombol "Update" di dalam modal */}
-              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
                 Update
               </Button>
               {/* Tombol "Cancel" di dalam modal */}
@@ -306,6 +307,7 @@ const CustomerDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

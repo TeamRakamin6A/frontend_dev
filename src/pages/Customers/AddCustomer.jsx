@@ -13,6 +13,7 @@ import { addCustomer } from '../../fetching/customer';
 import { useNavigate } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
 import CustomHeader from '../../components/Boxtop';
+import Footer from "../../components/Footer";
 
 const AddCustomer = () => {
     const [customer, setCustomer] = useState({
@@ -77,7 +78,7 @@ const AddCustomer = () => {
             <Box bg="gray.200" pb="5">
                 <CustomHeader title={'Customer'} subtitle={'Add Customer'} href={'customers'} subhref={'customers/addcustomers'} />
 
-                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
                     <Flex direction="column" m="5">
                         <FormControl mb="4" isRequired>
                             <FormLabel>Name</FormLabel>
@@ -120,13 +121,14 @@ const AddCustomer = () => {
                         </FormControl>
 
                         <Flex justifyContent="center" alignItems="center">
-                            <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                            <Button size="md" colorScheme="linkedin" onClick={handleFormSubmit}>
                                 Add Customer
                             </Button>
                         </Flex>
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
     );
 };

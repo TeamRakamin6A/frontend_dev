@@ -22,7 +22,7 @@ const Paginate = ({ totalPages, paginate, currentPage, prevPage, nextPage }) => 
                     <Button
                         key={number}
                         onClick={() => paginate(number)}
-                        bgColor={currentPage === number ? '#2C6AE5' : '#D9D9D9'}
+                        colorScheme={currentPage === number ? 'linkedin' : 'gray'}
                         padding={'6px'}
                         ml={'10px'}
                     >

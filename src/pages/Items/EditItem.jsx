@@ -7,6 +7,7 @@ import { MultiSelect } from "react-multi-select-component"
 import { getAllCategories } from "../../fetching/category"
 import Navbar from "../../components/Navbar"
 import CustomHeader from "../../components/Boxtop"
+import Footer from "../../components/Footer";
 
 const EditItem = () => {
     const { id } = useParams();
@@ -102,7 +103,7 @@ const EditItem = () => {
     return (
         <>
             <Navbar />
-            <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} >
+            <Box w={'full'} bg={'#F3F3F3'} >
                 <CustomHeader title={'Product'} subtitle={'Edit Product'} href={'products'} subhref={`products/edit-products/${id}`} />
                 <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'80px'} shadow={'lg'}>
                     <Text fontWeight={'extrabold'} fontSize={'25px'} mt={'20px'}>Edit Product</Text>
@@ -139,11 +140,11 @@ const EditItem = () => {
                                 <Input placeholder='Keywords' defaultValue={productData?.keywords} onChange={handleInputChange} name="keywords" size='lg' />
                             </FormControl>
                         </Box>
-                        <Box w={'296px'} rounded={'20px'} border={'2px dashed #2C6BE5'} bgColor={'#E7EFFF'} {...getRootProps()}>
+                        <Box w={'296px'} rounded={'20px'} border={'2px dashed #0090CD'} bgColor={'#E7EFFF'} {...getRootProps()}>
                             <Flex justifyContent={'center'} h={'407px'} alignItems={'center'}>
                                 <VStack>
                                     <Text fontWeight={'bold'} align={'center'} fontSize={'32px'}>Drop product image here Or</Text>
-                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#2C6AE5'}>
+                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#0090CD'}>
                                         <FormLabel fontSize={'18px'} color={'white'} fontWeight={'bold'} htmlFor={'file'}>Input File</FormLabel>
                                     </Flex>
                                     <Input type="file" id="file" h={'40px'} placeholder="Browse File" hidden  {...getInputProps()} />
@@ -153,10 +154,11 @@ const EditItem = () => {
 
                     </Flex>
                     <Box display={'flex'} justifyContent={'center'}>
-                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} bgColor={'#2C6AE5'} color={'white'}>Update Product</Button>
+                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} colorScheme="linkedin">Update Product</Button>
                     </Box>
                 </Box>
             </Box>
+            <Footer />
         </>
 
     )

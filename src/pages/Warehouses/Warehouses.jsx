@@ -41,6 +41,7 @@ import { MultiSelect } from "react-multi-select-component";
 import Paginate from '../../components/Paginate';
 import Navbar from '../../components/Navbar';
 import CustomHeader from '../../components/Boxtop';
+import Footer from '../../components/Footer';
 
 const Warehouses = () => {
   const [warehouses, setWarehouses] = useState([]);
@@ -218,7 +219,7 @@ const Warehouses = () => {
               <Flex mb="5">
                 <Link to="/addwarehouse">
                   <Button
-                    colorScheme="blue"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Warehouse
@@ -365,7 +366,8 @@ const Warehouses = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-      </Box >
+      </Box>
+      <Footer />
     </>
 
   );

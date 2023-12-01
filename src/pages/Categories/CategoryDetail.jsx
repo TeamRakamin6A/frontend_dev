@@ -22,14 +22,14 @@ import {
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getCategorieById, updateCategorie, deleteCategorie } from '../../fetching/category'; 
 import Navbar from "../../components/Navbar";
-import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
+import CustomHeader from '../../components/Boxtop';
 
 const CategoryDetail = () => {
   const { id } = useParams();
   const [category, setCategory] = useState([]);
   const toast = useToast();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
 
   
   const {
@@ -49,12 +49,10 @@ const CategoryDetail = () => {
   } = useDisclosure();
 
   useEffect(() => {
-    setLoading(true);
     const fetchCategoryDetail = async () => {
       try {
         const categoryDetail = await getCategorieById(id);
         setCategory(categoryDetail.data);
-        setLoading(false);
       } catch (error) {
         console.error('Error fetching category detail:', error.message);
         toast({
@@ -83,7 +81,6 @@ const CategoryDetail = () => {
 
   
   const handleUpdateFormSubmit = async () => {
-    setLoading(true);
     try {
       await updateCategorie(
         id,
@@ -93,7 +90,6 @@ const CategoryDetail = () => {
       
       const updatedCategoryData = await getCategorieById(id);
       setCategory(updatedCategoryData.data);
-      setLoading(false);
 
       onCloseUpdateModal();
 
@@ -147,31 +143,12 @@ const CategoryDetail = () => {
     onOpenUpdateModal();
   };
 
-  if (loading) {
-    return (
-      <Loading />
-    );
-  }
 
   return (
     <>
       <Navbar />
-      <Box minH="88vh" bg="gray.200" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Category Detail
-          </Heading>
-          <Flex align="center">
-            <Link to="/categories">
-              <Text fontSize="sm" color="gray.500" mr="1">
-                Category
-              </Text>
-            </Link>
-            <Text fontSize="sm" color="gray.500">
-              {'>'} Category Detail
-            </Text>
-          </Flex>
-        </Container>
+      <Box minH="79vh" bg="gray.200" pb="5">
+      <CustomHeader title={'Category'} subtitle={'Detail Category'} href={'categories'} subhref={`categories/${id}`} />
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="100">
           <Flex direction="column" m="5">
@@ -186,12 +163,12 @@ const CategoryDetail = () => {
             </FormControl>
 
             <Flex justify="space-between">
-              <Button colorScheme="blue" onClick={handleBack}>
+              <Button colorScheme="linkedin" onClick={handleBack}>
                 Back To Categories
               </Button>
 
               <Flex>
-                <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
+                <Button colorScheme="green" mr={2} onClick={handleUpdateButtonClick}>
                   Update Category
                 </Button>
 
@@ -220,7 +197,7 @@ const CategoryDetail = () => {
               </FormControl>
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
                 Update
               </Button>
               <Button colorScheme="red" onClick={onCloseUpdateModal}>
@@ -252,6 +229,7 @@ const CategoryDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

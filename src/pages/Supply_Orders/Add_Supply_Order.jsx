@@ -41,6 +41,7 @@ import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
 import convertPrice from "../../lib/convertPrice";
 import { useNavigate } from 'react-router-dom';
+import Footer from "../../components/Footer";
 
 const AddSupplyOrders = () => {
     const toast = useToast();
@@ -244,7 +245,7 @@ const AddSupplyOrders = () => {
     return (
         <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
             <Navbar />
-            <CustomHeader title="Supply Orders" subtitle="Add Supply Orders" />
+            <CustomHeader title={'Supply Orders'} subtitle={'Add Supply Orders'} href={'supplier-orders'} subhref={'add-supplier-orders'} />
             <Box bg="white" m="40px" minHeight={"fit-content"}>
                 <Heading ml="60px" pt="40px" pb="20px" fontSize={'22px'}>
                     Add Supply Order
@@ -314,7 +315,7 @@ const AddSupplyOrders = () => {
                                 <Button
                                     type="button"
 
-                                    colorScheme="messenger"
+                                    colorScheme="linkedin"
                                     fontSize="md"
                                     mr={5}
                                     p={7}
@@ -323,7 +324,7 @@ const AddSupplyOrders = () => {
                                     Add Supply Orders
                                 </Button>
                                 <Link to="/supplier-orders">
-                                    <Button variant="outline" colorScheme="blue" p={7}>
+                                    <Button variant="outline" colorScheme="linkedin" p={7}>
                                         Back to Supply Orders
                                     </Button>
                                 </Link>
@@ -332,6 +333,7 @@ const AddSupplyOrders = () => {
                     </Box>
                 </Box>
             </Box>
+            <Footer />
         </div >
 
     );
