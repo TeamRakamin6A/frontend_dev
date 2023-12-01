@@ -104,6 +104,10 @@ const Info = () => {
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Seeding</Text>
                         </Box>
+                        <Box>
+                            <Heading fontSize={14}>Others</Heading>
+                            <Text>Powerpoint</Text>
+                        </Box>
                     </Box>
                 </Box>
                 <Box h={420} w={"fit-content"} boxShadow={"lg"} display={"flex"} flexDirection={"column"} alignItems={"center"} textAlign={"center"}>
@@ -117,8 +121,9 @@ const Info = () => {
                             <Text>Seeding</Text>
                         </Box>
                         <Box>
-                            <Heading fontSize={14}>Figma</Heading>
+                            <Heading fontSize={14}>Design</Heading>
                             <Text>Landing Page</Text>
+                            <Text>Logo</Text>
                         </Box>
                     </Box>
                 </Box>
@@ -133,8 +138,9 @@ const Info = () => {
                             <Text>Categories</Text>
                         </Box>
                         <Box>
-                            <Heading fontSize={14}>Diagram</Heading>
+                            <Heading fontSize={14}>Others</Heading>
                             <Text>Flowchart</Text>
+                            <Text>Powerpoint</Text>
                         </Box>
                     </Box>
                 </Box>
