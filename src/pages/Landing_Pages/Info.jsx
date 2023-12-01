@@ -116,6 +116,10 @@ const Info = () => {
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Seeding</Text>
                         </Box>
+                        <Box>
+                            <Heading fontSize={14}>Figma</Heading>
+                            <Text>Landing Page</Text>
+                        </Box>
                     </Box>
                 </Box>
                 <Box h={420} w={"fit-content"} boxShadow={"lg"} display={"flex"} flexDirection={"column"} alignItems={"center"} textAlign={"center"}>
@@ -123,10 +127,14 @@ const Info = () => {
                         <Image src={Team4} h={240} w={240}></Image>
                     </Box>
                     <Heading fontSize={20} fontWeight={"medium"} w={40} my={4}>Ahmad Kurnia</Heading>
-                    <Box display={"flex"} >
+                    <Box display={"flex"} gap={'20px'}>
                         <Box>
                             <Heading fontSize={14}>Backend</Heading>
                             <Text>Categories</Text>
+                        </Box>
+                        <Box>
+                            <Heading fontSize={14}>Diagram</Heading>
+                            <Text>Flowchart</Text>
                         </Box>
                     </Box>
                 </Box>
