@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
     Box,
     Container,
-    Heading,
-    Text,
     Button,
     Input,
     Flex,
@@ -12,8 +10,9 @@ import {
     FormLabel,
 } from '@chakra-ui/react';
 import { addCustomer } from '../../fetching/customer';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
+import CustomHeader from '../../components/Boxtop';
 
 const AddCustomer = () => {
     const [customer, setCustomer] = useState({
@@ -76,21 +75,7 @@ const AddCustomer = () => {
         <>
             <Navbar />
             <Box bg="gray.200" pb="5">
-                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                    <Heading as="h1" fontSize="xl">
-                        Customer List
-                    </Heading>
-                    <Flex align="center">
-                        <Link to="/customers">
-                            <Text fontSize="sm" color="gray.500" mr="1">
-                                Customer
-                            </Text>
-                        </Link>
-                        <Text fontSize="sm" color="gray.500">
-                            {'>'} Add Customer
-                        </Text>
-                    </Flex>
-                </Container>
+                <CustomHeader title={'Customer'} subtitle={'Add Customer'} href={'customers'} subhref={'customers/addcustomers'} />
 
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
                     <Flex direction="column" m="5">

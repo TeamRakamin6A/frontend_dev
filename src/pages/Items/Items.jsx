@@ -1,4 +1,3 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from "@chakra-ui/breadcrumb";
 import {
   Box, Button, Text, Table,
   Thead,
@@ -26,7 +25,6 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import { MultiSelect } from "react-multi-select-component";
-import { ChevronRightIcon } from '@chakra-ui/icons'
 import { FaPlusCircle } from "react-icons/fa";
 import { useEffect, useRef, useState } from "react";
 import { deleteItem, getAllItems } from "../../fetching/item";
@@ -36,6 +34,7 @@ import convertPrice from "../../lib/convertPrice";
 import { getAllCategories } from "../../fetching/category";
 import Loading from "../../components/Loading";
 import Navbar from "../../components/Navbar";
+import CustomHeader from "../../components/Boxtop";
 
 const Items = () => {
   const [selected, setSelected] = useState([]);
@@ -154,17 +153,7 @@ const Items = () => {
   return <>
     <Navbar />
     <Box w={'full'} bg={'#F3F3F3'} pb={'20px'}>
-      <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
-        <Text fontWeight={'extrabold'} fontSize={'25px'}>Product</Text>
-        <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
-          <BreadcrumbItem>
-            <BreadcrumbLink href='/products'>Product</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <BreadcrumbLink href='/products'>Product List</BreadcrumbLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
-      </Box>
+      <CustomHeader title={'Product'} subtitle={'Product List'} href={'products'} subhref={`products`} />
       <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'}>
         <Text mt={'20px'} fontWeight={'bold'} fontSize={'25px'}>Product List</Text>
         <Button mt={'20px'} onClick={() => navigate('/add-products')} height='48px' width='200px' bgColor={'#2C6AE5'} color={'white'}><FaPlusCircle fontSize={'30px'} />

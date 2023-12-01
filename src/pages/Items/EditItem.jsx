@@ -1,5 +1,4 @@
-import { ChevronRightIcon } from "@chakra-ui/icons"
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormControl, FormLabel, Input, Text, VStack, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, FormControl, FormLabel, Input, Text, VStack, useToast } from "@chakra-ui/react"
 import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { updateItem, uploadImage } from "../../fetching/item"
@@ -7,6 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { MultiSelect } from "react-multi-select-component"
 import { getAllCategories } from "../../fetching/category"
 import Navbar from "../../components/Navbar"
+import CustomHeader from "../../components/Boxtop"
 
 const EditItem = () => {
     const { id } = useParams();
@@ -29,7 +29,7 @@ const EditItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await getAllCategories(1,100,'')
+                const res = await getAllCategories(1, 100, '')
                 console.log(res);
                 setCategories(res.data)
             } catch (error) {
@@ -103,17 +103,7 @@ const EditItem = () => {
         <>
             <Navbar />
             <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} >
-                <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
-                    <Text fontWeight={'extrabold'} fontSize={'25px'}>{name}</Text>
-                    <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href='/products'>Product</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href='#'>Edit Product</BreadcrumbLink>
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                </Box>
+                <CustomHeader title={'Product'} subtitle={'Edit Product'} href={'products'} subhref={`products/edit-products/${id}`} />
                 <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'80px'} shadow={'lg'}>
                     <Text fontWeight={'extrabold'} fontSize={'25px'} mt={'20px'}>Edit Product</Text>
                     <Flex gap={'50px'} justify={'center'} mt={'30px'}>

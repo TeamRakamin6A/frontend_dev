@@ -4,7 +4,6 @@ import {
   Container,
   FormControl,
   FormLabel,
-  Heading,
   Text,
   Button,
   IconButton,
@@ -30,7 +29,6 @@ import {
   ModalFooter,
   useDisclosure,
   useToast,
-  Spinner,
 } from '@chakra-ui/react';
 import {
   FaCaretDown,
@@ -45,6 +43,7 @@ import { getAllCustomers, updateCustomer, deleteCustomer } from '../../fetching/
 import { MultiSelect } from "react-multi-select-component";
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import CustomHeader from '../../components/Boxtop';
 
 const CustomerList = () => {
   const [customers, setCustomers] = useState([]);
@@ -256,16 +255,9 @@ const CustomerList = () => {
     <>
       <Navbar />
       <Box bg="gray.200" minH="100vh" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Customer List
-          </Heading>
-          <Text fontSize="sm" color="gray.500">
-            Customer {'>'} Customer List
-          </Text>
-        </Container>
+        <CustomHeader title={'Customer'} subtitle={'Customer List'} href={'customers'} subhref={'customers'} />
 
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt={'30px'}>
           <Flex justify="space-between" align="center" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">

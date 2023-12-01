@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { getItemByID } from "../../fetching/item";
 import { useEffect, useState } from "react";
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Image, Text } from "@chakra-ui/react";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import Navbar from "../../components/Navbar";
+import CustomHeader from "../../components/Boxtop";
 
 const ItemDetail = () => {
   const { id } = useParams()
@@ -26,17 +26,7 @@ const ItemDetail = () => {
     <>
       <Navbar />
       <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} pb={'20px'}>
-        <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
-          <Text fontWeight={'extrabold'} fontSize={'25px'}>Product</Text>
-          <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
-            <BreadcrumbItem>
-              <BreadcrumbLink href='/products'>Product</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <BreadcrumbLink href='#'>Detail Product</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Box>
+        <CustomHeader title={'Product'} subtitle={'Detail Product'} href={'products'} subhref={`products/${id}`} />
         <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'90px'}>
           <Text mt={'20px'} fontWeight={'bold'} fontSize={'25px'}>Detail Product</Text>
           <Flex justify={'center'} align={'center'} gap={'60px'} mt={'60px'}>
