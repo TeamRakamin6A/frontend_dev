@@ -7,6 +7,7 @@ import { getDataDashboard } from "../fetching/dashboard";
 import DashboardDetail from "../components/DashboardDetail";
 import Chart from "../components/Chart";
 import Loading from "../components/Loading";
+import Footer from "../components/Footer";
 
 
 const Dashboard = () => {
@@ -38,7 +39,7 @@ const Dashboard = () => {
   return (
     <>
       <Navbar />
-      <Box w={"full"} minH={"100vh"} bgColor={"#F3F3F3"} padding={'30px'}>
+      <Box w={"full"} h={'100vh'} bgColor={"#F3F3F3"} padding={'25px'}>
         <Flex direction={'row'} wrap={'wrap'} justify={'center'} align={'center'} gap={'90px'} pt={'40px'}>
           <Box>
             <HStack gap={'20px'}>
@@ -69,6 +70,7 @@ const Dashboard = () => {
           </Box>
         </Flex>
       </Box>
+      <Footer />
     </>
   );
 };

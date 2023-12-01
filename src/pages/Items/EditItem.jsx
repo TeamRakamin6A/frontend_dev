@@ -1,5 +1,4 @@
-import { ChevronRightIcon } from "@chakra-ui/icons"
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Button, Flex, FormControl, FormLabel, Input, Text, VStack, useToast } from "@chakra-ui/react"
+import { Box, Button, Flex, FormControl, FormLabel, Input, Text, VStack, useToast } from "@chakra-ui/react"
 import { useCallback, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { updateItem, uploadImage } from "../../fetching/item"
@@ -7,6 +6,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { MultiSelect } from "react-multi-select-component"
 import { getAllCategories } from "../../fetching/category"
 import Navbar from "../../components/Navbar"
+import CustomHeader from "../../components/Boxtop"
+import Footer from "../../components/Footer";
 
 const EditItem = () => {
     const { id } = useParams();
@@ -29,7 +30,7 @@ const EditItem = () => {
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const res = await getAllCategories(1,100,'')
+                const res = await getAllCategories(1, 100, '')
                 console.log(res);
                 setCategories(res.data)
             } catch (error) {
@@ -102,18 +103,8 @@ const EditItem = () => {
     return (
         <>
             <Navbar />
-            <Box w={'full'} h={'100vh'} bg={'#F3F3F3'} >
-                <Box w={'full'} bgColor={'#FFFFFF'} padding={'28px'} shadow={'lg'}>
-                    <Text fontWeight={'extrabold'} fontSize={'25px'}>{name}</Text>
-                    <Breadcrumb spacing='8px' color={'#AAAAAA'} separator={<ChevronRightIcon color='gray.500' />}>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href='/products'>Product</BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbItem>
-                            <BreadcrumbLink href='#'>Edit Product</BreadcrumbLink>
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                </Box>
+            <Box w={'full'} bg={'#F3F3F3'} >
+                <CustomHeader title={'Product'} subtitle={'Edit Product'} href={'products'} subhref={`products/edit-products/${id}`} />
                 <Box padding={'22px'} margin={'20px'} bgColor={'#FFFFFF'} pb={'80px'} shadow={'lg'}>
                     <Text fontWeight={'extrabold'} fontSize={'25px'} mt={'20px'}>Edit Product</Text>
                     <Flex gap={'50px'} justify={'center'} mt={'30px'}>
@@ -149,11 +140,11 @@ const EditItem = () => {
                                 <Input placeholder='Keywords' defaultValue={productData?.keywords} onChange={handleInputChange} name="keywords" size='lg' />
                             </FormControl>
                         </Box>
-                        <Box w={'296px'} rounded={'20px'} border={'2px dashed #2C6BE5'} bgColor={'#E7EFFF'} {...getRootProps()}>
+                        <Box w={'296px'} rounded={'20px'} border={'2px dashed #0090CD'} bgColor={'#E7EFFF'} {...getRootProps()}>
                             <Flex justifyContent={'center'} h={'407px'} alignItems={'center'}>
                                 <VStack>
                                     <Text fontWeight={'bold'} align={'center'} fontSize={'32px'}>Drop product image here Or</Text>
-                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#2C6AE5'}>
+                                    <Flex justify={'center'} align={'center'} rounded={'10px'} w={'150px'} h={'57px'} bgColor={'#0090CD'}>
                                         <FormLabel fontSize={'18px'} color={'white'} fontWeight={'bold'} htmlFor={'file'}>Input File</FormLabel>
                                     </Flex>
                                     <Input type="file" id="file" h={'40px'} placeholder="Browse File" hidden  {...getInputProps()} />
@@ -163,10 +154,11 @@ const EditItem = () => {
 
                     </Flex>
                     <Box display={'flex'} justifyContent={'center'}>
-                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} bgColor={'#2C6AE5'} color={'white'}>Update Product</Button>
+                        <Button onClick={handleSubmit} w={'194px'} h={'57px'} colorScheme="linkedin">Update Product</Button>
                     </Box>
                 </Box>
             </Box>
+            <Footer />
         </>
 
     )

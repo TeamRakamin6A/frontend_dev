@@ -26,6 +26,7 @@ import Navbar from "../../components/Navbar";
 import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
 import convertPrice from "../../lib/convertPrice";
+import Footer from "../../components/Footer";
 
 const Supply_OrderDetail = () => {
   const { id } = useParams();
@@ -85,7 +86,7 @@ const Supply_OrderDetail = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Supply Orders" subtitle="Supply Orders Detail" />
+      <CustomHeader title={'Supply Orders'} subtitle={'Supply Orders Detail'} href={'supplier-orders'} subhref={`supplier-orders/${id}`} />
       <Box
         backgroundColor="white"
         margin="20px 20px"
@@ -196,6 +197,7 @@ const Supply_OrderDetail = () => {
           </Flex>
         </Box>
       </Box>
+      <Footer />
     </div>
   );
 };

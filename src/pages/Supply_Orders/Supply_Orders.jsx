@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Table, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, ButtonGroup, Spacer, Text, Heading, Box } from "@chakra-ui/react";
-import { ChevronLeftIcon, ChevronRightIcon, DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
+import { Table, TableContainer, Thead, Tbody, Tr, Th, Td, Menu, MenuButton, MenuList, MenuItem, IconButton, useToast, Button, Flex, Select, Spacer, Text, Heading, Box } from "@chakra-ui/react";
+import { DeleteIcon, InfoIcon, TriangleDownIcon, SearchIcon, PlusSquareIcon } from "@chakra-ui/icons";
 import { getAllSupplyOrders, deleteSupplyOrder } from "../../fetching/supply_order";
 import { getAllSuppliers } from "../../fetching/supplier"
 import { getAllWarehouses } from "../../fetching/warehouse";
@@ -11,6 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import CustomHeader from "../../components/Boxtop";
 import convertPrice from "../../lib/convertPrice";
 import Paginate from "../../components/Paginate";
+import Footer from "../../components/Footer";
 
 const Supply_Orders = () => {
   const toast = useToast();
@@ -20,6 +21,7 @@ const Supply_Orders = () => {
   const [selectedSuppliers, setSelectedSuppliers] = useState([]);
   const [suppliers, setSuppliers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedFilter, setSelectedFilter] = useState(null);
   const [selectedStatus, setSelectedStatus] = useState([]);
@@ -38,7 +40,7 @@ const Supply_Orders = () => {
     try {
       const response = await getAllSupplyOrders(
         currentPage,
-        5,
+        dataPerPage,
         null,
         selectedWarehouses.length === 0 ? null : selectedWarehouses.map(warehouse => warehouse.value),
         selectedSuppliers.length === 0 ? null : selectedSuppliers.map(supplier => supplier.value),
@@ -105,6 +107,20 @@ const Supply_Orders = () => {
     }
   };
 
+  const handleDataPage = async (e) => {
+    setDataPerPage(+e.target.value)
+    const res = await getAllSupplyOrders(
+      currentPage,
+      dataPerPage,
+      null,
+      selectedWarehouses.length === 0 ? null : selectedWarehouses.map(warehouse => warehouse.value),
+      selectedSuppliers.length === 0 ? null : selectedSuppliers.map(supplier => supplier.value),
+      selectedStatus.length === 0 ? null : selectedStatus.map(status => status.value).join(','),
+    );
+    setSupplyOrders(res.data);
+    setTotalPages(res.totalPage);
+  }
+
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
@@ -121,7 +137,7 @@ const Supply_Orders = () => {
         <Box mx={"40px"} pt={"20px"}>
           <Heading fontSize={'22px'}>Supply Orders</Heading>
           <br />
-          <Button colorScheme="messenger" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
+          <Button colorScheme="linkedin" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
             <Link to={`/add-supplier-orders`}>
               Add Supply Orders
             </Link>
@@ -161,6 +177,15 @@ const Supply_Orders = () => {
               <br />
             </Box>
             <Spacer />
+            <Flex justify={'flex-end'} mr={10}>
+              <Box w={'140px'}>
+                <Select placeholder='Data Page' onChange={handleDataPage} value={dataPerPage}>
+                  <option value={5}>5</option>
+                  <option value={10}>10</option>
+                  <option value={15}>15</option>
+                </Select>
+              </Box>
+            </Flex>
             <Box style={{ display: "flex", alignItems: "center", border: "2px solid", borderColor: "purple", borderRadius: "6px", padding: "2px", marginBottom: "24px" }}>
               <Menu>
                 <MenuButton as={IconButton} icon={<FaFilter />} size="md" variant="outline" colorScheme="purple" style={{ background: "transparent", border: "none" }} />
@@ -183,9 +208,9 @@ const Supply_Orders = () => {
           </Box>
         </Box>
         <Box mx={"40px"}>
-          <Table variant="simple" maxWidth="full" borderWidth="1px" borderColor="gray.200">
+          <Table variant="simple" maxWidth="full" borderWidth="2px" borderColor="gray.200">
             <Thead>
-              <Tr>
+              <Tr borderBottom={'2px solid #D9D9D9'} >
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>ID</Th>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Total Price</Th>
                 <Th fontWeight="bold" fontSize="14px" textTransform="none" textColor={"black"}>Supplier</Th>
@@ -196,7 +221,7 @@ const Supply_Orders = () => {
             </Thead>
             <Tbody>
               {supplyOrders.map((order) => (
-                <Tr key={order.id} href={`/supplier-orders/${order.id}`} >
+                <Tr key={order.id} href={`/supplier-orders/${order.id}`}  borderBottom={'2px solid #D9D9D9'} >
                   <Td textColor={"gray.600"}>{order.id}</Td>
                   <Td textColor={"gray.600"}>{convertPrice(order.total_price)}</Td>
                   <Td textColor={"gray.600"}>{order.Supplier.company_name}</Td>
@@ -207,7 +232,7 @@ const Supply_Orders = () => {
                       <MenuButton
                         as={Button}
                         size="md"
-                        colorScheme="messenger"
+                        colorScheme="linkedin"
                         variant="outline"
                         rightIcon={<TriangleDownIcon />}
                       >
@@ -237,6 +262,8 @@ const Supply_Orders = () => {
           <Paginate totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
         </Box>
       </Box >
+
+      <Footer />
     </div >
   );
 };

@@ -5,14 +5,12 @@ import {
   FormControl,
   Input,
   useToast,
-  Center
+  Center,
+  Flex,
+  Text
 } from "@chakra-ui/react";
 import { login } from "../fetching/user";
-import { useNavigate } from "react-router-dom";
-
-const hexaColor = {
-  colorSubmit: '#44AADA'
-}
+import { Link, useNavigate } from "react-router-dom";
 
 
 
@@ -54,34 +52,34 @@ const Login = () => {
 
   return (
 
-    <div className="container" style={{ justifyContent: 'center' }}>
-      <Center>
-        <Box w="full" py={9} px={'200'} mx="150" mt={2}>
-          <Box borderWidth="1px" borderRadius="lg" p={10}>
-            <img src="../Stock Wise.png" width={250} height={250} alt="center" style={{ marginLeft: 150 }} />
-            <form>
-              {error && (
-                <Box color="red.500" mb={8}>
-                  {error}
-                </Box>
-              )}
+    <Box className="container" display={'flex'} h={'100vh'} justifyContent={'center'} alignItems={'center'}>
+      <Box py={9} px={'200'} mx="150" mt={2}>
+        <Flex flexDirection={'column'} justifyContent={'center'} alignItems={'center'} border={'2px solid #CCC9C9'} borderRadius="lg" p={10}>
+          <img src="../Stock Wise.png" width={320} height={320} alt="center" />
+          <form>
+            {error && (
+              <Box color="red.500" mb={2}>
+                {error}
+              </Box>
+            )}
 
-              <FormControl isRequired mt={8}>
-                <Input type="name" name="emailOrUsername" placeholder="Input Your Username / Email" onChange={(e) => setEmailorUsername(e.target.value)} />
-              </FormControl>
+            <FormControl isRequired mt={8}>
+              <Input w={'480px'} h={"55px"} border={'2px solid #CCC9C9'} type="name" name="emailOrUsername" placeholder="Input Your Username / Email" onChange={(e) => setEmailorUsername(e.target.value)} />
+            </FormControl>
 
-              <FormControl isRequired mt={8}>
-                <Input type="password" name="password" placeholder="Input Your Password" onChange={(e) => setPassword(e.target.value)} />
-              </FormControl>
-              <Button mt={8} color={hexaColor.colorSubmit} type="button" onClick={handleSubmit}>
-                Login
-              </Button>
-            </form>
-          </Box>
-        </Box>
-      </Center>
-
-    </div>
+            <FormControl isRequired mt={6}>
+              <Input w={'480px'} h={"55px"} border={'2px solid #CCC9C9'} type="password" name="password" placeholder="Input Your Password" onChange={(e) => setPassword(e.target.value)} />
+            </FormControl>
+            <Box color={'blue'} mt={'20px'} _hover={{ textDecoration: 'underline' }}> <Link to={"/forget"}>Forget Password?</Link></Box>
+            <Button mt={8} h={"55px"} w={'full'} color={"blue"} type="button" onClick={handleSubmit}>
+              Login
+            </Button>
+          </form>
+          <Box mt={'20px'}>Have not an account? <Link to={"/register"}><Box display={'inline'} color={'blue'} _hover={{ textDecoration: 'underline' }}>Register</Box></Link></Box>
+          <Box mt={'20px'} _hover={{ textDecoration: 'underline' }}> <Link to={"/home"}>Back to Home</Link></Box>
+        </Flex>
+      </Box>
+    </Box>
   );
 };
 

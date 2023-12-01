@@ -41,6 +41,7 @@ import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
 import convertPrice from "../../lib/convertPrice";
 import { useNavigate } from 'react-router-dom';
+import Footer from '../../components/Footer';
 
 const CreateOrder = () => {
     const toast = useToast();
@@ -71,7 +72,7 @@ const CreateOrder = () => {
         try {
             const responseWarehouses = await getAllWarehouses();
             setWarehouses(responseWarehouses.data);
-            const responseCustomers= await getAllCustomers(1, 100, "");
+            const responseCustomers = await getAllCustomers(1, 100, "");
             setCustomers(responseCustomers.items);
             const responseItems = await getAllItems(1, 100, "", []);
             setItems(responseItems.data.items);
@@ -129,11 +130,11 @@ const CreateOrder = () => {
             }
             const updatedItems = [...itemList]
             // find existing item
-            if(itemList.length !== 0) {
+            if (itemList.length !== 0) {
                 let existingId = itemList.findIndex((e) => e.item.id === foundItem.id)
-                if(existingId !== -1) {
+                if (existingId !== -1) {
                     // update item
-                    updatedItems[existingId] = {...updatedItems[existingId], quantity: +newItemQuantityRef.current.value}
+                    updatedItems[existingId] = { ...updatedItems[existingId], quantity: +newItemQuantityRef.current.value }
                     setItemList(updatedItems)
                 } else {
                     // add new item

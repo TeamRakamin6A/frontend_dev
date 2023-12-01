@@ -10,6 +10,7 @@ import {
   IconButton,
   Input,
   Table,
+  TableContainer,
   Thead,
   Tbody,
   Tr,
@@ -28,6 +29,7 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  Select,
   useDisclosure,
   useToast,
 } from '@chakra-ui/react';
@@ -44,6 +46,8 @@ import { getAllCategories, updateCategorie, deleteCategorie } from '../../fetchi
 import { MultiSelect } from 'react-multi-select-component';
 import Navbar from '../../components/Navbar';
 import Loading from '../../components/Loading';
+import Footer from "../../components/Footer";
+import CustomHeader from '../../components/Boxtop';
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
@@ -184,7 +188,7 @@ const Categories = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -202,7 +206,7 @@ const Categories = () => {
             key={i}
             variant={currentPage === i ? 'solid' : 'outline'}
             size="sm"
-            colorScheme={currentPage === i ? 'messenger' : 'gray'}
+            colorScheme={currentPage === i ? 'linkedin' : 'gray'}
             onClick={() => handlePageClick(i)}
           >
             {i}
@@ -239,17 +243,10 @@ const Categories = () => {
     <>
       <Navbar />
       <Box bg="gray.200" minH="88vh" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Category List
-          </Heading>
-          <Text fontSize="sm" color="gray.500">
-            Category {'>'} Category List
-          </Text>
-        </Container>
+        <CustomHeader title={'Category'} subtitle={'Category List'} href={'categories'} subhref={'categories'} />
 
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
-          <Flex justify="space-between" align="center" m="5" >
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
+          <Flex justify="space-between" align="flex-end" m="5" >
             <Flex direction="column">
               <Text as="h1" fontSize="xl" fontWeight="bold" mb="5">
                 Category List
@@ -257,7 +254,7 @@ const Categories = () => {
               <Flex mb="5">
                 <Link to="/addcategories">
                   <Button
-                    colorScheme="messenger"
+                    colorScheme="linkedin"
                     leftIcon={<FiPlusCircle />}
                   >
                     Add Category
@@ -286,65 +283,69 @@ const Categories = () => {
                 </Box>
               </Flex>
             </Flex>
+            <Flex mr="5">
+              <Box w="140px">
+                <Select
+                  placeholder='Category Page'
+                  size="sm"
+                  value={selectedLimit}
+                  onChange={(e) => handleLimitChange(parseInt(e.target.value, 10))}
+                >
+                  {[10, 2, 30].map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </Select>
+              </Box>
+            </Flex>
           </Flex>
 
-          <Table variant="simple">
-            <Thead>
-              <Tr>
-                <Th width="50px">
-                  <Checkbox isDisabled />
-                </Th>
-                <Th width="150px">Title</Th>
-                <Th width="150px">Action</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {categories.map((categorie) => (
-                <Tr key={categorie.id}>
-                  <Td width="50px">
+          <TableContainer rounded={'10px'} overflowX={'auto'} border={'2px solid #D9D9D9'}>
+            <Table variant="simple">
+              <Thead>
+                <Tr borderBottom={'2px solid #D9D9D9'} >
+                  <Th width="50px">
                     <Checkbox isDisabled />
-                  </Td>
-                  <Td width="150px">
-                    <Link to={`/categories/${categorie.id}`}>{categorie.title}</Link>
-                  </Td>
-                  <Td width="100px">
-                    <Menu>
-                      <MenuButton
-                        as={Button}
-                        size="md"
-                        colorScheme="messenger"
-                        variant="outline"
-                        rightIcon={<FaCaretDown />}
-                      >
-                        Action
-                      </MenuButton>
-                      <MenuList>
-                        <MenuItem onClick={() => handleUpdateCategorie(categorie.id)} icon={<FaRegEdit />}>Update</MenuItem>
-                        <MenuItem onClick={() => handleDeleteCategorie(categorie.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </Td>
+                  </Th>
+                  <Th width="150px">Title</Th>
+                  <Th width="150px">Action</Th>
                 </Tr>
-              ))}
-            </Tbody>
-          </Table>
+              </Thead>
+              <Tbody>
+                {categories.map((categorie) => (
+                  <Tr key={categorie.id} borderBottom={'2px solid #D9D9D9'} >
+                    <Td width="50px">
+                      <Checkbox isDisabled />
+                    </Td>
+                    <Td width="150px">
+                      <Link to={`/categories/${categorie.id}`}>{categorie.title}</Link>
+                    </Td>
+                    <Td width="100px">
+                      <Menu>
+                        <MenuButton
+                          as={Button}
+                          size="md"
+                          colorScheme="linkedin"
+                          variant="outline"
+                          rightIcon={<FaCaretDown />}
+                        >
+                          Action
+                        </MenuButton>
+                        <MenuList>
+                          <MenuItem onClick={() => handleUpdateCategorie(categorie.id)} icon={<FaRegEdit />}>Update</MenuItem>
+                          <MenuItem onClick={() => handleDeleteCategorie(categorie.id)} icon={<RiDeleteBin6Line />}>Delete</MenuItem>
+                        </MenuList>
+                      </Menu>
+                    </Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </TableContainer>
 
           {/* Pagination */}
-          <Flex justify="space-between" mt="4" mr="20" ml="10">
-            <Flex>
-              {[10, 20, 30].map((option) => (
-                <Button
-                  key={option}
-                  colorScheme={selectedLimit === option ? 'messenger' : 'gray'}
-                  onClick={() => handleLimitChange(option)}
-                  mr="1"
-                  size="sm"
-                >
-                  {option}
-                </Button>
-              ))}
-            </Flex>
-
+          <Flex justify="flex-end" mt="4" mr="20" ml="10">
             <Flex>
               <IconButton
                 onClick={handlePrevPage}
@@ -415,6 +416,7 @@ const Categories = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

@@ -14,6 +14,8 @@ import {
 import { addSupplier } from '../../fetching/supplier';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import CustomHeader from '../../components/Boxtop';
 
 const AddSupplier = () => {
     const [supplier, setSupplier] = useState({
@@ -75,23 +77,9 @@ const AddSupplier = () => {
         <>
             <Navbar />
             <Box bg="gray.200" pb="5">
-                <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-                    <Heading as="h1" fontSize="xl">
-                        Supplier List
-                    </Heading>
-                    <Flex align="center">
-                        <Link to="/suppliers">
-                            <Text fontSize="sm" color="gray.500" mr="1">
-                                Supplier
-                            </Text>
-                        </Link>
-                        <Text fontSize="sm" color="gray.500">
-                            {'>'} Add Supplier
-                        </Text>
-                    </Flex>
-                </Container>
+            <CustomHeader title={'Supplier'} subtitle={'Add Supplier'} href={'suppliers'} subhref={`addsuppliers`} />
 
-                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+                <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
                     <Flex direction="column" m="5">
                         <FormControl mb="4" isRequired>
                             <FormLabel>Company Name</FormLabel>
@@ -134,13 +122,14 @@ const AddSupplier = () => {
                         </FormControl>
 
                         <Flex justifyContent="center" alignItems="center">
-                            <Button size="md" colorScheme="messenger" onClick={handleFormSubmit}>
+                            <Button size="md" colorScheme="linkedin" onClick={handleFormSubmit}>
                                 Add Supplier
                             </Button>
                         </Flex>
                     </Flex>
                 </Container>
             </Box>
+            <Footer />
         </>
     );
 };

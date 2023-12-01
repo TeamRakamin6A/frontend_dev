@@ -1,13 +1,21 @@
-import { FaRegHospital } from "react-icons/fa";
 import instance from "../lib/axios";
 
-export async function getAllWarehouses(page, limit, nameFilter) {
+export async function getAllWarehouses(page, limit, q) {
     try {
-        const response = await instance.get(`/warehouses?page=${page}&limit=${limit}&name=${nameFilter}`);
+        const response = await instance({
+            url: '/warehouses',
+            method: "GET",
+            params: {
+                page: page,
+                limit,
+                q
+            }
+        });
         const data = response.data;
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -18,8 +26,8 @@ export async function createWarehouse(title, address) {
         return data;
 
     } catch (error) {
-        console.error();
-        throw error;
+        console.log(error)
+        throw error
     }
 }
 
@@ -28,7 +36,8 @@ export async function updateWarehouse(id, title, address) {
     try {
         await instance.put(`/warehouses/${id}`, { title, address });
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -42,10 +51,11 @@ export async function getWarehouseById(id) {
             method: "GET",
         });
         const data = response.data.data
-        
+
         return data;
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
@@ -56,13 +66,14 @@ export async function deleteWarehouseById(id) {
         await instance.delete(`/warehouses/${id}`);
 
     } catch (error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+        console.log(error)
+        throw error
     }
 }
 
 export async function updateQuantity(params) {
     try {
-        const {id, item_id, quantity} = params;
+        const { id, item_id, quantity } = params;
         const response = await instance({
             url: `/warehouses/quantities/${id}`,
             method: "PUT",
@@ -75,14 +86,32 @@ export async function updateQuantity(params) {
         const data = response.data;
 
         return data;
-    } catch(error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+
+export async function moveQuantityToWarehouse(params) {
+    try {
+        const response = await instance({
+            url: "/warehouses/moves",
+            method: "POST",
+            data: params
+        })
+        const data = response.data;
+
+        return data;
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }
 
 export async function addItemToWarehouse(params) {
     try {
-        const {id, item_id, quantity} = params;
+        const { id, item_id, quantity } = params;
         const response = await instance({
             url: `/warehouses/addItem/${id}`,
             method: "POST",
@@ -95,7 +124,8 @@ export async function addItemToWarehouse(params) {
         const data = response.data;
 
         return data;
-    } catch(error) {
-        throw new Error(error.response.data.message || 'Error Not Found');
+    } catch (error) {
+        console.log(error)
+        throw error
     }
 }

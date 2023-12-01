@@ -2,13 +2,10 @@ import { useEffect, useState } from 'react';
 import {
   Box,
   Container,
-  Heading,
-  Text,
   Flex,
   Button,
   Input,
   useToast,
-  Spinner,
   FormControl,
   FormLabel,
   Modal,
@@ -20,10 +17,12 @@ import {
   ModalFooter,
   useDisclosure,
 } from '@chakra-ui/react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getCustomerById, updateCustomer, deleteCustomer } from '../../fetching/customer';
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import CustomHeader from '../../components/Boxtop';
+import Footer from "../../components/Footer";
 
 const CustomerDetail = () => {
   const { id } = useParams();
@@ -167,23 +166,9 @@ const CustomerDetail = () => {
     <>
       <Navbar />
       <Box bg="gray.200" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Customer Detail
-          </Heading>
-          <Flex align="center">
-            <Link to="/customers">
-              <Text fontSize="sm" color="gray.500" mr="1">
-                Customer
-              </Text>
-            </Link>
-            <Text fontSize="sm" color="gray.500">
-              {'>'} Customer Detail
-            </Text>
-          </Flex>
-        </Container>
+        <CustomHeader title={'Customer'} subtitle={'Customer Detail'} href={'customers'} subhref={`customers/${id}`} />
 
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt={'30px'}>
           <Flex direction="column" m="5">
             <FormControl mb="4" isRequired>
               <FormLabel>Name</FormLabel>
@@ -226,12 +211,12 @@ const CustomerDetail = () => {
             </FormControl>
 
             <Flex justify="space-between">
-              <Button colorScheme="blue" onClick={handleBack}>
+              <Button colorScheme="linkedin" onClick={handleBack}>
                 Back To Customers
               </Button>
 
               <Flex>
-                <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
+                <Button colorScheme="green" mr={2} onClick={handleUpdateButtonClick}>
                   Update Customer
                 </Button>
 
@@ -292,7 +277,7 @@ const CustomerDetail = () => {
             </ModalBody>
             <ModalFooter>
               {/* Tombol "Update" di dalam modal */}
-              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
                 Update
               </Button>
               {/* Tombol "Cancel" di dalam modal */}
@@ -322,6 +307,7 @@ const CustomerDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };

@@ -23,6 +23,8 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getSupplierById, updateSupplier, deleteSupplier } from '../../fetching/supplier';
 import Navbar from "../../components/Navbar";
 import Loading from "../../components/Loading";
+import Footer from "../../components/Footer";
+import CustomHeader from '../../components/Boxtop';
 
 const SupplierDetail = () => {
   const { id } = useParams();
@@ -158,23 +160,9 @@ const SupplierDetail = () => {
     <>
       <Navbar />
       <Box bg="gray.200" pb="5">
-        <Container maxW="" mb="5" bg="white" p="4" boxShadow="md">
-          <Heading as="h1" fontSize="xl">
-            Supplier Detail
-          </Heading>
-          <Flex align="center">
-            <Link to="/suppliers">
-              <Text fontSize="sm" color="gray.500" mr="1">
-                Supplier
-              </Text>
-            </Link>
-            <Text fontSize="sm" color="gray.500">
-              {'>'} Supplier Detail
-            </Text>
-          </Flex>
-        </Container>
+      <CustomHeader title={'Supplier'} subtitle={'Supplier Detail'} href={'suppliers'} subhref={`suppliers/${id}`} />
 
-        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md">
+        <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
           <Flex direction="column" m="5">
             <FormControl mb="4">
               <FormLabel>Company Name</FormLabel>
@@ -218,12 +206,12 @@ const SupplierDetail = () => {
             </FormControl>
 
             <Flex justify="space-between">
-              <Button colorScheme="blue" onClick={handleBack}>
+              <Button colorScheme="linkedin" onClick={handleBack}>
                 Back To Suppliers
               </Button>
 
               <Flex>
-                <Button colorScheme="teal" mr={2} onClick={handleUpdateButtonClick}>
+                <Button colorScheme="green" mr={2} onClick={handleUpdateButtonClick}>
                   Update Supplier
                 </Button>
 
@@ -284,7 +272,7 @@ const SupplierDetail = () => {
 
             </ModalBody>
             <ModalFooter>
-              <Button colorScheme="blue" mr={3} onClick={handleUpdateFormSubmit}>
+              <Button colorScheme="green" mr={3} onClick={handleUpdateFormSubmit}>
                 Update
               </Button>
               <Button colorScheme="red" onClick={onCloseUpdateModal}>Cancel</Button>
@@ -310,6 +298,7 @@ const SupplierDetail = () => {
           </ModalContent>
         </Modal>
       </Box>
+      <Footer />
     </>
   );
 };
