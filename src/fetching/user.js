@@ -30,6 +30,7 @@ export async function login(params) {
         return data
     } catch (error) {
         console.log(error);
+        throw new Error(error.response.data.message || 'Error Not Found')
     }
 }
 
@@ -44,6 +45,7 @@ export async function getUserLogin() {
         return data
     } catch (error) {
         console.log(error);
+        throw new Error(error.response.data.message || 'Error Not Found')
     }
 
 }
