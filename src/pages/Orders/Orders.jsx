@@ -11,6 +11,7 @@ import { FaFilter } from "react-icons/fa";
 import CustomHeader from "../../components/Boxtop";
 import convertPrice from "../../lib/convertPrice";
 import Paginate from "../../components/Paginate";
+import Footer from "../../components/Footer";
 
 const Orders = () => {
   const toast = useToast();
@@ -71,11 +72,12 @@ const Orders = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteOrder(id);
+      const deleteRes = await deleteOrder(id);
       fetchOrders();
       toast({
-        title: "Delete Success",
-        description: "deleted",
+        title: "Success",
+        description: deleteRes.message,
+        position: "top",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -107,7 +109,7 @@ const Orders = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Orders" subtitle="Orders List" />
+      <CustomHeader title={'Orders'} subtitle={'Orders List'} href={'orders'} subhref={'orders'}/>
       <Box
         backgroundColor="white"
         margin="20px 20px"
@@ -120,7 +122,7 @@ const Orders = () => {
         <Box mx={"40px"} pt={"20px"}>
           <Heading fontSize={'22px'}>Orders</Heading>
           <br />
-          <Button colorScheme="messenger" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
+          <Button colorScheme="linkedin" p={7} leftIcon={<PlusSquareIcon />} fontSize="xl" mb={5}>
             <Link to={`/addorders`}>
               Add Orders
             </Link>
@@ -206,7 +208,7 @@ const Orders = () => {
                       <MenuButton
                         as={Button}
                         size="md"
-                        colorScheme="messenger"
+                        colorScheme="linkedin"
                         variant="outline"
                         rightIcon={<TriangleDownIcon />}
                       >
@@ -236,6 +238,7 @@ const Orders = () => {
           <Paginate totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} currentPage={currentPage} paginate={paginate} />
         </Box>
       </Box >
+      <Footer />
     </div >
   );
 };

@@ -109,21 +109,25 @@ const Categories = () => {
 
   const handleDeleteSubmit = async () => {
     try {
-      await deleteCategorie(selectedCategorieId);
-      const result = await getAllCategories(currentPage, limit, searchTerm);
-      setCategories(result.data);
+      const deleteRes = await deleteCategorie(selectedCategorieId);
       onCloseDeleteModal();
       toast({
-        title: 'Categorie deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
         status: 'success',
+        position: 'top',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllCategories(currentPage, limit, searchTerm);
+      setCategories(result.data);
     } catch (error) {
       console.error('Error deleting categorie:', error.message);
       toast({
-        title: 'Error deleting categorie.',
-        status: 'error',
+        title: "Error",
+        description: error.message,
+        status: "error",
+        position: "top",
         duration: 3000,
         isClosable: true,
       });
@@ -149,23 +153,37 @@ const Categories = () => {
 
   const handleUpdateFormSubmit = async () => {
     try {
-      await updateCategorie(
+      if (!updatedCategorie.title) {
+        toast({
+          title: 'Title is required.',
+          status: 'error',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+      const updateRes = await updateCategorie(
         updatedCategorie.id,
         updatedCategorie.title,
       );
-      const result = await getAllCategories(currentPage, limit, searchTerm);
-      setCategories(result.data);
       onCloseUpdateModal();
       toast({
-        title: 'Categorie updated successfully.',
+        title: 'Success',
+        description: updateRes.message,
         status: 'success',
+        position: 'top',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllCategories(currentPage, limit, searchTerm);
+      setCategories(result.data);
     } catch (error) {
       console.error('Error updating categorie:', error.message);
       toast({
-        title: 'Error updating categorie.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,

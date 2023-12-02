@@ -101,11 +101,12 @@ const CreateOrder = () => {
                 items: itemPayload
             }
 
-            await createOrder(payload)
+            const addRes = await createOrder(payload)
             navigate("/orders")
             toast({
                 title: "Success",
-                description: "Order created successfully",
+                description: addRes.message,
+                position: "top",
                 status: "success",
                 duration: 3000,
                 isClosable: true,
@@ -114,6 +115,7 @@ const CreateOrder = () => {
             toast({
                 title: "Error",
                 description: "Failed to create order",
+                position: "top",
                 status: "error",
                 duration: 3000,
                 isClosable: true,
@@ -246,7 +248,7 @@ const CreateOrder = () => {
     return (
         <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
             <Navbar />
-            <CustomHeader title="Orders" subtitle="Add Orders" />
+            <CustomHeader title={'Orders'} subtitle={'Add Orders'} href={'orders'} subhref={'addorders'} />
             <Box bg="white" m="40px" minHeight={"fit-content"}>
                 <Heading ml="60px" pt="40px" pb="20px" fontSize={'22px'}>
                     Add Order
@@ -316,7 +318,7 @@ const CreateOrder = () => {
                                 <Button
                                     type="button"
 
-                                    colorScheme="messenger"
+                                    colorScheme="linkedin"
                                     fontSize="md"
                                     mr={5}
                                     p={7}
@@ -325,7 +327,7 @@ const CreateOrder = () => {
                                     Add Orders
                                 </Button>
                                 <Link to="/orders">
-                                    <Button variant="outline" colorScheme="blue" p={7}>
+                                    <Button variant="outline" colorScheme="linkedin" p={7}>
                                         Back to List Orders
                                     </Button>
                                 </Link>
@@ -334,6 +336,7 @@ const CreateOrder = () => {
                     </Box>
                 </Box>
             </Box>
+            <Footer />
         </div >
 
     );

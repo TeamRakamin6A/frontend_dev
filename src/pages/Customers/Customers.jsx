@@ -114,21 +114,25 @@ const CustomerList = () => {
   const handleDeleteSubmit = async () => {
     setLoading(true)
     try {
-      await deleteCustomer(selectedCustomerId);
-      const result = await getAllCustomers(currentPage, limit, searchTerm);
-      setCustomers(result.items);
-      setLoading(false)
+      const deleteRes = await deleteCustomer(selectedCustomerId);
       onCloseDeleteModal();
       toast({
-        title: 'Customer deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
         status: 'success',
+        position: 'top',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllCustomers(currentPage, limit, searchTerm);
+      setCustomers(result.items);
+      setLoading(false)
     } catch (error) {
       console.error('Error deleting customer:', error.message);
       toast({
-        title: 'Error deleting customer.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -159,27 +163,31 @@ const CustomerList = () => {
   const handleUpdateFormSubmit = async () => {
     setLoading(true)
     try {
-      await updateCustomer(
+      const updateRes = await updateCustomer(
         updatedCustomer.id,
         updatedCustomer.name,
         updatedCustomer.address,
         updatedCustomer.phone_number,
         updatedCustomer.email
       );
-      const result = await getAllCustomers(currentPage, limit, searchTerm);
-      setCustomers(result.items);
-      setLoading(false)
       onCloseUpdateModal();
       toast({
-        title: 'Customer updated successfully.',
+        title: 'Success',
+        description: updateRes.message,
+        position: 'top',
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllCustomers(currentPage, limit, searchTerm);
+      setCustomers(result.items);
+      setLoading(false)
     } catch (error) {
       console.error('Error updating customer:', error.message);
       toast({
-        title: 'Error updating customer.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,

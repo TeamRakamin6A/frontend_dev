@@ -26,6 +26,7 @@ import Navbar from "../../components/Navbar";
 import CustomHeader from "../../components/Boxtop";
 import Loading from "../../components/Loading";
 import convertPrice from "../../lib/convertPrice";
+import Footer from "../../components/Footer";
 
 const OrderDetail = () => {
   const { id } = useParams();
@@ -85,7 +86,7 @@ const OrderDetail = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Orders" subtitle="Orders Detail" />
+      <CustomHeader title={'Orders'} subtitle={'Orders Detail'} href={'orders'} subhref={`orders/${id}`} />
       <Box
         backgroundColor="white"
         margin="20px 20px"
@@ -158,7 +159,7 @@ const OrderDetail = () => {
                       icon={<EditIcon />}
                       size="lg"
                       onClick={handleEditClick}
-                      colorScheme="blue"
+                      colorScheme="linkedin"
                     />
                   )}
                 </Td>
@@ -190,12 +191,13 @@ const OrderDetail = () => {
           </Table>
 
           <Flex justifyContent="flex-end" ml={16}>
-            <Button as={Link} to="/orders" variant="outline" colorScheme="blue" p={5}>
+            <Button as={Link} to="/orders" variant="outline" colorScheme="linkedin" p={5}>
               Back to List Orders
             </Button>
           </Flex>
         </Box>
       </Box>
+      <Footer />
     </div>
   );
 };

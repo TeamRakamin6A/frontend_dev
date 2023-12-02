@@ -100,11 +100,12 @@ const AddSupplyOrders = () => {
                 items: itemPayload
             }
 
-            await createSupplyOrder(payload)
+            const addRes = await createSupplyOrder(payload)
             navigate("/supplier-orders")
             toast({
                 title: "Success",
-                description: "Supply order created successfully",
+                description: addRes.message || "Supply order created successfully",
+                position: "top",
                 status: "success",
                 duration: 3000,
                 isClosable: true,
@@ -113,6 +114,7 @@ const AddSupplyOrders = () => {
             toast({
                 title: "Error",
                 description: "Failed to create supply order",
+                position: "top",
                 status: "error",
                 duration: 3000,
                 isClosable: true,

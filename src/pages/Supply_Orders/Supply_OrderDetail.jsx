@@ -159,7 +159,7 @@ const Supply_OrderDetail = () => {
                       icon={<EditIcon />}
                       size="lg"
                       onClick={handleEditClick}
-                      colorScheme="blue"
+                      colorScheme="linkedin"
                     />
                   )}
                 </Td>
@@ -191,7 +191,7 @@ const Supply_OrderDetail = () => {
           </Table>
 
           <Flex justifyContent="flex-end" ml={16}>
-            <Button as={Link} to="/supplier-orders" variant="outline" colorScheme="blue" p={5}>
+            <Button as={Link} to="/supplier-orders" variant="outline" colorScheme="linkedin" p={5}>
               Back to Supply Orders
             </Button>
           </Flex>

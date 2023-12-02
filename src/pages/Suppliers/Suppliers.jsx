@@ -114,20 +114,24 @@ const SupplierList = () => {
 
   const handleDeleteSubmit = async () => {
     try {
-      await deleteSupplier(selectedSupplierId);
-      const result = await getAllSuppliers(currentPage, limit, searchTerm);
-      setSuppliers(result.items);
-      onCloseDeleteModal();
+      const deleteRes = await deleteSupplier(selectedSupplierId);
       toast({
-        title: 'Supplier deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
+        position: "top",
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllSuppliers(currentPage, limit, searchTerm);
+      setSuppliers(result.items);
+      onCloseDeleteModal();
     } catch (error) {
       console.error('Error deleting supplier:', error.message);
       toast({
-        title: 'Error deleting supplier.',
+        title: 'Error',
+        description: error.message,
+        position: "top",
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -157,26 +161,30 @@ const SupplierList = () => {
 
   const handleUpdateFormSubmit = async () => {
     try {
-      await updateSupplier(
+      const updateRes = await updateSupplier(
         updatedSupplier.id,
         updatedSupplier.company_name,
         updatedSupplier.address,
         updatedSupplier.email,
         updatedSupplier.zip_code
       );
-      const result = await getAllSuppliers(currentPage, limit, searchTerm);
-      setSuppliers(result.items);
       onCloseUpdateModal();
       toast({
-        title: 'Supplier updated successfully.',
+        title: 'Success',
+        description: updateRes.message,
+        position: "top",
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
+      const result = await getAllSuppliers(currentPage, limit, searchTerm);
+      setSuppliers(result.items);
     } catch (error) {
       console.error('Error updating supplier:', error.message);
       toast({
-        title: 'Error updating supplier.',
+        title: 'Error',
+        description: error.message,
+        position: "top",
         status: 'error',
         duration: 3000,
         isClosable: true,

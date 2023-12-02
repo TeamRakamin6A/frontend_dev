@@ -20,7 +20,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getCategorieById, updateCategorie, deleteCategorie } from '../../fetching/category'; 
+import { getCategorieById, updateCategorie, deleteCategorie } from '../../fetching/category';
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import CustomHeader from '../../components/Boxtop';
@@ -31,7 +31,7 @@ const CategoryDetail = () => {
   const toast = useToast();
   const navigate = useNavigate();
 
-  
+
   const {
     isOpen: isUpdateModalOpen,
     onOpen: onOpenUpdateModal,
@@ -41,7 +41,7 @@ const CategoryDetail = () => {
     title: '',
   });
 
-  
+
   const {
     isOpen: isDeleteModalOpen,
     onOpen: onOpenDeleteModal,
@@ -56,7 +56,9 @@ const CategoryDetail = () => {
       } catch (error) {
         console.error('Error fetching category detail:', error.message);
         toast({
-          title: 'Error fetching category detail.',
+          title: 'Error',
+          description: error.message,
+          position: 'top',
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -71,7 +73,7 @@ const CategoryDetail = () => {
     navigate('/categories');
   };
 
-  
+
   const handleUpdateFormChange = (e) => {
     setUpdatedCategory({
       ...updatedCategory,
@@ -79,30 +81,44 @@ const CategoryDetail = () => {
     });
   };
 
-  
+
   const handleUpdateFormSubmit = async () => {
     try {
-      await updateCategorie(
+      if (!updatedCategory.title) {
+        toast({
+          title: 'Title is required.',
+          status: 'error',
+          position: 'top',
+          duration: 3000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      const updateRes = await updateCategorie(
         id,
         updatedCategory.title,
       );
 
-      
+      onCloseUpdateModal();
+      toast({
+        title: 'Success',
+        description: updateRes.message,
+        status: 'success',
+        position: 'top',
+        duration: 3000,
+        isClosable: true,
+      });
+
       const updatedCategoryData = await getCategorieById(id);
       setCategory(updatedCategoryData.data);
 
-      onCloseUpdateModal();
-
-      toast({
-        title: 'Category updated successfully.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
     } catch (error) {
       console.error('Error updating category:', error.message);
       toast({
-        title: 'Error updating category.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -110,32 +126,36 @@ const CategoryDetail = () => {
     }
   };
 
-  
+
   const handleDeleteCategory = async () => {
     try {
-      await deleteCategorie(id);
-
-      
-      navigate('/categories');
+      const deleteRes = await deleteCategorie(id);
 
       toast({
-        title: 'Category deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
         status: 'success',
+        position: 'top',
         duration: 3000,
         isClosable: true,
       });
+
+      navigate('/categories');
+
     } catch (error) {
       console.error('Error deleting category:', error.message);
       toast({
-        title: 'Error deleting category.',
-        status: 'error',
+        title: "Error",
+        description: error.message,
+        status: "error",
+        position: "top",
         duration: 3000,
         isClosable: true,
       });
     }
   };
 
-  
+
   const handleUpdateButtonClick = () => {
     setUpdatedCategory({
       title: category.title,
@@ -148,7 +168,7 @@ const CategoryDetail = () => {
     <>
       <Navbar />
       <Box minH="79vh" bg="gray.200" pb="5">
-      <CustomHeader title={'Category'} subtitle={'Detail Category'} href={'categories'} subhref={`categories/${id}`} />
+        <CustomHeader title={'Category'} subtitle={'Detail Category'} href={'categories'} subhref={`categories/${id}`} />
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="100">
           <Flex direction="column" m="5">

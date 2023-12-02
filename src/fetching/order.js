@@ -46,7 +46,8 @@ export async function getOrderById(id) {
 export async function deleteOrder(id) {
     try {
 
-        await instance.delete(`/orders/${id}`);
+        const response = await instance.delete(`/orders/${id}`);
+        return response.data
 
     } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');

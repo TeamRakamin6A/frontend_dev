@@ -2,8 +2,6 @@ import { useState } from 'react';
 import {
     Box,
     Container,
-    Heading,
-    Text,
     Button,
     Input,
     Flex,
@@ -47,7 +45,7 @@ const AddSupplier = () => {
                 return;
             }
 
-            await addSupplier(
+            const addRes = await addSupplier(
                 supplier.company_name,
                 supplier.address,
                 supplier.email,
@@ -55,7 +53,9 @@ const AddSupplier = () => {
             );
 
             toast({
-                title: 'Supplier added successfully.',
+                title: 'Success',
+                description: addRes.message,
+                position: "top",
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -65,7 +65,9 @@ const AddSupplier = () => {
         } catch (error) {
             console.error('Error adding supplier:', error.message);
             toast({
-                title: 'Error adding supplier.',
+                title: 'Error',
+                description: error.message,
+                position: "top",
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -76,7 +78,7 @@ const AddSupplier = () => {
     return (
         <>
             <Navbar />
-            <Box bg="gray.200" pb="5">
+            <Box bg="gray.200" pb="5" minH="100vh">
             <CustomHeader title={'Supplier'} subtitle={'Add Supplier'} href={'suppliers'} subhref={`addsuppliers`} />
 
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">

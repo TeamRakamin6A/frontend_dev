@@ -61,7 +61,9 @@ const CustomerDetail = () => {
       } catch (error) {
         console.error('Error fetching customer detail:', error.message);
         toast({
-          title: 'Error fetching customer detail.',
+          title: 'Error',
+          description: error.message,
+          position: 'top',
           status: 'error',
           duration: 3000,
           isClosable: true,
@@ -88,7 +90,7 @@ const CustomerDetail = () => {
   const handleUpdateFormSubmit = async () => {
     setLoading(true)
     try {
-      await updateCustomer(
+      const updateRes = await updateCustomer(
         id,
         updatedCustomer.name,
         updatedCustomer.address,
@@ -96,23 +98,27 @@ const CustomerDetail = () => {
         updatedCustomer.email,
       );
 
+      onCloseUpdateModal();
+
+      toast({
+        title: 'Success',
+        description: updateRes.message,
+        position: 'top',
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+      });
       // Refresh data customer setelah update
       const updatedCustomerData = await getCustomerById(id);
       setCustomer(updatedCustomerData.data);
       setLoading(false)
 
-      onCloseUpdateModal();
-
-      toast({
-        title: 'Customer updated successfully.',
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
     } catch (error) {
       console.error('Error updating customer:', error.message);
       toast({
-        title: 'Error updating customer.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -123,21 +129,25 @@ const CustomerDetail = () => {
   // Fungsi untuk menangani delete customer
   const handleDeleteCustomer = async () => {
     try {
-      await deleteCustomer(id);
-
-      // Redirect ke halaman customer list setelah berhasil delete
-      navigate('/customers');
-
+      const deleteRes = await deleteCustomer(id);
       toast({
-        title: 'Customer deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
+        position: 'top',
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
+
+      // Redirect ke halaman customer list setelah berhasil delete
+      navigate('/customers');
+
     } catch (error) {
       console.error('Error deleting customer:', error.message);
       toast({
-        title: 'Error deleting customer.',
+        title: 'Error',
+        description: error.message,
+        position: 'top',
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -165,7 +175,7 @@ const CustomerDetail = () => {
   return (
     <>
       <Navbar />
-      <Box bg="gray.200" pb="5">
+      <Box bg="gray.200" minH="100vh" pb="5">
         <CustomHeader title={'Customer'} subtitle={'Customer Detail'} href={'customers'} subhref={`customers/${id}`} />
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt={'30px'}>

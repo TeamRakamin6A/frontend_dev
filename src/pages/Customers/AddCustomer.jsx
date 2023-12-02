@@ -46,7 +46,7 @@ const AddCustomer = () => {
             }
 
             // Call the API function with customer details
-            await addCustomer(
+            const addRes = await addCustomer(
                 customer.name,
                 customer.address,
                 customer.phone_number,
@@ -54,7 +54,9 @@ const AddCustomer = () => {
             );
 
             toast({
-                title: 'Customer added successfully.',
+                title: 'Success',
+                description: addRes.message || 'Customer added successfully',
+                position: 'top',
                 status: 'success',
                 duration: 3000,
                 isClosable: true,
@@ -64,7 +66,9 @@ const AddCustomer = () => {
         } catch (error) {
             console.error('Error adding customer:', error.message);
             toast({
-                title: 'Error adding customer.',
+                title: 'Error',
+                description: error.message,
+                position: 'top',
                 status: 'error',
                 duration: 3000,
                 isClosable: true,
@@ -75,7 +79,7 @@ const AddCustomer = () => {
     return (
         <>
             <Navbar />
-            <Box bg="gray.200" pb="5">
+            <Box bg="gray.200" minH="100vh" pb="5">
                 <CustomHeader title={'Customer'} subtitle={'Add Customer'} href={'customers'} subhref={'customers/addcustomers'} />
 
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">

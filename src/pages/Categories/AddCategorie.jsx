@@ -11,7 +11,7 @@ import {
     FormControl,
     FormLabel,
 } from '@chakra-ui/react';
-import { addCategorie } from '../../fetching/category'; 
+import { addCategorie } from '../../fetching/category';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
 import Footer from "../../components/Footer";
@@ -38,17 +38,20 @@ const AddCategory = () => {
                 toast({
                     title: 'Title is required.',
                     status: 'error',
+                    position: 'top',
                     duration: 3000,
                     isClosable: true,
                 });
                 return;
             }
 
-            await addCategorie(category.title);
+            const addRes = await addCategorie(category.title);
 
             toast({
-                title: 'Category added successfully.',
+                title: 'Success',
+                description: addRes.message,
                 status: 'success',
+                position: 'top',
                 duration: 3000,
                 isClosable: true,
             });
@@ -57,8 +60,10 @@ const AddCategory = () => {
         } catch (error) {
             console.error('Error adding category:', error.message);
             toast({
-                title: 'Error adding category.',
-                status: 'error',
+                title: "Error",
+                description: error.message,
+                status: "error",
+                position: "top",
                 duration: 3000,
                 isClosable: true,
             });
@@ -69,7 +74,7 @@ const AddCategory = () => {
         <>
             <Navbar />
             <Box minH="79vh" bg="gray.200" pb="5">
-            <CustomHeader title={'Category'} subtitle={'Add Category'} href={'categories'} subhref={`addcategories`} />
+                <CustomHeader title={'Category'} subtitle={'Add Category'} href={'categories'} subhref={`addcategories`} />
 
                 <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="100">
                     <Flex direction="column" m="5">

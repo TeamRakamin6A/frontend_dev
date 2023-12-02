@@ -44,7 +44,9 @@ export async function updateCustomer(id, name, address, phone_number, email) {
 export async function deleteCustomer(id) {
     try {
         
-        await instance.delete(`/customers/${id}`);
+        const response = await instance.delete(`/customers/${id}`);
+        const data = response.data
+        return data;
         
     } catch (error) {
         throw new Error(error.response.data.message || 'Error Not Found');

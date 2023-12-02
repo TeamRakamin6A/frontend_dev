@@ -71,11 +71,12 @@ const Supply_Orders = () => {
 
   const handleDelete = async (id) => {
     try {
-      await deleteSupplyOrder(id);
+      const deleteRes = await deleteSupplyOrder(id);
       fetchSupplyOrders();
       toast({
-        title: "Delete Success",
-        description: "deleted",
+        title: "Success",
+        description: deleteRes.message || "Deleted Successfuly",
+        position: "top",
         status: "success",
         duration: 3000,
         isClosable: true,
@@ -117,7 +118,7 @@ const Supply_Orders = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title="Supply Orders" subtitle="Supply Orders List" />
+      <CustomHeader title={'Supply Orders'} subtitle={'Supply Orders List'} href={'supplier-orders'} subhref={'supplier-orders'} />
       <Box
         backgroundColor="white"
         margin="20px 20px"

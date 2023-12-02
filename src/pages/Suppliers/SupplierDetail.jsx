@@ -87,7 +87,7 @@ const SupplierDetail = () => {
 
   const handleUpdateFormSubmit = async () => {
     try {
-      await updateSupplier(
+      const updateRes = await updateSupplier(
         id,
         updatedSupplier.company_name,
         updatedSupplier.address,
@@ -101,7 +101,9 @@ const SupplierDetail = () => {
       onCloseUpdateModal();
 
       toast({
-        title: 'Supplier updated successfully.',
+        title: 'Success',
+        description: updateRes.message,
+        position: 'top',
         status: 'success',
         duration: 3000,
         isClosable: true,
@@ -109,7 +111,9 @@ const SupplierDetail = () => {
     } catch (error) {
       console.error('Error updating supplier:', error.message);
       toast({
-        title: 'Error updating supplier.',
+        title: 'Error',
+        description: error.message,
+        position: "top",
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -119,20 +123,24 @@ const SupplierDetail = () => {
 
   const handleDeleteSupplier = async () => {
     try {
-      await deleteSupplier(id);
-
-      navigate('/suppliers');
-
+      const deleteRes = await deleteSupplier(id);
       toast({
-        title: 'Supplier deleted successfully.',
+        title: 'Success',
+        description: deleteRes.message,
+        position: "top",
         status: 'success',
         duration: 3000,
         isClosable: true,
       });
+
+      navigate('/suppliers');
+
     } catch (error) {
       console.error('Error deleting supplier:', error.message);
       toast({
-        title: 'Error deleting supplier.',
+        title: 'Error',
+        description: error.message,
+        position: "top",
         status: 'error',
         duration: 3000,
         isClosable: true,
@@ -159,7 +167,7 @@ const SupplierDetail = () => {
   return (
     <>
       <Navbar />
-      <Box bg="gray.200" pb="5">
+      <Box bg="gray.200" pb="5" minH="100vh">
       <CustomHeader title={'Supplier'} subtitle={'Supplier Detail'} href={'suppliers'} subhref={`suppliers/${id}`} />
 
         <Container maxW="145ch" bg="white" p="4" borderRadius="md" boxShadow="md" mt="5">
