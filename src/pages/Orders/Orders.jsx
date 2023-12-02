@@ -74,9 +74,10 @@ const Orders = () => {
     try {
       const deleteRes = await deleteOrder(id);
       fetchOrders();
+      console.log(deleteRes.message);
       toast({
         title: "Success",
-        description: deleteRes.message | "Success to delete Order",
+        description: deleteRes.message || "Success to delete Order",
         position: "top",
         status: "success",
         duration: 3000,
