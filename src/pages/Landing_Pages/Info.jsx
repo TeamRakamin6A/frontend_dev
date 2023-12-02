@@ -122,6 +122,7 @@ const Info = () => {
                         </Box>
                         <Box>
                             <Heading fontSize={14}>Design</Heading>
+                            <Text>Figma UI UX</Text>
                             <Text>Landing Page</Text>
                             <Text>Logo</Text>
                         </Box>
