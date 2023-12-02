@@ -13,9 +13,10 @@ import {
   Select,
   Flex,
   Box,
+  Toast,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
-
 import {
   getOrderById,
   updateOrder,
@@ -36,6 +37,7 @@ const OrderDetail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedStatus, setEditedStatus] = useState("");
   const [loading, setLoading] = useState(false)
+  const toast = useToast()
 
   useEffect(() => {
     const fetchOrderDetail = async () => {
@@ -67,14 +69,29 @@ const OrderDetail = () => {
 
   const handleSaveEdit = async () => {
     try {
-      await updateOrder(id, editedStatus);
+      const res = await updateOrder(id, editedStatus);
 
       const response = await getOrderById(id);
       setOrder(response.data);
-
       setIsEditing(false);
+      toast({
+        title: "Success",
+        description: res.message || "Success to create supply order",
+        position: "top",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error("Error updating order:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to create supply order",
+        position: "top",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 

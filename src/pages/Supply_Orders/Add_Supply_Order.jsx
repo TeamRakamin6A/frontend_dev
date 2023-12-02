@@ -110,10 +110,10 @@ const AddSupplyOrders = () => {
                 duration: 3000,
                 isClosable: true,
             });
-        } catch (err) {
+        } catch (error) {
             toast({
                 title: "Error",
-                description: "Failed to create supply order",
+                description: error.message || "Failed to create supply order",
                 position: "top",
                 status: "error",
                 duration: 3000,
@@ -131,11 +131,11 @@ const AddSupplyOrders = () => {
             }
             const updatedItems = [...itemList]
             // find existing item
-            if(itemList.length !== 0) {
+            if (itemList.length !== 0) {
                 let existingId = itemList.findIndex((e) => e.item.id === foundItem.id)
-                if(existingId !== -1) {
+                if (existingId !== -1) {
                     // update item
-                    updatedItems[existingId] = {...updatedItems[existingId], quantity: +newItemQuantityRef.current.value}
+                    updatedItems[existingId] = { ...updatedItems[existingId], quantity: +newItemQuantityRef.current.value }
                     setItemList(updatedItems)
                 } else {
                     // add new item

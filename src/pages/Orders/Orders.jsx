@@ -76,7 +76,7 @@ const Orders = () => {
       fetchOrders();
       toast({
         title: "Success",
-        description: deleteRes.message,
+        description: deleteRes.message | "Success to delete Order",
         position: "top",
         status: "success",
         duration: 3000,
@@ -84,6 +84,14 @@ const Orders = () => {
       });
     } catch (error) {
       console.error("Error deleting order:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to deleting supply order",
+        position: "top",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
@@ -109,7 +117,7 @@ const Orders = () => {
   return (
     <div style={{ backgroundColor: "#f8f8f8", minHeight: "100vh" }}>
       <Navbar />
-      <CustomHeader title={'Orders'} subtitle={'Orders List'} href={'orders'} subhref={'orders'}/>
+      <CustomHeader title={'Orders'} subtitle={'Orders List'} href={'orders'} subhref={'orders'} />
       <Box
         backgroundColor="white"
         margin="20px 20px"

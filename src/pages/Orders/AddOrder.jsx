@@ -105,16 +105,16 @@ const CreateOrder = () => {
             navigate("/orders")
             toast({
                 title: "Success",
-                description: addRes.message,
+                description: addRes.message || "Success to create Order",
                 position: "top",
                 status: "success",
                 duration: 3000,
                 isClosable: true,
             });
-        } catch (err) {
+        } catch (error) {
             toast({
                 title: "Error",
-                description: "Failed to create order",
+                description: error.message || "Failed to create order",
                 position: "top",
                 status: "error",
                 duration: 3000,

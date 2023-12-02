@@ -83,6 +83,14 @@ const Supply_Orders = () => {
       });
     } catch (error) {
       console.error("Error deleting supply order:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete supply order",
+        position: "top",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 

@@ -13,6 +13,7 @@ import {
   Select,
   Flex,
   Box,
+  useToast,
 } from "@chakra-ui/react";
 import { EditIcon, CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -30,6 +31,7 @@ import Footer from "../../components/Footer";
 
 const Supply_OrderDetail = () => {
   const { id } = useParams();
+  const toast = useToast();
   const [supplyOrder, setSupplyOrder] = useState({});
   const [supplier, setSupplier] = useState({});
   const [warehouse, setWarehouse] = useState({});
@@ -67,14 +69,30 @@ const Supply_OrderDetail = () => {
 
   const handleSaveEdit = async () => {
     try {
-      await updateSupplyOrder(id, editedStatus);
+      const res = await updateSupplyOrder(id, editedStatus);
 
       const response = await getSupplyOrderDetail(id);
       setSupplyOrder(response.data);
 
       setIsEditing(false);
+      toast({
+        title: "Success",
+        description: res.message || "Supply order updated successfully",
+        position: "top",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
     } catch (error) {
       console.error("Error updating supply order:", error.message);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to delete supply order",
+        position: "top",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 
