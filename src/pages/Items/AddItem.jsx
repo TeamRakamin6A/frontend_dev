@@ -80,9 +80,9 @@ const AddItem = () => {
         } catch (error) {
             console.log(error);
             toast({
-                title: "Success",
+                title: "Error",
                 description: error.response.data.message,
-                status: "success",
+                status: "error",
                 position: "top",
                 duration: 3000,
                 isClosable: true,
